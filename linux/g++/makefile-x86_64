@@ -1,0 +1,98 @@
+######################################################################
+# PixInsight Makefile Generator Script v1.61
+# Copyright (C) 2009-2010 Pleiades Astrophoto
+######################################################################
+# Automatically generated on Thu, 13 Jan 2011 19:08:26 GMT
+# Project id ...... ImageAcquisition
+# Project type .... Module
+# Platform ........ Linux/g++
+# Configuration ... Release/x86_64
+######################################################################
+
+OBJ_DIR="/Users/draphael/dev/ImageAcquisition/linux/g++/x86_64/Release"
+
+.PHONY: all
+all: $(OBJ_DIR)/ImageAcquisition-pxm.so
+
+#
+# Source files
+#
+
+SRC_FILES= \
+../../CameraDialog.cpp \
+../../ExposeImageInstance.cpp \
+../../ExposeImageInterface.cpp \
+../../ExposeImageParameters.cpp \
+../../ExposeImageProcess.cpp \
+../../ImageAcquisisitionSettingsParameters.cpp \
+../../ImageAcquisitionInstance.cpp \
+../../ImageAcquisitionInterface.cpp \
+../../ImageAcquisitionModule.cpp \
+../../ImageAcquisitionParameters.cpp \
+../../ImageAcquisitionProcess.cpp \
+../../ImageAcquisitionSettingsInstance.cpp \
+../../ImageAcquisitionSettingsInterface.cpp \
+../../ImageAcquisitionSettingsProcess.cpp
+
+#
+# Object files
+#
+
+OBJ_FILES= \
+./x86_64/Release/CameraDialog.o \
+./x86_64/Release/ExposeImageInstance.o \
+./x86_64/Release/ExposeImageInterface.o \
+./x86_64/Release/ExposeImageParameters.o \
+./x86_64/Release/ExposeImageProcess.o \
+./x86_64/Release/ImageAcquisisitionSettingsParameters.o \
+./x86_64/Release/ImageAcquisitionInstance.o \
+./x86_64/Release/ImageAcquisitionInterface.o \
+./x86_64/Release/ImageAcquisitionModule.o \
+./x86_64/Release/ImageAcquisitionParameters.o \
+./x86_64/Release/ImageAcquisitionProcess.o \
+./x86_64/Release/ImageAcquisitionSettingsInstance.o \
+./x86_64/Release/ImageAcquisitionSettingsInterface.o \
+./x86_64/Release/ImageAcquisitionSettingsProcess.o
+
+#
+# Dependency files
+#
+
+DEP_FILES= \
+./x86_64/Release/CameraDialog.d \
+./x86_64/Release/ExposeImageInstance.d \
+./x86_64/Release/ExposeImageInterface.d \
+./x86_64/Release/ExposeImageParameters.d \
+./x86_64/Release/ExposeImageProcess.d \
+./x86_64/Release/ImageAcquisisitionSettingsParameters.d \
+./x86_64/Release/ImageAcquisitionInstance.d \
+./x86_64/Release/ImageAcquisitionInterface.d \
+./x86_64/Release/ImageAcquisitionModule.d \
+./x86_64/Release/ImageAcquisitionParameters.d \
+./x86_64/Release/ImageAcquisitionProcess.d \
+./x86_64/Release/ImageAcquisitionSettingsInstance.d \
+./x86_64/Release/ImageAcquisitionSettingsInterface.d \
+./x86_64/Release/ImageAcquisitionSettingsProcess.d
+
+#
+# Rules
+#
+
+-include $(DEP_FILES)
+
+$(OBJ_DIR)/ImageAcquisition-pxm.so: $(OBJ_FILES)
+	g++ -m64 -fPIC -Wl,-O1 -shared -L"$(PCLLIBDIR64)" -L"$(PCLBINDIR64)" -o $(OBJ_DIR)/ImageAcquisition-pxm.so $(OBJ_FILES) -lpthread -lPCL-pxi
+	$(MAKE) -f ./makefile-x86_64 --no-print-directory post-build
+
+.PHONY: clean
+clean:
+	rm -f $(OBJ_FILES) $(DEP_FILES) $(OBJ_DIR)/ImageAcquisition-pxm.so
+
+.PHONY: post-build
+post-build:
+	cp $(OBJ_DIR)/ImageAcquisition-pxm.so $(PCLBINDIR64)
+
+./x86_64/Release/%.o: ../../%.cpp
+	g++ -c -pipe -m64 -fPIC -D_REENTRANT -D__PCL_LINUX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse2 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	@echo ' '
+
