@@ -78,7 +78,7 @@ namespace pcl
 
 		//void UpdateCameraList( size_type );
 		void UpdateCameraList( );
-		void ExposeImageInterface::__ToggleSection( SectionBar& sender, Control& section, bool start );
+		void __ToggleSection( SectionBar& sender, Control& section, bool start );
 		friend struct GUIData;
 	};
 

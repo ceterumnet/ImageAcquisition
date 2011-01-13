@@ -4,10 +4,19 @@
 # PixInsight Makefile Generator Script v1.61
 # Copyright (C) 2009-2010 Pleiades Astrophoto
 ######################################################################
-# Automatically generated on Thu, 13 Jan 2011 19:08:26 GMT
+# Automatically generated on Thu, 13 Jan 2011 19:18:52 GMT
 # Project id ...... ImageAcquisition
 # Project type .... Module
 # Platform ........ Windows/vc9
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Additional include search directories:
+# /Users/draphael/PCL/include/pcl
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Additional library search directories:
+# /Users/draphael/PCL/lib/macosx/x86_64
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Additional libraries:
+# /Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a
 ######################################################################
 -->
 <VisualStudioProject
@@ -40,7 +49,7 @@
             FavorSizeOrSpeed="1"
             OmitFramePointers="true"
             WholeProgramOptimization="true"
-            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\.."
+            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\..;&quot;\Users\draphael\PCL\include\pcl&quot;"
             PreprocessorDefinitions="WIN32;_WINDOWS;__PCL_WINDOWS;_NDEBUG"
             StringPooling="true"
             ExceptionHandling="2"
@@ -55,9 +64,9 @@
          />
          <Tool
             Name="VCLinkerTool"
-            AdditionalDependencies="PCL-pxi.lib"
+            AdditionalDependencies="PCL-pxi.lib &quot;/Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a&quot;"
             OutputFile="$(PCLBINDIR32)\ImageAcquisition-pxm.dll"
-            AdditionalLibraryDirectories="$(PCLLIBDIR32)"
+            AdditionalLibraryDirectories="$(PCLLIBDIR32);&quot;\Users\draphael\PCL\lib\macosx\x86_64\x86&quot;"
             ModuleDefinitionFile=""
             DelayLoadDLLs=""
             SubSystem="2"
@@ -89,7 +98,7 @@
             FavorSizeOrSpeed="1"
             OmitFramePointers="true"
             WholeProgramOptimization="true"
-            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\.."
+            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\..;&quot;\Users\draphael\PCL\include\pcl&quot;"
             PreprocessorDefinitions="WIN32;_WINDOWS;__PCL_WINDOWS;_NDEBUG"
             StringPooling="true"
             ExceptionHandling="2"
@@ -104,9 +113,9 @@
          />
          <Tool
             Name="VCLinkerTool"
-            AdditionalDependencies="PCL-pxi.lib"
+            AdditionalDependencies="PCL-pxi.lib &quot;/Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a&quot;"
             OutputFile="$(PCLBINDIR64)\ImageAcquisition-pxm.dll"
-            AdditionalLibraryDirectories="$(PCLLIBDIR64)"
+            AdditionalLibraryDirectories="$(PCLLIBDIR64);&quot;\Users\draphael\PCL\lib\macosx\x86_64\x86_64&quot;"
             ModuleDefinitionFile=""
             DelayLoadDLLs=""
             SubSystem="2"
@@ -128,7 +137,7 @@
          <Tool
             Name="VCCLCompilerTool"
             Optimization="0"
-            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\.."
+            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\..;&quot;\Users\draphael\PCL\include\pcl&quot;"
             PreprocessorDefinitions="WIN32;_WINDOWS;__PCL_WINDOWS;_DEBUG"
             ExceptionHandling="2"
             MinimalRebuild="true"
@@ -140,9 +149,9 @@
          />
          <Tool
             Name="VCLinkerTool"
-            AdditionalDependencies="PCL-pxi.lib"
+            AdditionalDependencies="PCL-pxi.lib &quot;/Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a&quot;"
             OutputFile="$(PCLBINDIR32)\ImageAcquisition-pxm.dll"
-            AdditionalLibraryDirectories="$(PCLLIBDIR32)"
+            AdditionalLibraryDirectories="$(PCLLIBDIR32);&quot;\Users\draphael\PCL\lib\macosx\x86_64\x86&quot;"
             ModuleDefinitionFile=""
             SubSystem="2"
             LargeAddressAware="2"
@@ -165,7 +174,7 @@
          <Tool
             Name="VCCLCompilerTool"
             Optimization="0"
-            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\.."
+            AdditionalIncludeDirectories="&quot;$(PCLINCDIR)&quot;;..\..;&quot;\Users\draphael\PCL\include\pcl&quot;"
             PreprocessorDefinitions="WIN32;_WINDOWS;__PCL_WINDOWS;_DEBUG"
             ExceptionHandling="2"
             MinimalRebuild="true"
@@ -177,9 +186,9 @@
          />
          <Tool
             Name="VCLinkerTool"
-            AdditionalDependencies="PCL-pxi.lib"
+            AdditionalDependencies="PCL-pxi.lib &quot;/Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a&quot;"
             OutputFile="$(PCLBINDIR64)\ImageAcquisition-pxm.dll"
-            AdditionalLibraryDirectories="$(PCLLIBDIR64)"
+            AdditionalLibraryDirectories="$(PCLLIBDIR64);&quot;\Users\draphael\PCL\lib\macosx\x86_64\x86_64&quot;"
             ModuleDefinitionFile=""
             SubSystem="2"
             LargeAddressAware="2"

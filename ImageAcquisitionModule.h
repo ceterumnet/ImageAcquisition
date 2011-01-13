@@ -1,7 +1,13 @@
 #ifndef __ImageAcquisitionModule_h
 #define __ImageAcquisitionModule_h
 
+
 #include <pcl/MetaModule.h>
+
+#include "ImageAcquisitionSettingsInterface.h"
+#include "ImageAcquisitionSettingsProcess.h"
+#include "ExposeImageProcess.h"
+#include "ExposeImageInterface.h"
 
 namespace pcl
 {

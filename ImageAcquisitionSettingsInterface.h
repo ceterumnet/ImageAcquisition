@@ -87,11 +87,11 @@ namespace pcl
 		//void __TargetImages_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
 		//void __TargetImages_NodeSelectionUpdated( TreeBox& sender );
 
-		void ImageAcquisitionSettingsInterface::__ToggleSection( SectionBar& sender, Control& section, bool start );
-		void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sender, bool checked );
-		void ImageAcquisitionSettingsInterface::__CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
-		void ImageAcquisitionSettingsInterface::__CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
-		void ImageAcquisitionSettingsInterface::__CameraList_NodeSelectionUpdated( TreeBox& sender );
+		void __ToggleSection( SectionBar& sender, Control& section, bool start );
+		void __CameraListButtons_Click( Button& sender, bool checked );
+		void __CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
+		void __CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
+		void __CameraList_NodeSelectionUpdated( TreeBox& sender );
 		friend struct GUIData;
 	};
 

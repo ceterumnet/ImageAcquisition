@@ -2,11 +2,20 @@
 # PixInsight Makefile Generator Script v1.61
 # Copyright (C) 2009-2010 Pleiades Astrophoto
 ######################################################################
-# Automatically generated on Thu, 13 Jan 2011 19:08:26 GMT
+# Automatically generated on Thu, 13 Jan 2011 19:18:52 GMT
 # Project id ...... ImageAcquisition
 # Project type .... Module
 # Platform ........ Linux/g++
 # Configuration ... Release/x86_64
+# --------------------------------------------------------------------
+# Additional include search directories:
+# /Users/draphael/PCL/include/pcl
+# --------------------------------------------------------------------
+# Additional library search directories:
+# /Users/draphael/PCL/lib/macosx/x86_64/x86_64
+# --------------------------------------------------------------------
+# Additional libraries:
+# /Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a
 ######################################################################
 
 OBJ_DIR="/Users/draphael/dev/ImageAcquisition/linux/g++/x86_64/Release"
@@ -81,7 +90,7 @@ DEP_FILES= \
 -include $(DEP_FILES)
 
 $(OBJ_DIR)/ImageAcquisition-pxm.so: $(OBJ_FILES)
-	g++ -m64 -fPIC -Wl,-O1 -shared -L"$(PCLLIBDIR64)" -L"$(PCLBINDIR64)" -o $(OBJ_DIR)/ImageAcquisition-pxm.so $(OBJ_FILES) -lpthread -lPCL-pxi
+	g++ -m64 -fPIC -Wl,-O1 -shared -L"$(PCLLIBDIR64)" -L"$(PCLBINDIR64)" -L"/Users/draphael/PCL/lib/macosx/x86_64/x86_64" -o $(OBJ_DIR)/ImageAcquisition-pxm.so $(OBJ_FILES) -l/Users/draphael/PCL/lib/macosx/x86_64/libPCL-pxi.a -lpthread -lPCL-pxi
 	$(MAKE) -f ./makefile-x86_64 --no-print-directory post-build
 
 .PHONY: clean
@@ -93,6 +102,6 @@ post-build:
 	cp $(OBJ_DIR)/ImageAcquisition-pxm.so $(PCLBINDIR64)
 
 ./x86_64/Release/%.o: ../../%.cpp
-	g++ -c -pipe -m64 -fPIC -D_REENTRANT -D__PCL_LINUX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse2 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -c -pipe -m64 -fPIC -D_REENTRANT -D__PCL_LINUX -I"$(PCLINCDIR)" -I"/Users/draphael/PCL/include/pcl" -O3 -mtune=generic -mfpmath=sse -msse2 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo ' '
 

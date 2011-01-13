@@ -8,6 +8,8 @@
 #define MODULE_RELEASE_MONTH     1
 #define MODULE_RELEASE_DAY       9
 
+// #define MODULE_UNIQUE_ID
+
 #include "ImageAcquisitionModule.h"
 
 namespace pcl
@@ -119,8 +121,10 @@ int InstallPixInsightModule( int mode )
 
    if ( mode == pcl::InstallMode::FullInstall )
    {
-	  //new pcl::ExposeImageProcess;
-      //new pcl::ExposeImageInterface;
+	   new pcl::ExposeImageProcess;
+     new pcl::ExposeImageInterface;
+     new pcl::ImageAcquisitionSettingsProcess;
+     new pcl::ImageAcquisitionSettingsInterface;
    }
 
    // Return zero to signal successful installation
