@@ -101,6 +101,7 @@ namespace pcl
 		{
 			whyNot = "Not an ExposeImage instance.";
 			return false;
+
 		}
 
 		whyNot.Clear();

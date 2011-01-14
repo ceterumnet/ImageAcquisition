@@ -130,6 +130,15 @@ void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sende
 		// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 		//CameraDialog dlg = new CameraDialog;
 		GUI->CamDlg.Execute();
+//		try
+//		{
+			IPixInsightCamera *theCam = LoadLibrary("C:\\ImageAcquisition\\ASCOM_Driver\\PixInsightASCOMCameraDriver\\Debug\\PixInsightASCOMCameraDriver.dll");
+
+//		}
+//		catch
+//		{
+//		}
+		
 		//free(dlg);
 	}
 	else if(sender == GUI->EditCamera_PushButton)

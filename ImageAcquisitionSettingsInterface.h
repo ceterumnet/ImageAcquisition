@@ -17,7 +17,7 @@
 
 #include "CameraDialog.h"
 #include "ImageAcquisitionSettingsInstance.h"
-
+#include "IPixInsightCamera.h"
 namespace pcl
 {
 
