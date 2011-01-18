@@ -2,7 +2,7 @@
 # PixInsight Makefile Generator Script v1.61
 # Copyright (C) 2009-2010 Pleiades Astrophoto
 ######################################################################
-# Automatically generated on Thu, 13 Jan 2011 19:26:23 GMT
+# Automatically generated on Fri, 14 Jan 2011 13:53:58 GMT
 # Project id ...... ImageAcquisition
 # Project type .... Module
 # Platform ........ MacOSX/g++
@@ -25,11 +25,7 @@ SRC_FILES= \
 ../../ExposeImageParameters.cpp \
 ../../ExposeImageProcess.cpp \
 ../../ImageAcquisisitionSettingsParameters.cpp \
-../../ImageAcquisitionInstance.cpp \
-../../ImageAcquisitionInterface.cpp \
 ../../ImageAcquisitionModule.cpp \
-../../ImageAcquisitionParameters.cpp \
-../../ImageAcquisitionProcess.cpp \
 ../../ImageAcquisitionSettingsInstance.cpp \
 ../../ImageAcquisitionSettingsInterface.cpp \
 ../../ImageAcquisitionSettingsProcess.cpp
@@ -45,11 +41,7 @@ OBJ_FILES= \
 ./x86_64/Release/ExposeImageParameters.o \
 ./x86_64/Release/ExposeImageProcess.o \
 ./x86_64/Release/ImageAcquisisitionSettingsParameters.o \
-./x86_64/Release/ImageAcquisitionInstance.o \
-./x86_64/Release/ImageAcquisitionInterface.o \
 ./x86_64/Release/ImageAcquisitionModule.o \
-./x86_64/Release/ImageAcquisitionParameters.o \
-./x86_64/Release/ImageAcquisitionProcess.o \
 ./x86_64/Release/ImageAcquisitionSettingsInstance.o \
 ./x86_64/Release/ImageAcquisitionSettingsInterface.o \
 ./x86_64/Release/ImageAcquisitionSettingsProcess.o
@@ -65,11 +57,7 @@ DEP_FILES= \
 ./x86_64/Release/ExposeImageParameters.d \
 ./x86_64/Release/ExposeImageProcess.d \
 ./x86_64/Release/ImageAcquisisitionSettingsParameters.d \
-./x86_64/Release/ImageAcquisitionInstance.d \
-./x86_64/Release/ImageAcquisitionInterface.d \
 ./x86_64/Release/ImageAcquisitionModule.d \
-./x86_64/Release/ImageAcquisitionParameters.d \
-./x86_64/Release/ImageAcquisitionProcess.d \
 ./x86_64/Release/ImageAcquisitionSettingsInstance.d \
 ./x86_64/Release/ImageAcquisitionSettingsInterface.d \
 ./x86_64/Release/ImageAcquisitionSettingsProcess.d
@@ -92,6 +80,9 @@ clean:
 post-build:
 	cp $(OBJ_DIR)/ImageAcquisition-pxm.dylib $(PCLBINDIR64)
 
+./x86_64/Release/ASCOM_Driver/PixInsightASCOMCameraDriver/PixInsightASCOMCameraDriver/%.o: ../../ASCOM_Driver/PixInsightASCOMCameraDriver/PixInsightASCOMCameraDriver/%.cpp
+	g++ -c -pipe -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -fPIC -D_REENTRANT -D__PCL_MACOSX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse3 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	@echo ' '
 ./x86_64/Release/%.o: ../../%.cpp
 	g++ -c -pipe -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -fPIC -D_REENTRANT -D__PCL_MACOSX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse3 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo ' '

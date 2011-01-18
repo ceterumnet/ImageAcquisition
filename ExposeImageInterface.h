@@ -19,78 +19,83 @@
 namespace pcl
 {
 
-	// ----------------------------------------------------------------------------
+  class CameraConnectionThread;
+  // ----------------------------------------------------------------------------
 
-	class ExposeImageInterface : public ProcessInterface
-	{
-	public:
+  class ExposeImageInterface : public ProcessInterface
+  {
+  public:
 
-		ExposeImageInterface();
-		virtual ~ExposeImageInterface();
+    ExposeImageInterface();
+    virtual ~ExposeImageInterface();
 
-		virtual IsoString Id() const;
-		virtual uint32 Version() const;
-		virtual const char** IconImageXPM() const;
+    virtual IsoString Id() const;
+    virtual uint32 Version() const;
+    virtual const char** IconImageXPM() const;
 
-		InterfaceFeatures Features() const;
+    InterfaceFeatures Features() const;
 
-		virtual void ApplyInstance() const;
-		virtual void ResetInstance();
+    virtual void ApplyInstance() const;
+    virtual void ResetInstance();
 
-		virtual bool Launch( const MetaProcess&, const ProcessImplementation*, bool& dynamic, unsigned& /*flags*/ );
+    virtual bool Launch( const MetaProcess&, const ProcessImplementation*, bool& dynamic, unsigned& /*flags*/ );
 
-		virtual ProcessImplementation* NewProcess() const;
+    virtual ProcessImplementation* NewProcess() const;
 
-		virtual bool ValidateProcess( const ProcessImplementation&, pcl::String& whyNot ) const;
-		virtual bool RequiresInstanceValidation() const;
+    virtual bool ValidateProcess( const ProcessImplementation&, pcl::String& whyNot ) const;
+    virtual bool RequiresInstanceValidation() const;
 
-		virtual bool ImportProcess( const ProcessImplementation& );
+    virtual bool ImportProcess( const ProcessImplementation& );
 
-		virtual void SaveSettings() const;
+    virtual void SaveSettings() const;
 
-		// -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+		
+  private:
+		
+    ExposeImageInstance instance;
+		
+    // -------------------------------------------------------------------------
+    
+	
+    struct GUIData
+    {
+      GUIData( ExposeImageInterface& );
 
-	private:
+      VerticalSizer  Global_Sizer;
 
-		ExposeImageInstance instance;
+      SectionBar        Camera_SectionBar;
+      Control           Camera_Control;
+      HorizontalSizer   Camera_Sizer;
+      Label			  Camera_Label;
+      ComboBox          Camera_ComboBox;
+      PushButton CameraConnection_PushButton;
+    };
 
-		// -------------------------------------------------------------------------
+    GUIData* GUI;
+    bool cameraConnected;
+    // Interface Updates
 
-		struct GUIData
-		{
-			GUIData( ExposeImageInterface& );
+    void UpdateControls();
 
-			VerticalSizer  Global_Sizer;
+    //void UpdateCameraList( size_type );
+    void UpdateCameraList( );
+    void __ToggleSection( SectionBar& sender, Control& section, bool start );
+    void __CameraConnectionButton_Click( Button& sender, bool checked );
 
-			SectionBar        Camera_SectionBar;
-			Control           Camera_Control;
-			HorizontalSizer   Camera_Sizer;
-				Label			  Camera_Label;
-				ComboBox          Camera_ComboBox;
+    friend struct GUIData;
+    friend class CameraConnectionThread;
+  };
 
-		};
+  // ----------------------------------------------------------------------------
 
-		GUIData* GUI;
+  PCL_BEGIN_LOCAL
+    extern ExposeImageInterface* TheExposeImageInterface;
+  PCL_END_LOCAL
 
-		// Interface Updates
+    // ----------------------------------------------------------------------------
 
-		void UpdateControls();
-
-		//void UpdateCameraList( size_type );
-		void UpdateCameraList( );
-		void __ToggleSection( SectionBar& sender, Control& section, bool start );
-		friend struct GUIData;
-	};
-
-	// ----------------------------------------------------------------------------
-
-	PCL_BEGIN_LOCAL
-		extern ExposeImageInterface* TheExposeImageInterface;
-	PCL_END_LOCAL
-
-		// ----------------------------------------------------------------------------
-
-} // pcl
+    } // pcl
 
 #endif   // __ExposeImageInterface_h
 

@@ -90,7 +90,7 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../ImageAcquisitionSettingsProcess.h \
+  ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
   /Users/draphael/PCL/include/pcl/FileDialog.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
@@ -280,6 +280,8 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
 ../../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../../IPixInsightCamera.h:
 
 ../../ImageAcquisitionSettingsProcess.h:
 

@@ -132,7 +132,7 @@ void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sende
 		GUI->CamDlg.Execute();
 //		try
 //		{
-			IPixInsightCamera *theCam = LoadLibrary("C:\\ImageAcquisition\\ASCOM_Driver\\PixInsightASCOMCameraDriver\\Debug\\PixInsightASCOMCameraDriver.dll");
+//			IPixInsightCamera *theCam = LoadLibrary("C:\\ImageAcquisition\\ASCOM_Driver\\PixInsightASCOMCameraDriver\\Debug\\PixInsightASCOMCameraDriver.dll");
 
 //		}
 //		catch

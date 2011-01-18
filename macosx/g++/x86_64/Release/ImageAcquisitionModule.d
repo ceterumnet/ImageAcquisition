@@ -91,9 +91,9 @@ x86_64/Release/ImageAcquisitionModule.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../ImageAcquisitionSettingsProcess.h ../../ExposeImageProcess.h \
-  ../../ExposeImageInterface.h ../../ExposeImageInstance.h \
-  ../../ExposeImageParameters.h
+  ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
+  ../../ExposeImageProcess.h ../../ExposeImageInterface.h \
+  ../../ExposeImageInstance.h ../../ExposeImageParameters.h
 
 ../../ImageAcquisitionModule.h:
 
@@ -278,6 +278,8 @@ x86_64/Release/ImageAcquisitionModule.d \
 ../../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../../IPixInsightCamera.h:
 
 ../../ImageAcquisitionSettingsProcess.h:
 

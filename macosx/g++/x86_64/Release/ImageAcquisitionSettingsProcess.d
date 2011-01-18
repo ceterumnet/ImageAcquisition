@@ -90,7 +90,7 @@ x86_64/Release/ImageAcquisitionSettingsProcess.d \
   /Users/draphael/PCL/include/pcl/GroupBox.h \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
   /Users/draphael/PCL/include/pcl/TextBox.h \
-  /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/Console.h ../../IPixInsightCamera.h \
   ../../ImageAcquisitionSettingsIcon.xpm
 
 ../../ImageAcquisitionSettingsProcess.h:
@@ -274,5 +274,7 @@ x86_64/Release/ImageAcquisitionSettingsProcess.d \
 /Users/draphael/PCL/include/pcl/TextBox.h:
 
 /Users/draphael/PCL/include/pcl/Console.h:
+
+../../IPixInsightCamera.h:
 
 ../../ImageAcquisitionSettingsIcon.xpm:

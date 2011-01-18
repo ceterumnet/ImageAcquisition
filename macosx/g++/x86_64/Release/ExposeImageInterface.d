@@ -82,7 +82,12 @@ x86_64/Release/ExposeImageInterface.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ExposeImageParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../ExposeImageProcess.h /Users/draphael/PCL/include/pcl/Dialog.h \
+  ../../ExposeImageProcess.h ../../CameraDialog.h \
+  /Users/draphael/PCL/include/pcl/Dialog.h \
+  /Users/draphael/PCL/include/pcl/GroupBox.h \
+  /Users/draphael/PCL/include/pcl/RadioButton.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  /Users/draphael/PCL/include/pcl/Console.h \
   /Users/draphael/PCL/include/pcl/FileDialog.h \
   /Users/draphael/PCL/include/pcl/ViewList.h \
   /Users/draphael/PCL/include/pcl/GlobalSettings.h \
@@ -257,7 +262,17 @@ x86_64/Release/ExposeImageInterface.d \
 
 ../../ExposeImageProcess.h:
 
+../../CameraDialog.h:
+
 /Users/draphael/PCL/include/pcl/Dialog.h:
+
+/Users/draphael/PCL/include/pcl/GroupBox.h:
+
+/Users/draphael/PCL/include/pcl/RadioButton.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+/Users/draphael/PCL/include/pcl/Console.h:
 
 /Users/draphael/PCL/include/pcl/FileDialog.h:
 
