@@ -122,6 +122,8 @@ void ImageAcquisitionSettingsInterface::SaveSettings() const
 {
 }
 
+typedef IPixInsightCamera* (*MyFuncPtr)();
+
 void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sender, bool checked )
 {
 	if(sender == GUI->AddCamera_PushButton)
@@ -130,16 +132,30 @@ void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sende
 		// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 		//CameraDialog dlg = new CameraDialog;
 		GUI->CamDlg.Execute();
-//		try
-//		{
-//			IPixInsightCamera *theCam = LoadLibrary("C:\\ImageAcquisition\\ASCOM_Driver\\PixInsightASCOMCameraDriver\\Debug\\PixInsightASCOMCameraDriver.dll");
+		HINSTANCE loadedLib = NULL;
+		loadedLib = LoadLibrary("c:\\PCL64\\bin\\TestDriver-pxi.dll");
+		MyFuncPtr InitializePtr = NULL;
+Console().WriteLn("about to reinterpret cast...");		
+		InitializePtr = (MyFuncPtr) (// get the function pointer
+			GetProcAddress( loadedLib, "InitializeCamera" ) 
+			);
+		if(InitializePtr == NULL) 
+		{
+			Console().WriteLn("Failed!");	
+		}
+		else
+		{
+			Console().WriteLn("reinterpreted cast!");	
+			IPixInsightCamera *theCamera = NULL;
+			Console().WriteLn("a little more...");	
+			theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
+			Console().WriteLn("we are getting somewhere!!!");	
+			String theString = theCamera->DoSomething();
+			Console().Write("we got some data: ");	
+			Console().WriteLn(theString);
+			delete theCamera;
+		}
 
-//		}
-//		catch
-//		{
-//		}
-		
-		//free(dlg);
 	}
 	else if(sender == GUI->EditCamera_PushButton)
 	{
