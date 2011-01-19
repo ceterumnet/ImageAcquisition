@@ -149,7 +149,7 @@ Console().WriteLn("about to reinterpret cast...");
 			Console().WriteLn("reinterpreted cast!");	
 			IPixInsightCamera *theCamera = NULL;
 			Console().WriteLn("a little more...");	
-			theCamera = dynamic_cast<IPixInsightCamera *> (InitializePtr());
+			theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
 			Console().WriteLn("we are getting somewhere!!!");	
 			theCamera->DoSomething();
 
