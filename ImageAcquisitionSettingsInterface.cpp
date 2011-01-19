@@ -151,8 +151,9 @@ Console().WriteLn("about to reinterpret cast...");
 			Console().WriteLn("a little more...");	
 			theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
 			Console().WriteLn("we are getting somewhere!!!");	
-			theCamera->DoSomething();
-
+			String theString = theCamera->DoSomething();
+			Console().Write("we got some data: ");	
+			Console().WriteLn(theString);
 			delete theCamera;
 		}
 

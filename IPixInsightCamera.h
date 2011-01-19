@@ -8,7 +8,7 @@ namespace pcl
 	{
 	public:
 		IPixInsightCamera *Initialize();
-		void DoSomething();
+		virtual pcl::String  DoSomething() = 0;
 	
 	};
 }
