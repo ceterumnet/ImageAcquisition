@@ -7,8 +7,10 @@
 #include <pcl/PushButton.h>
 #include <pcl/RadioButton.h>
 #include <pcl/CheckBox.h>
-#include <pcl/TextBox.h>
+#include <pcl/Edit.h>
+
 #include <pcl/Console.h>
+#include <pcl/Label.h>
 
 namespace pcl
 {
@@ -20,13 +22,15 @@ namespace pcl
 
 	private:
 		VerticalSizer     Global_Sizer;
-		GroupBox          CameraSetting_GroupBox;
-			HorizontalSizer   CameraSetting_Sizer;
-				TextBox		  CameraName_TextBox;
-				PushButton		  SelectCameraDriver_Button;
+		//GroupBox          CameraSetting_GroupBox;
+			VerticalSizer   CameraSetting_Sizer;
+				HorizontalSizer CameraName_Sizer;
+					Label			CameraName_Label;
+					Edit			CameraName_TextBox;
+				PushButton		SelectCameraDriver_Button;
 			HorizontalSizer   BottomSection_Sizer;
-				PushButton        OK_PushButton;
-				PushButton        Cancel_PushButton;
+				PushButton      OK_PushButton;
+				PushButton      Cancel_PushButton;
 	
 
 		void Button_Click( Button& sender, bool checked );

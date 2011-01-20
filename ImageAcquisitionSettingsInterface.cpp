@@ -135,7 +135,7 @@ namespace pcl
 	// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 	//CameraDialog dlg = new CameraDialog;
 	GUI->CamDlg.Execute();
-#ifdef __PCL_WIN
+#ifdef __PCL_WINDOWS
 	HINSTANCE loadedLib = NULL;
 	loadedLib = LoadLibrary("c:\\PCL64\\bin\\TestDriver-pxi.dll");
 	MyFuncPtr InitializePtr = NULL;
