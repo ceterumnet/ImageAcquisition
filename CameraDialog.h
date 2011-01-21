@@ -18,10 +18,13 @@ namespace pcl
 {
 	class CameraDialog : public Dialog
 	{
-	public:	
+	public:
 		CameraDialog();
 
 	private:
+		String DriverFile;
+		String CameraName;
+
 		VerticalSizer     Global_Sizer;
 			VerticalSizer   CameraSetting_Sizer;
 				HorizontalSizer CameraName_Sizer;
