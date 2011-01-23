@@ -36,7 +36,8 @@ private:
 		pcl_bool enabled;
 		String driverPath;
 		String cameraName;
-		CameraItem( const String& dp = String(), const String& cn = String() ) : enabled( true ), driverPath( dp ), cameraName( cn )
+
+		CameraItem(  const String& cn = String(), const String& dp = String()) : enabled( true ), driverPath( dp ), cameraName( cn )
 		{
 		}
 		CameraItem( const CameraItem& x ) : enabled( x.enabled ), driverPath( x.driverPath ), cameraName( x.cameraName )

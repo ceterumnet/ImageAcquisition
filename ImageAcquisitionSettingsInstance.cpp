@@ -7,7 +7,6 @@ namespace pcl
     ProcessImplementation( m ),
     installedCameras()
   {
-	
   }
 
   ImageAcquisitionSettingsInstance::ImageAcquisitionSettingsInstance( const ImageAcquisitionSettingsInstance& x ) :
@@ -21,7 +20,7 @@ namespace pcl
     const ImageAcquisitionSettingsInstance* x = dynamic_cast<const ImageAcquisitionSettingsInstance*>( &p );
     if ( x != 0 )
       {
-		
+		  installedCameras = x->installedCameras;
       }
   }
 
@@ -46,30 +45,51 @@ namespace pcl
     return false;
   }
 
-  void* ImageAcquisitionSettingsInstance::LockParameter( const MetaParameter*, size_type /*tableRow*/ )
+  void* ImageAcquisitionSettingsInstance::LockParameter( const MetaParameter* p, size_type tableRow )
   {
-    return 0;
+	  if ( p == TheIAInstalledCameraEnabledParameter )
+		  return &installedCameras[tableRow].enabled;
+	  if ( p == TheIAInstalledCameraDriverPathParameter )
+		  return installedCameras[tableRow].driverPath.c_str();
+	  if ( p == TheIAInstalledCameraNameParameter )
+		  return installedCameras[tableRow].cameraName.c_str();
+	  return 0;
   }
 
 
   bool ImageAcquisitionSettingsInstance::AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow )
   {
-    if ( p == TheIAInstalledCamerasParameter )
-      {
-	installedCameras.Clear();
-	//we need to do something here...
-      }
-    else
-      return false;
+	  if ( p == TheIAInstalledCamerasParameter )
+	  {
+		  installedCameras.Clear();
+		  if( sizeOrLength > 0)
+			  installedCameras.Add( CameraItem(), sizeOrLength );
+	  }
+	  else if ( p == TheIAInstalledCameraDriverPathParameter )
+	  {
+		  installedCameras[tableRow].driverPath.Clear();
+		  if ( sizeOrLength > 0 )
+			  installedCameras[tableRow].driverPath.Reserve( sizeOrLength );
+	  }
+	  else if (p == TheIAInstalledCameraNameParameter )
+	  {
+		  installedCameras[tableRow].cameraName.Clear();
+		  if ( sizeOrLength > 0)
+			  installedCameras[tableRow].cameraName.Reserve( sizeOrLength );
+	  }
+	  else
+		  return false;
 
-    return true;
+	  return true;
   }
   size_type ImageAcquisitionSettingsInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const
   {
     if ( p == TheIAInstalledCamerasParameter )
-      return 1;
+		return installedCameras.Length();
+	if ( p == TheIAInstalledCameraDriverPathParameter )
+		return installedCameras[tableRow].driverPath.Length();
+	if ( p == TheIAInstalledCameraNameParameter )
+		return installedCameras[tableRow].cameraName.Length();
     return 0;
   }
-
-
 }

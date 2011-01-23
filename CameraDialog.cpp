@@ -64,7 +64,11 @@ namespace pcl
     void CameraDialog::Button_Click( Button& sender, bool /*checked*/)
     {
         if ( sender == OK_PushButton )
+		{
+			CameraName = CameraName_Edit.Text();
+			DriverFile = CameraDriver_Edit.Text();
             Ok();
+		}
         else if ( sender == Cancel_PushButton )
             Cancel();
         else if ( sender == CameraDriver_ToolButton )
@@ -74,6 +78,7 @@ namespace pcl
             ofDlg.SetSelectedFileExtension( ".dll" );
             ofDlg.Execute();
             CameraDriver_Edit.SetText( ofDlg.FileName() );
+
         }
     }
 
@@ -82,5 +87,15 @@ namespace pcl
         Console().WriteLn( "Dialog Returned\n" );
         Console().WriteLn( String( "Selected Driver:" + CameraDriver_Edit.Text() ) );
     }
+
+	String CameraDialog::GetCameraName()
+	{
+		return CameraName;
+	}
+
+	String CameraDialog::GetDriverFile()
+	{
+		return DriverFile;
+	}
 
 }

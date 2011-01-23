@@ -69,7 +69,7 @@ namespace pcl
     ImportProcess( defaultInstance );
   }
 
-  bool ExposeImageInterface::Launch( const MetaProcess& P, const ProcessImplementation*, bool& dynamic, unsigned& /*flags*/ )
+  bool ExposeImageInterface::Launch( const MetaProcess& P, const ProcessImplementation*, bool& dynamic, unsigned& flags )
   {
     // ### Deferred initialization
     if ( GUI == 0 )
@@ -144,6 +144,7 @@ namespace pcl
   void ExposeImageInterface::UpdateCameraList()
   {
     //GUI->Camera_ComboBox.SetToolTip("Select Your Camera Model");
+	  
   }
 
   void ExposeImageInterface::__ToggleSection( SectionBar& sender, Control& section, bool start )	
@@ -155,6 +156,9 @@ namespace pcl
   {
     Console().WriteLn("Connection Button Clicked");
     Console().WriteLn("Thread Started");
+
+	//TheImageAcquisitionSettingsInterface->Show();
+	//TheImageAcquisitionSettingsInterface->ActivateWindow();
   }
 
   // ----------------------------------------------------------------------------

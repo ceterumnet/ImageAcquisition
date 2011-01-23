@@ -25,6 +25,7 @@ ImageAcquisitionSettingsProcess::ImageAcquisitionSettingsProcess() : MetaProcess
    new IAInstalledCameraEnabled( TheIAInstalledCamerasParameter );
    new IAInstalledCameraDriverPath( TheIAInstalledCamerasParameter );
    new IAInstalledCameraName( TheIAInstalledCamerasParameter );
+
 }
 
 // ----------------------------------------------------------------------------
@@ -38,7 +39,7 @@ IsoString ImageAcquisitionSettingsProcess::Id() const
 
 IsoString ImageAcquisitionSettingsProcess::Category() const
 {
-   return "ImageAcquisition,Preprocessing";
+   return "ImageAcquisition";
 }
 
 // ----------------------------------------------------------------------------

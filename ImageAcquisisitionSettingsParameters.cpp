@@ -29,8 +29,6 @@ namespace pcl
 		return "installedCameraEnabled";
 	}
 
-
-
 	IAInstalledCameraDriverPath::IAInstalledCameraDriverPath( MetaTable* T) : MetaString( T )
 	{
 		TheIAInstalledCameraDriverPathParameter = this;

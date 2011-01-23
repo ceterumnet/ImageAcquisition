@@ -8,6 +8,7 @@
 #include "ImageAcquisitionSettingsProcess.h"
 #include "ExposeImageProcess.h"
 #include "ExposeImageInterface.h"
+#include <pcl/Console.h>
 
 namespace pcl
 {

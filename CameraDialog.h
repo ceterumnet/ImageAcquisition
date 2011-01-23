@@ -21,6 +21,9 @@ namespace pcl
 	public:
 		CameraDialog();
 
+		String GetCameraName();
+		String GetDriverFile();
+
 	private:
 		String DriverFile;
 		String CameraName;

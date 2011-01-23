@@ -15,6 +15,7 @@
 #include <pcl/CheckBox.h>
 #include <pcl/TextBox.h>
 #include <pcl/SpinBox.h>
+#include "ImageAcquisitionSettingsInterface.h"
 
 #include "ExposeImageInstance.h"
 
@@ -29,6 +30,7 @@ namespace pcl
   public:
 
     ExposeImageInterface();
+	//ExposeImageInterface(ImageAcquisitionSettingsInterface *);
     virtual ~ExposeImageInterface();
 
     virtual IsoString Id() const;
@@ -56,7 +58,7 @@ namespace pcl
   private:
 		
     ExposeImageInstance instance;
-		
+	//ImageAcquisitionSettingsInterface *iaSettingsInterface;
     // -------------------------------------------------------------------------
     
 	

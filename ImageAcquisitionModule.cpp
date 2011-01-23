@@ -110,6 +110,7 @@ String ImageAcquisitionModule::ReadableVersion()
 PCL_MODULE_EXPORT
 int InstallPixInsightModule( int mode )
 {
+	
    // When the PixInsight application installs this module, we just have to
    // instantiate the meta objects describing it.
 
@@ -121,10 +122,11 @@ int InstallPixInsightModule( int mode )
 
    if ( mode == pcl::InstallMode::FullInstall )
    {
-	   new pcl::ExposeImageProcess;
-     new pcl::ExposeImageInterface;
-     new pcl::ImageAcquisitionSettingsProcess;
+	 new pcl::ImageAcquisitionSettingsProcess;
+	 //pcl::ImageAcquisitionSettingsInterface *iaSettings = 
      new pcl::ImageAcquisitionSettingsInterface;
+	 new pcl::ExposeImageProcess;
+     new pcl::ExposeImageInterface;
    }
 
    // Return zero to signal successful installation

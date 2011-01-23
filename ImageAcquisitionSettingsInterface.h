@@ -54,7 +54,7 @@ namespace pcl
 		// -------------------------------------------------------------------------
 
 	private:
-
+		IPixInsightCamera *activeCamera;
 		ImageAcquisitionSettingsInstance instance;
 
 		// -------------------------------------------------------------------------
@@ -72,6 +72,9 @@ namespace pcl
 						PushButton AddCamera_PushButton;
 						PushButton EditCamera_PushButton;
 						PushButton DeleteCamera_PushButton;
+					VerticalSizer LoadSaveSettings_Buttons;
+						PushButton SaveSettings_PushButton;
+						PushButton LoadSettings_PushButton;
 			CameraDialog CamDlg;
 		};
 
@@ -80,13 +83,11 @@ namespace pcl
 		// Interface Updates
 
 		void UpdateControls();
-
-		//void UpdateCameraList( size_type );
 		void UpdateCameraList();
-
-		//void __TargetImages_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
-		//void __TargetImages_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
-		//void __TargetImages_NodeSelectionUpdated( TreeBox& sender );
+		void UpdateCameraItem(size_type);
+		void SaveSettings();
+		void LoadSettings();
+		void AddCamera();
 
 		void __ToggleSection( SectionBar& sender, Control& section, bool start );
 		void __CameraListButtons_Click( Button& sender, bool checked );
