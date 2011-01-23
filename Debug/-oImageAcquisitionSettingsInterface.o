@@ -97,6 +97,7 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/Pen.h \
   /Users/draphael/PCL/include/pcl/Brush.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h \
+  /Users/draphael/PCL/include/pcl/Settings.h \
   ../ImageAcquisitionSettingsIcon.xpm
 
 ../ImageAcquisitionSettingsInterface.h:
@@ -296,5 +297,7 @@ ImageAcquisitionSettingsInterface.o:  \
 /Users/draphael/PCL/include/pcl/Brush.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
+
+/Users/draphael/PCL/include/pcl/Settings.h:
 
 ../ImageAcquisitionSettingsIcon.xpm:

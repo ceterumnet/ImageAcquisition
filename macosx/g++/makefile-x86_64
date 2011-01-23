@@ -80,9 +80,6 @@ clean:
 post-build:
 	cp $(OBJ_DIR)/ImageAcquisition-pxm.dylib $(PCLBINDIR64)
 
-./x86_64/Release/ASCOM_Driver/PixInsightASCOMCameraDriver/PixInsightASCOMCameraDriver/%.o: ../../ASCOM_Driver/PixInsightASCOMCameraDriver/PixInsightASCOMCameraDriver/%.cpp
-	g++ -c -pipe -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -fPIC -D_REENTRANT -D__PCL_MACOSX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse3 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
-	@echo ' '
 ./x86_64/Release/%.o: ../../%.cpp
 	g++ -c -pipe -arch x86_64 -Xarch_x86_64 -mmacosx-version-min=10.5 -fPIC -D_REENTRANT -D__PCL_MACOSX -I"$(PCLINCDIR)" -O3 -mtune=generic -mfpmath=sse -msse3 -minline-all-stringops -ffast-math -fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -Wall -Wno-parentheses -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo ' '

@@ -33,6 +33,7 @@
 							<tool id="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.debug.655080081" name="MacOS X C++ Linker" superClass="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.debug">
 								<option defaultValue="true" id="macosx.cpp.link.macosx.so.debug.option.shared.131306026" name="Shared (-dynamiclib)" superClass="macosx.cpp.link.macosx.so.debug.option.shared" valueType="boolean"/>
 								<option id="macosx.cpp.link.option.libs.1432960579" name="Libraries (-l)" superClass="macosx.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="PCL-pxi"/>
 								</option>
 								<option id="macosx.cpp.link.option.paths.987725801" name="Library search path (-L)" superClass="macosx.cpp.link.option.paths" valueType="libPaths">
@@ -58,8 +59,9 @@
 								<option id="gnu.cpp.compiler.option.include.paths.2018628492" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="${PCLINCDIR}"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.other.other.513559342" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -Wno-parentheses -MMD -MP -MF" valueType="string"/>
-								<option id="gnu.cpp.compiler.option.warnings.allwarn.181549856" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.other.other.513559342" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -c -fmessage-length=0 -Wno-parentheses -MMD -MP -MF" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.warnings.allwarn.181549856" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.other.verbose.1250672599" superClass="gnu.cpp.compiler.option.other.verbose" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.384287973" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug.170156198" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug">

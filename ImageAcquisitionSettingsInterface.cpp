@@ -127,10 +127,6 @@ namespace pcl
     return true;
   }
 
-  void ImageAcquisitionSettingsInterface::SaveSettings() const
-  {
-  }
-
   typedef IPixInsightCamera* (*MyFuncPtr)();
 
   
@@ -342,17 +338,6 @@ namespace pcl
 
 	  GUI->CameraList_TreeBox.EnableUpdates();
   }
-
-  void ImageAcquisitionSettingsInterface::SaveSettings()
-  {
-	  //Settings::WriteGlobal(instance.installedCameras
-  }
-
-  void ImageAcquisitionSettingsInterface::LoadSettings()
-  {
-
-  }
-
 
   // ----------------------------------------------------------------------------
 

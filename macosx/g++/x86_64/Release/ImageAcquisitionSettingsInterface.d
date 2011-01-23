@@ -75,8 +75,9 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
   /Users/draphael/PCL/include/pcl/Dialog.h \
   /Users/draphael/PCL/include/pcl/GroupBox.h \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   ../../ImageAcquisitionSettingsInstance.h \
   /Users/draphael/PCL/include/pcl/ProcessImplementation.h \
   /Users/draphael/PCL/include/pcl/MetaProcess.h \
@@ -91,14 +92,13 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
   ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
-  /Users/draphael/PCL/include/pcl/FileDialog.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
   /Users/draphael/PCL/include/pcl/Matrix.h \
   /Users/draphael/PCL/include/pcl/Pen.h \
   /Users/draphael/PCL/include/pcl/Brush.h \
-  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h \
+  /Users/draphael/PCL/include/pcl/Settings.h \
   ../../ImageAcquisitionSettingsIcon.xpm
 
 ../../ImageAcquisitionSettingsInterface.h:
@@ -251,9 +251,11 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
 
 /Users/draphael/PCL/include/pcl/RadioButton.h:
 
-/Users/draphael/PCL/include/pcl/TextBox.h:
-
 /Users/draphael/PCL/include/pcl/Console.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:
 
 ../../ImageAcquisitionSettingsInstance.h:
 
@@ -285,8 +287,6 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
 
 ../../ImageAcquisitionSettingsProcess.h:
 
-/Users/draphael/PCL/include/pcl/FileDialog.h:
-
 /Users/draphael/PCL/include/pcl/ColorDialog.h:
 
 /Users/draphael/PCL/include/pcl/Graphics.h:
@@ -297,8 +297,8 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
 
 /Users/draphael/PCL/include/pcl/Brush.h:
 
-/Users/draphael/PCL/include/pcl/GlobalSettings.h:
-
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
+
+/Users/draphael/PCL/include/pcl/Settings.h:
 
 ../../ImageAcquisitionSettingsIcon.xpm:

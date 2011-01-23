@@ -1,4 +1,3 @@
-
 #include "ExposeImageInterface.h"
 #include "ExposeImageProcess.h"
 #include "CameraDialog.h"
@@ -14,15 +13,53 @@
 namespace pcl
 {
 
-  // ----------------------------------------------------------------------------
-
   ExposeImageInterface* TheExposeImageInterface = 0;
-
-  // ----------------------------------------------------------------------------
 
 #include "ExposeImageIcon.xpm"
 
-  // ----------------------------------------------------------------------------
+
+  class CameraSelectorDialog: public Dialog
+    {
+    public:
+      VerticalSizer Global_Sizer;
+          ComboBox CameraSelector_ComboBox;
+          PushButton OK_PushButton;
+
+      CameraSelectorDialog() : Dialog()
+      {
+          pcl::Font fnt = Font();
+
+          for (size_type i = 0; i < TheImageAcquisitionSettingsInterface->instance.installedCameras.Length(); ++i)
+          {
+              CameraSelector_ComboBox.AddItem(
+                      TheImageAcquisitionSettingsInterface->instance.installedCameras.At(i)->cameraName);
+          }
+
+          Global_Sizer.Add(CameraSelector_ComboBox);
+          Global_Sizer.Add(OK_PushButton);
+
+          SetSizer(Global_Sizer);
+          AdjustToContents();
+          SetFixedSize();
+          //CameraSelector_ComboBox.
+      }
+
+      virtual ~CameraSelectorDialog()
+      {
+
+      }
+  private:
+
+      void Button_Click( Button& sender, bool checked)
+      {
+
+      }
+      void Dialog_Return( pcl::Dialog &sender, int retVal )
+      {
+
+      }
+
+    };
 
   ExposeImageInterface::ExposeImageInterface() :
     ProcessInterface(), instance( TheExposeImageProcess ), GUI( 0 )
@@ -144,7 +181,6 @@ namespace pcl
   void ExposeImageInterface::UpdateCameraList()
   {
     //GUI->Camera_ComboBox.SetToolTip("Select Your Camera Model");
-	  
   }
 
   void ExposeImageInterface::__ToggleSection( SectionBar& sender, Control& section, bool start )	
@@ -155,15 +191,14 @@ namespace pcl
   void ExposeImageInterface::__CameraConnectionButton_Click( Button& sender, bool checked )
   {
     Console().WriteLn("Connection Button Clicked");
-    Console().WriteLn("Thread Started");
-
+    if( sender == GUI->ChooseCamera_ToolButton )
+    {
+        CameraSelectorDialog dlg;
+        dlg.Execute();
+    }
 	//TheImageAcquisitionSettingsInterface->Show();
 	//TheImageAcquisitionSettingsInterface->ActivateWindow();
   }
-
-  // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
-
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -186,6 +221,7 @@ namespace pcl
 	Camera_Label.SetFixedWidth(labelWidth1);
 	ActiveCamera_Edit.SetReadOnly();
 	ChooseCamera_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" )));
+	ChooseCamera_ToolButton.OnClick((Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w);
 	CameraConnection_PushButton.SetText("Connect Camera");
 	CameraConnection_PushButton.SetFixedWidth(labelWidth3);
 	CameraConnection_PushButton.OnClick((Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w);
@@ -354,28 +390,29 @@ namespace pcl
     w.AdjustToContents();
   }
 
+  // ----------------------------------------------------------------------------
+
 
   // ----------------------------------------------------------------------------
 
-  class CameraConnectionThread : public Thread
-  {
-  public:
-    CameraConnectionThread()
+  class CameraConnectionThread: public Thread
     {
-      Console().WriteLn("Started Camera Connection Thread");
-    }
+    public:
+        CameraConnectionThread()
+        {
 
-    virtual ~CameraConnectionThread()
-    {
-      Console().WriteLn("Killed Camera Connection Thread");
-    }
-    
-    virtual void Run()
-    {
-      CameraDialog dlg;
-      dlg.Execute();
-    }
-  };
+        }
+
+        virtual ~CameraConnectionThread()
+        {
+            Console().WriteLn( "Killed Camera Connection Thread" );
+        }
+
+        virtual void Run()
+        {
+            Console().WriteLn( "Started Camera Connection Thread" );
+        }
+    };
 
 } // pcl
 

@@ -42,9 +42,16 @@ x86_64/Release/CameraDialog.d x86_64/Release/CameraDialog.o:  \
   /Users/draphael/PCL/include/pcl/ImageRenderingModes.h \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
   /Users/draphael/PCL/include/pcl/CheckBox.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
+  /Users/draphael/PCL/include/pcl/Edit.h \
   /Users/draphael/PCL/include/pcl/Frame.h \
-  /Users/draphael/PCL/include/pcl/Console.h
+  /Users/draphael/PCL/include/pcl/ToolButton.h \
+  /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/Label.h \
+  /Users/draphael/PCL/include/pcl/TextAlign.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/File.h \
+  /Users/draphael/PCL/include/pcl/Exception.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h
 
 ../../CameraDialog.h:
 
@@ -132,8 +139,22 @@ x86_64/Release/CameraDialog.d x86_64/Release/CameraDialog.o:  \
 
 /Users/draphael/PCL/include/pcl/CheckBox.h:
 
-/Users/draphael/PCL/include/pcl/TextBox.h:
+/Users/draphael/PCL/include/pcl/Edit.h:
 
 /Users/draphael/PCL/include/pcl/Frame.h:
 
+/Users/draphael/PCL/include/pcl/ToolButton.h:
+
 /Users/draphael/PCL/include/pcl/Console.h:
+
+/Users/draphael/PCL/include/pcl/Label.h:
+
+/Users/draphael/PCL/include/pcl/TextAlign.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/File.h:
+
+/Users/draphael/PCL/include/pcl/Exception.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:

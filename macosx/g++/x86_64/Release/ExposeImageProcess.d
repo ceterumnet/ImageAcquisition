@@ -82,7 +82,19 @@ x86_64/Release/ExposeImageProcess.d x86_64/Release/ExposeImageProcess.o:  \
   /Users/draphael/PCL/include/pcl/TreeBox.h \
   /Users/draphael/PCL/include/pcl/ScrollBox.h \
   /Users/draphael/PCL/include/pcl/SpinBox.h \
-  /Users/draphael/PCL/include/pcl/ComboBox.h ../../ExposeImageIcon.xpm
+  /Users/draphael/PCL/include/pcl/ComboBox.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  ../../ImageAcquisitionSettingsInterface.h \
+  /Users/draphael/PCL/include/pcl/TabBox.h ../../CameraDialog.h \
+  /Users/draphael/PCL/include/pcl/Dialog.h \
+  /Users/draphael/PCL/include/pcl/GroupBox.h \
+  /Users/draphael/PCL/include/pcl/RadioButton.h \
+  /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
+  ../../ImageAcquisitionSettingsInstance.h \
+  ../../ImageAcquisitionSettingsParameters.h ../../IPixInsightCamera.h \
+  ../../ExposeImageIcon.xpm
 
 ../../ExposeImageProcess.h:
 
@@ -251,5 +263,31 @@ x86_64/Release/ExposeImageProcess.d x86_64/Release/ExposeImageProcess.o:  \
 /Users/draphael/PCL/include/pcl/SpinBox.h:
 
 /Users/draphael/PCL/include/pcl/ComboBox.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+../../ImageAcquisitionSettingsInterface.h:
+
+/Users/draphael/PCL/include/pcl/TabBox.h:
+
+../../CameraDialog.h:
+
+/Users/draphael/PCL/include/pcl/Dialog.h:
+
+/Users/draphael/PCL/include/pcl/GroupBox.h:
+
+/Users/draphael/PCL/include/pcl/RadioButton.h:
+
+/Users/draphael/PCL/include/pcl/Console.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:
+
+../../ImageAcquisitionSettingsInstance.h:
+
+../../ImageAcquisitionSettingsParameters.h:
+
+../../IPixInsightCamera.h:
 
 ../../ExposeImageIcon.xpm:

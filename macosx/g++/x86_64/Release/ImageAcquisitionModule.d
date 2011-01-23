@@ -76,8 +76,9 @@ x86_64/Release/ImageAcquisitionModule.d \
   /Users/draphael/PCL/include/pcl/Dialog.h \
   /Users/draphael/PCL/include/pcl/GroupBox.h \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   ../../ImageAcquisitionSettingsInstance.h \
   /Users/draphael/PCL/include/pcl/ProcessImplementation.h \
   /Users/draphael/PCL/include/pcl/MetaProcess.h \
@@ -93,7 +94,8 @@ x86_64/Release/ImageAcquisitionModule.d \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
   ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
   ../../ExposeImageProcess.h ../../ExposeImageInterface.h \
-  ../../ExposeImageInstance.h ../../ExposeImageParameters.h
+  /Users/draphael/PCL/include/pcl/TextBox.h ../../ExposeImageInstance.h \
+  ../../ExposeImageParameters.h
 
 ../../ImageAcquisitionModule.h:
 
@@ -249,9 +251,11 @@ x86_64/Release/ImageAcquisitionModule.d \
 
 /Users/draphael/PCL/include/pcl/RadioButton.h:
 
-/Users/draphael/PCL/include/pcl/TextBox.h:
-
 /Users/draphael/PCL/include/pcl/Console.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:
 
 ../../ImageAcquisitionSettingsInstance.h:
 
@@ -286,6 +290,8 @@ x86_64/Release/ImageAcquisitionModule.d \
 ../../ExposeImageProcess.h:
 
 ../../ExposeImageInterface.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
 
 ../../ExposeImageInstance.h:
 

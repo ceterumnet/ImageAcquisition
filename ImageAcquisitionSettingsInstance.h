@@ -51,6 +51,7 @@ private:
 	camera_list installedCameras;
 
 	friend class ImageAcquisitionSettingsInterface;
+	friend class CameraSelectorDialog;
 };
 
 // ----------------------------------------------------------------------------

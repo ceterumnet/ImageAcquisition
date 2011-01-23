@@ -49,8 +49,6 @@ namespace pcl
 
 		virtual bool ImportProcess( const ProcessImplementation& );
 
-		virtual void SaveSettings() const;
-
 		// -------------------------------------------------------------------------
 
 	private:
@@ -85,8 +83,6 @@ namespace pcl
 		void UpdateControls();
 		void UpdateCameraList();
 		void UpdateCameraItem(size_type);
-		void SaveSettings();
-		void LoadSettings();
 		void AddCamera();
 
 		void __ToggleSection( SectionBar& sender, Control& section, bool start );
@@ -95,6 +91,9 @@ namespace pcl
 		void __CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
 		void __CameraList_NodeSelectionUpdated( TreeBox& sender );
 		friend struct GUIData;
+		friend class ExposeImageInterface;
+		friend class CameraSelectorDialog;
+
 	};
 
 	// ----------------------------------------------------------------------------

@@ -69,7 +69,17 @@ x86_64/Release/ExposeImageInterface.d \
   /Users/draphael/PCL/include/pcl/TreeBox.h \
   /Users/draphael/PCL/include/pcl/ScrollBox.h \
   /Users/draphael/PCL/include/pcl/SpinBox.h \
-  /Users/draphael/PCL/include/pcl/ComboBox.h ../../ExposeImageInstance.h \
+  /Users/draphael/PCL/include/pcl/ComboBox.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  ../../ImageAcquisitionSettingsInterface.h \
+  /Users/draphael/PCL/include/pcl/TabBox.h ../../CameraDialog.h \
+  /Users/draphael/PCL/include/pcl/Dialog.h \
+  /Users/draphael/PCL/include/pcl/GroupBox.h \
+  /Users/draphael/PCL/include/pcl/RadioButton.h \
+  /Users/draphael/PCL/include/pcl/Console.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
+  ../../ImageAcquisitionSettingsInstance.h \
   /Users/draphael/PCL/include/pcl/ProcessImplementation.h \
   /Users/draphael/PCL/include/pcl/MetaProcess.h \
   /Users/draphael/PCL/include/pcl/ImageWindow.h \
@@ -80,17 +90,11 @@ x86_64/Release/ExposeImageInterface.d \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  ../../ExposeImageParameters.h \
+  ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../ExposeImageProcess.h ../../CameraDialog.h \
-  /Users/draphael/PCL/include/pcl/Dialog.h \
-  /Users/draphael/PCL/include/pcl/GroupBox.h \
-  /Users/draphael/PCL/include/pcl/RadioButton.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
-  /Users/draphael/PCL/include/pcl/Console.h \
-  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  ../../IPixInsightCamera.h ../../ExposeImageInstance.h \
+  ../../ExposeImageParameters.h ../../ExposeImageProcess.h \
   /Users/draphael/PCL/include/pcl/ViewList.h \
-  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h \
   ../../ExposeImageIcon.xpm
 
@@ -234,7 +238,27 @@ x86_64/Release/ExposeImageInterface.d \
 
 /Users/draphael/PCL/include/pcl/ComboBox.h:
 
-../../ExposeImageInstance.h:
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+../../ImageAcquisitionSettingsInterface.h:
+
+/Users/draphael/PCL/include/pcl/TabBox.h:
+
+../../CameraDialog.h:
+
+/Users/draphael/PCL/include/pcl/Dialog.h:
+
+/Users/draphael/PCL/include/pcl/GroupBox.h:
+
+/Users/draphael/PCL/include/pcl/RadioButton.h:
+
+/Users/draphael/PCL/include/pcl/Console.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:
+
+../../ImageAcquisitionSettingsInstance.h:
 
 /Users/draphael/PCL/include/pcl/ProcessImplementation.h:
 
@@ -256,29 +280,19 @@ x86_64/Release/ExposeImageInterface.d \
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
-../../ExposeImageParameters.h:
+../../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
+../../IPixInsightCamera.h:
+
+../../ExposeImageInstance.h:
+
+../../ExposeImageParameters.h:
+
 ../../ExposeImageProcess.h:
 
-../../CameraDialog.h:
-
-/Users/draphael/PCL/include/pcl/Dialog.h:
-
-/Users/draphael/PCL/include/pcl/GroupBox.h:
-
-/Users/draphael/PCL/include/pcl/RadioButton.h:
-
-/Users/draphael/PCL/include/pcl/TextBox.h:
-
-/Users/draphael/PCL/include/pcl/Console.h:
-
-/Users/draphael/PCL/include/pcl/FileDialog.h:
-
 /Users/draphael/PCL/include/pcl/ViewList.h:
-
-/Users/draphael/PCL/include/pcl/GlobalSettings.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
 

@@ -23,6 +23,7 @@ namespace pcl
 {
 
   class CameraConnectionThread;
+  class CameraSelectorDialog;
   // ----------------------------------------------------------------------------
 
   class ExposeImageInterface : public ProcessInterface
@@ -142,6 +143,7 @@ namespace pcl
 
     friend struct GUIData;
     friend class CameraConnectionThread;
+    friend class CameraSelectorDialog;
   };
 
   // ----------------------------------------------------------------------------
