@@ -148,7 +148,16 @@ namespace pcl
 			if(activeCamera == 0)
 			{
 				HINSTANCE loadedLib = NULL;
-				loadedLib = LoadLibrary("c:\\PCL64\\bin\\TestDriver-pxi.dll");
+				
+				Array<wchar_t> driverFileName = GUI->CamDlg.GetDriverFile().ToWCharArray();
+				IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
+				const char * chars = theString.c_str();
+
+				
+				//LPCWSTR theLName = (LPCWSTR)GUI->CamDlg.GetDriverFile().c_str();
+				//LPCWSTR theLName = driverFileName.Begin;
+				loadedLib = LoadLibrary(chars);
+
 				MyFuncPtr InitializePtr = NULL;
 
 				InitializePtr = (MyFuncPtr) (// get the function pointer
@@ -156,12 +165,14 @@ namespace pcl
 					);
 				if(InitializePtr == NULL) 
 				{
+
 					Console().WriteLn("Failed!");	
+					Console().WriteLn(String(GetLastError()));
 				}
 				else
 				{
 					activeCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = activeCamera->DoSomething();
+					String theString = activeCamera->Name();
 					Console().Write("we got some data from the driver: ");	
 					Console().WriteLn(theString);
 				}
@@ -186,7 +197,7 @@ namespace pcl
 					Console().WriteLn("Successfully loaded function. ");
 					IPixInsightCamera *theCamera = NULL;
 					theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = theCamera->DoSomething();
+					String theString = theCamera->Name();
 					Console().WriteLn("From the lib: ");
 					Console().WriteLn(theString);
 					delete theCamera;

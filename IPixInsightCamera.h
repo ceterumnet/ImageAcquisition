@@ -1,6 +1,6 @@
 #ifndef __IPixInsightCamera_h
 #define __IPixInsightCamera_h
-#include <pcl/Console.h>
+#include <pcl/String.h>
 
 namespace pcl
 {
@@ -8,11 +8,8 @@ namespace pcl
 	{
 	public:
 		IPixInsightCamera *Initialize();
-		virtual pcl::String  DoSomething() = 0;
-	
+		virtual pcl::String Name() = 0;
 	};
 }
-		
-
 
 #endif

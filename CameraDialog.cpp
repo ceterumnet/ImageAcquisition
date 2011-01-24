@@ -85,7 +85,7 @@ namespace pcl
     void CameraDialog::Dialog_Return( pcl::Dialog &sender, int retVal )
     {
         Console().WriteLn( "Dialog Returned\n" );
-        Console().WriteLn( String( "Selected Driver:" + CameraDriver_Edit.Text() ) );
+        Console().WriteLn( String( "Selected Driver: " + CameraDriver_Edit.Text() ) );
     }
 
 	String CameraDialog::GetCameraName()

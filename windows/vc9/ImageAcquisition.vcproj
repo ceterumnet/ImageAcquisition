@@ -406,10 +406,6 @@
 				RelativePath="..\..\ImageAcquisitionSettingsProcess.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\IPixInsightCamera.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
