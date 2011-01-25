@@ -17,6 +17,13 @@ namespace pcl
 	        CameraError
 	    };
 
+	    enum GuideDirection
+	    {
+	        guideNorth,
+	        guideSouth,
+	        guideEast,
+	        guideWest
+	    };
 	    virtual short BinX() = 0;
 	    virtual short BinY() = 0;
 	    virtual int SetBinX(short) = 0;
@@ -64,6 +71,11 @@ namespace pcl
         virtual double StartY() = 0;
         virtual int SetStartY(double) = 0;
 
+        virtual int AbortExposure() = 0;
+        virtual int PulseGuide(GuideDirection) = 0;
+        virtual void SetupDialog() = 0;
+        virtual void StartExposure() = 0;
+        virtual void StopExposure() = 0;
 	};
 }
 
