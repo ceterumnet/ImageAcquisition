@@ -33,10 +33,10 @@ namespace pcl
   // ----------------------------------------------------------------------------
 
   ImageAcquisitionSettingsInterface::ImageAcquisitionSettingsInterface() :
-    ProcessInterface(), instance( TheImageAcquisitionSettingsProcess ), GUI( 0 ), activeCamera( 0 )
+    ProcessInterface(), instance( TheImageAcquisitionSettingsProcess ), GUI( 0 )
   {
     TheImageAcquisitionSettingsInterface = this;
-   
+    activeCamera = NULL;
   }
 
   ImageAcquisitionSettingsInterface::~ImageAcquisitionSettingsInterface()
@@ -197,7 +197,7 @@ namespace pcl
 					Console().WriteLn("Successfully loaded function. ");
 					IPixInsightCamera *theCamera = NULL;
 					theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = theCamera->Name();
+					String theString = theCamera->Description();
 					Console().WriteLn("From the lib: ");
 					Console().WriteLn(theString);
 					delete theCamera;
