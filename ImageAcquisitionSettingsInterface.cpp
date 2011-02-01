@@ -172,7 +172,7 @@ namespace pcl
 				else
 				{
 					activeCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = activeCamera->Name();
+					String theString = activeCamera->Description();
 					Console().Write("we got some data from the driver: ");	
 					Console().WriteLn(theString);
 				}

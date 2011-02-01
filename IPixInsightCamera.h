@@ -47,7 +47,7 @@ namespace pcl
 	    virtual double ElectronsPerADU() = 0;
 	    virtual double FullWellCapacity() = 0;
 	    virtual bool HasShutter() = 0;
-	    virtual bool HeatSinkTemperature() = 0;
+	    virtual double HeatSinkTemperature() = 0;
 	    virtual Array< Array<long> > ImageArray() = 0;
 	    //virtual Array< Array<long> > ImageArrayVariant() = 0;
 	    virtual bool ImageReady() = 0;
