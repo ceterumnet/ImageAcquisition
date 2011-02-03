@@ -52,8 +52,8 @@ namespace pcl
 		// -------------------------------------------------------------------------
 
 	private:
+        ImageAcquisitionSettingsInstance instance;
 		IPixInsightCamera *activeCamera;
-		ImageAcquisitionSettingsInstance instance;
 
 		// -------------------------------------------------------------------------
 
