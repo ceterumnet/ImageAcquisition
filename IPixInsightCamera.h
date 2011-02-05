@@ -32,7 +32,7 @@ namespace pcl
 	    virtual long CameraXSize() = 0;
 	    virtual long CameraYSize() = 0;
 	    virtual bool CanAbortExposure() = 0;
-	    virtual bool CanAsymetricBin() = 0;
+	    virtual bool CanAsymmetricBin() = 0;
 	    virtual bool CanGetCoolerPower() = 0;
 	    virtual bool CanPulseGuide() = 0;
 	    virtual bool CanSetCCDTemperature() = 0;
