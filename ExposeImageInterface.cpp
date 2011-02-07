@@ -24,6 +24,7 @@ namespace pcl
       VerticalSizer Global_Sizer;
           ComboBox CameraSelector_ComboBox;
           PushButton OK_PushButton;
+		  PushButton Cancel_PushButton;
 
       CameraSelectorDialog() : Dialog()
       {
@@ -35,9 +36,12 @@ namespace pcl
                       TheImageAcquisitionSettingsInterface->instance.installedCameras.At(i)->cameraName);
           }
 
+		  OK_PushButton.SetText("OK");
+		  Cancel_PushButton.SetText("Cancel");
           Global_Sizer.Add(CameraSelector_ComboBox);
           Global_Sizer.Add(OK_PushButton);
-
+		  Global_Sizer.Add(Cancel_PushButton);
+		  
           SetSizer(Global_Sizer);
           AdjustToContents();
           SetFixedSize();
@@ -49,7 +53,7 @@ namespace pcl
 
       }
   private:
-
+	  
       void Button_Click( Button& sender, bool checked)
       {
 

@@ -1,7 +1,8 @@
 #ifndef __IPixInsightCamera_h
 #define __IPixInsightCamera_h
 #include <pcl/String.h>
-
+#include <pcl/Vector.h>
+#include <pcl/Image.h>
 namespace pcl
 {
 	class IPixInsightCamera
@@ -19,11 +20,12 @@ namespace pcl
 
 	    enum GuideDirection
 	    {
-	        guideNorth,
-	        guideSouth,
-	        guideEast,
-	        guideWest
+	        GuideNorth,
+	        GuideSouth,
+	        GuideEast,
+	        GuideWest
 	    };
+		virtual void SetLogger(void(*)(String)) = 0;
 	    virtual short BinX() = 0;
 	    virtual short BinY() = 0;
 	    virtual int SetBinX(short) = 0;
@@ -48,7 +50,7 @@ namespace pcl
 	    virtual double FullWellCapacity() = 0;
 	    virtual bool HasShutter() = 0;
 	    virtual double HeatSinkTemperature() = 0;
-	    virtual Array< Array<long> > ImageArray() = 0;
+		virtual void ImageArray(UInt16Image *theImage) = 0;
 	    //virtual Array< Array<long> > ImageArrayVariant() = 0;
 	    virtual bool ImageReady() = 0;
 	    virtual bool IsPulseGuiding() = 0;
@@ -65,16 +67,17 @@ namespace pcl
         virtual int SetNumY(long) = 0;
         virtual double PixelSizeX() = 0;
         virtual double PixelSizeY() = 0;
-        virtual double SetCCDTemperature() = 0;
+        virtual int SetCCDTemperature(double) = 0;
+		virtual double GetSetCCDTemperature() = 0;
         virtual double StartX() = 0;
         virtual int SetStartX(double) = 0;
         virtual double StartY() = 0;
         virtual int SetStartY(double) = 0;
 
         virtual int AbortExposure() = 0;
-        virtual int PulseGuide(GuideDirection) = 0;
+        virtual int PulseGuide(GuideDirection, long duration) = 0;
         virtual void SetupDialog() = 0;
-        virtual void StartExposure() = 0;
+        virtual void StartExposure(double) = 0;
         virtual void StopExposure() = 0;
 	};
 }

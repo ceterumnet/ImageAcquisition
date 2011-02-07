@@ -48,7 +48,7 @@ namespace pcl
 		virtual bool RequiresInstanceValidation() const;
 
 		virtual bool ImportProcess( const ProcessImplementation& );
-
+		void TestImage();
 		// -------------------------------------------------------------------------
 
 	private:

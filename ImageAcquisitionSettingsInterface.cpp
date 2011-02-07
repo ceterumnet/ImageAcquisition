@@ -136,6 +136,40 @@ namespace pcl
 	  return (n != 0) ? tree.ChildIndex( n ) + 1 : tree.NumberOfChildren();
   }
 
+  void theLogger(String text)
+  {
+	  Console().Write(text);
+  }
+
+  void ImageAcquisitionSettingsInterface::TestImage()
+  {
+	  activeCamera->SetConnected(true);
+	  activeCamera->StartExposure(1);
+	  Console().WriteLn("taking exposure");
+	  while(!activeCamera->ImageReady())
+	  {
+		  //Console().WriteLn("camera not ready yet...");
+	  }
+
+	  activeCamera->SetLogger(&theLogger);
+	  ImageWindow window ( activeCamera->NumX(),         // width
+		  activeCamera->NumY(),         // height
+		  1,             // numberOfChannels
+		  16,            // bitsPerSample
+		  false,         // floatSample
+		  false,         // color
+		  true,          // initialProcessing
+		  "camera_test"  // id
+		  );
+
+	  View view = window.MainView();
+	  ImageVariant v = view.Image();
+	  UInt16Image* image = static_cast<UInt16Image*>( v.AnyImage() );
+
+	  activeCamera->ImageArray(image);
+	  window.Show();
+	  window.ZoomToFit( false ); // don't allow zoom > 1
+  }
   void ImageAcquisitionSettingsInterface::AddCamera()
   {
 	  	// Not sure if this should be a new instance...or just reuse...I think reuse is better.
@@ -166,15 +200,16 @@ namespace pcl
 				if(InitializePtr == NULL) 
 				{
 
-					Console().WriteLn("Failed!");	
+					Console().WriteLn("Failed to load Library.");	
 					Console().WriteLn(String(GetLastError()));
 				}
 				else
 				{
-					activeCamera = static_cast<IPixInsightCamera *> (InitializePtr());
+					activeCamera = dynamic_cast<IPixInsightCamera *> (InitializePtr());
 					String theString = activeCamera->Description();
 					Console().Write("we got some data from the driver: ");	
 					Console().WriteLn(theString);
+					TestImage();
 				}
 			}
 			else
