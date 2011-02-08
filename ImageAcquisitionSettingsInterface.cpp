@@ -209,7 +209,6 @@ namespace pcl
 					String theString = activeCamera->Description();
 					Console().Write("we got some data from the driver: ");	
 					Console().WriteLn(theString);
-					TestImage();
 				}
 			}
 			else
@@ -262,7 +261,7 @@ namespace pcl
 	}
     else if(sender == GUI->EditCamera_PushButton)
 	{
-
+		TestImage();
 	}
     else if(sender == GUI->DeleteCamera_PushButton)
 	{
