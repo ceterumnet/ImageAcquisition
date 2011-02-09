@@ -61,7 +61,7 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.513559342" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-fvisibility=hidden -fvisibility-inlines-hidden -fnon-call-exceptions -c -fmessage-length=0 -Wno-parentheses -MMD -MP -MF" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.warnings.allwarn.181549856" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.other.verbose.1250672599" superClass="gnu.cpp.compiler.option.other.verbose" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.other.verbose.1250672599" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.384287973" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug.170156198" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug">

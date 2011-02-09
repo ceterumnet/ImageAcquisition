@@ -52,6 +52,7 @@ namespace pcl
 		// -------------------------------------------------------------------------
 
 	private:
+		void* libHandle;
         ImageAcquisitionSettingsInstance instance;
 		IPixInsightCamera *activeCamera;
 

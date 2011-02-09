@@ -91,8 +91,10 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
-  ../ExposeImageInstance.h ../ExposeImageParameters.h \
-  ../ExposeImageProcess.h /Users/draphael/PCL/include/pcl/ViewList.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageInstance.h \
+  ../ExposeImageParameters.h ../ExposeImageProcess.h \
+  /Users/draphael/PCL/include/pcl/ViewList.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h ../ExposeImageIcon.xpm
 
 ../ExposeImageInterface.h:
@@ -282,6 +284,10 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ExposeImageInstance.h:
 

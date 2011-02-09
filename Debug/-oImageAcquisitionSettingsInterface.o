@@ -90,6 +90,8 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsProcess.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
@@ -283,6 +285,10 @@ ImageAcquisitionSettingsInterface.o:  \
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 

@@ -37,6 +37,9 @@ namespace pcl
   {
     TheImageAcquisitionSettingsInterface = this;
     activeCamera = NULL;
+#ifdef __PCL_MACOSX
+    libHandle = NULL;
+#endif
   }
 
   ImageAcquisitionSettingsInterface::~ImageAcquisitionSettingsInterface()
@@ -46,7 +49,10 @@ namespace pcl
       delete GUI, GUI = 0;
 	if ( activeCamera != 0)
 	  delete activeCamera;
-   
+#ifdef __PCL_MACOSX
+	if(libHandle)
+	  dlclose(libHandle);
+#endif
   }
 
   IsoString ImageAcquisitionSettingsInterface::Id() const
@@ -219,8 +225,9 @@ namespace pcl
 #endif
 #ifdef __PCL_MACOSX
 			Console().WriteLn("We are dealing with a mac env ");
-			void* libHandle = NULL;
-			libHandle = dlopen("/Applications/PixInsight64.app/Contents/MacOS/libTestMacOSXDriver-pxi.dylib", RTLD_NOW);
+			IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
+			const char * chars = theString.c_str();
+			libHandle = dlopen(chars, RTLD_NOW);
 			if(libHandle != NULL)
 			{
 				MyFuncPtr InitializePtr = NULL;
@@ -229,13 +236,10 @@ namespace pcl
 				if(InitializePtr)
 				{
 					Console().WriteLn("Successfully loaded function. ");
-					IPixInsightCamera *theCamera = NULL;
-					theCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = theCamera->Description();
+					activeCamera = static_cast<IPixInsightCamera *> (InitializePtr());
+					String theString = activeCamera->Description();
 					Console().WriteLn("From the lib: ");
 					Console().WriteLn(theString);
-					delete theCamera;
-					dlclose(libHandle);
 				}
 				else
 				{

@@ -91,6 +91,8 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h \
   ../ExposeImageInstance.h ../ExposeImageParameters.h
@@ -282,6 +284,10 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 
