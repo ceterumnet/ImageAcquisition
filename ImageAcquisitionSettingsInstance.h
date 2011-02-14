@@ -28,30 +28,30 @@ public:
    virtual void* LockParameter( const MetaParameter*, size_type /*tableRow*/ );
    virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
    virtual size_type ParameterLength( const MetaParameter* p, size_type tableRow ) const;
+   struct CameraItem
+   {
+	   pcl_bool enabled;
+	   String driverPath;
+	   String cameraName;
+	   //pcl_bool locked;
 
+	   CameraItem(  const String& cn = String(), const String& dp = String()) : enabled( false ), driverPath( dp ), cameraName( cn )
+	   {
+	   }
+	   CameraItem( const CameraItem& x ) : enabled( x.enabled ), driverPath( x.driverPath ), cameraName( x.cameraName )
+	   {
+	   }
+   };
    
 private:
-	struct CameraItem
-	{
-		pcl_bool enabled;
-		String driverPath;
-		String cameraName;
 
-		CameraItem(  const String& cn = String(), const String& dp = String()) : enabled( true ), driverPath( dp ), cameraName( cn )
-		{
-		}
-		CameraItem( const CameraItem& x ) : enabled( x.enabled ), driverPath( x.driverPath ), cameraName( x.cameraName )
-		{
-		}
-	};
-
-	
 
 	typedef Array<CameraItem> camera_list;
 	camera_list installedCameras;
 
 	friend class ImageAcquisitionSettingsInterface;
 	friend class CameraSelectorDialog;
+	friend class ExposeImageInterface;
 };
 
 // ----------------------------------------------------------------------------

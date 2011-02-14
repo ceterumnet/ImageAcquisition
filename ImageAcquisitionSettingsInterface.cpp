@@ -37,8 +37,10 @@ namespace pcl
   {
     TheImageAcquisitionSettingsInterface = this;
     activeCamera = NULL;
+	activeGuideCamera = NULL;
 #ifdef __PCL_MACOSX
     libHandle = NULL;
+	libHandleGuider = NULL;
 #endif
   }
 
@@ -132,9 +134,6 @@ namespace pcl
     UpdateControls();
     return true;
   }
-
-  typedef IPixInsightCamera* (*MyFuncPtr)();
-
   
   static size_type TreeInsertionIndex( const TreeBox& tree )
   {
@@ -178,81 +177,20 @@ namespace pcl
   }
   void ImageAcquisitionSettingsInterface::AddCamera()
   {
+	  Console()<<"AddCamera()\n";
 	  	// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 	//CameraDialog dlg = new CameraDialog;
 		if(GUI->CamDlg.Execute())
 		{
 			size_type i0 = TreeInsertionIndex( GUI->CameraList_TreeBox );
+			for(size_type i = 0, n = instance.installedCameras.Length();i < n;++i)
+			{
+				Console() << instance.installedCameras[i].cameraName;
+				String theCameraName = GUI->CamDlg.GetCameraName();
+				if(theCameraName.Compare(instance.installedCameras[i].cameraName) == 0)
+					throw Error("Please use a unique camera name for each camera.");
+			}
 			instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), ImageAcquisitionSettingsInstance::CameraItem( GUI->CamDlg.GetCameraName(), GUI->CamDlg.GetDriverFile() ) );
-#ifdef __PCL_WINDOWS
-			if(activeCamera == 0)
-			{
-				HINSTANCE loadedLib = NULL;
-				
-				Array<wchar_t> driverFileName = GUI->CamDlg.GetDriverFile().ToWCharArray();
-				IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
-				const char * chars = theString.c_str();
-
-				
-				//LPCWSTR theLName = (LPCWSTR)GUI->CamDlg.GetDriverFile().c_str();
-				//LPCWSTR theLName = driverFileName.Begin;
-				loadedLib = LoadLibrary(chars);
-
-				MyFuncPtr InitializePtr = NULL;
-
-				InitializePtr = (MyFuncPtr) (// get the function pointer
-					GetProcAddress( loadedLib, "InitializeCamera" ) 
-					);
-				if(InitializePtr == NULL) 
-				{
-
-					Console().WriteLn("Failed to load Library.");	
-					Console().WriteLn(String(GetLastError()));
-				}
-				else
-				{
-					activeCamera = dynamic_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = activeCamera->Description();
-					Console().Write("we got some data from the driver: ");	
-					Console().WriteLn(theString);
-				}
-			}
-			else
-			{
-				Console().Write("Camera Already Instantiated: ");
-			}
-
-#endif
-#ifdef __PCL_MACOSX
-			Console().WriteLn("We are dealing with a mac env ");
-			IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
-			const char * chars = theString.c_str();
-			libHandle = dlopen(chars, RTLD_NOW);
-			if(libHandle != NULL)
-			{
-				MyFuncPtr InitializePtr = NULL;
-				InitializePtr = (MyFuncPtr)dlsym(libHandle, "InitializeCamera");
-				//(void *)(IPixInsightCamera* (*InitializePtr)(void)) = dlsym(libHandle, "InitializeCamera");
-				if(InitializePtr)
-				{
-					Console().WriteLn("Successfully loaded function. ");
-					activeCamera = static_cast<IPixInsightCamera *> (InitializePtr());
-					String theString = activeCamera->Description();
-					Console().WriteLn("From the lib: ");
-					Console().WriteLn(theString);
-				}
-				else
-				{
-					Console().WriteLn("Problem Loading Function. ");
-					Console().WriteLn(dlerror());
-				}
-			}
-			else
-			{
-				Console().WriteLn("Problem Loading Library. ");
-				Console().WriteLn(dlerror());
-			}
-#endif
 		}
   }
 
@@ -260,16 +198,37 @@ namespace pcl
   {
     if(sender == GUI->AddCamera_PushButton)
 	{
+		try 
+		{
+		Console() << "AddCamera clicked\n";
 		AddCamera();
 		UpdateCameraList();
+		} 
+		ERROR_HANDLER
 	}
+	//TODO:  decide how to handle edit if camera is not active etc...
     else if(sender == GUI->EditCamera_PushButton)
 	{
-		TestImage();
+		int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+		//instance.installedCameras[currentIdx]
 	}
     else if(sender == GUI->DeleteCamera_PushButton)
 	{
-
+		ImageAcquisitionSettingsInstance::camera_list newCameraList;
+		for( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i)
+			if( !GUI->CameraList_TreeBox[i]->IsSelected() )
+				newCameraList.Add( instance.installedCameras[i] );
+		instance.installedCameras = newCameraList;
+		UpdateCameraList();
+	}
+	else if( sender == GUI->MakePrimary_PushButton )
+	{
+		int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+		for( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i)
+			if( GUI->CameraList_TreeBox[i]->IsEnabled() )
+				instance.installedCameras[i].enabled = false;
+		instance.installedCameras[currentIdx].enabled = true;
+		UpdateCameraList();
 	}
     else
 	{
@@ -277,20 +236,22 @@ namespace pcl
 	}
   }
 
-
   void ImageAcquisitionSettingsInterface::__CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent )
   {
-
+	  
   }
 
   void ImageAcquisitionSettingsInterface::__CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col )
   {
-
+	
   }
 
   void ImageAcquisitionSettingsInterface::__CameraList_NodeSelectionUpdated( TreeBox& sender )
   {
-
+	  bool isOne = sender.SelectedNodes().Length() == 1;
+	  GUI->MakeGuider_PushButton.Enable(isOne);
+	  GUI->MakePrimary_PushButton.Enable(isOne);
+	  GUI->EditCamera_PushButton.Enable(isOne);
   }
 
   ImageAcquisitionSettingsInterface::GUIData::GUIData( ImageAcquisitionSettingsInterface& w )
@@ -299,8 +260,8 @@ namespace pcl
     CameraList_TreeBox.SetMinHeight(CAMERALIST_MINHEIGHT(fnt));
 
     CameraList_TreeBox.SetNumberOfColumns( 3 );
-    //CameraList_TreeBox.HideHeader();
-    //CameraList_TreeBox.EnableMultipleSelections();
+    CameraList_TreeBox.HideHeader();
+    CameraList_TreeBox.EnableMultipleSelections();
     CameraList_TreeBox.DisableRootDecoration();
     CameraList_TreeBox.EnableAlternateRowColor();
 
@@ -314,7 +275,11 @@ namespace pcl
     EditCamera_PushButton.OnClick( (Button::click_event_handler)&ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w);
     DeleteCamera_PushButton.SetText("Delete Camera");
     DeleteCamera_PushButton.OnClick( (Button::click_event_handler)&ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w);
-	
+	MakePrimary_PushButton.SetText("Set as Primary Imager");
+	MakePrimary_PushButton.OnClick( (Button::click_event_handler)&ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w);
+	MakeGuider_PushButton.SetText("Set as Guider");
+	MakeGuider_PushButton.OnClick( (Button::click_event_handler)&ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w);
+
     CameraSelection_Control.SetSizer( CameraSelection_Sizer);
     CameraSelection_Control.AdjustToContents();
 	
@@ -325,6 +290,9 @@ namespace pcl
     CameraListButtons_Sizer.Add(AddCamera_PushButton);
     CameraListButtons_Sizer.Add(EditCamera_PushButton);
     CameraListButtons_Sizer.Add(DeleteCamera_PushButton);
+	CameraListButtons_Sizer.Add(MakePrimary_PushButton);
+	CameraListButtons_Sizer.Add(MakeGuider_PushButton);
+
 	CameraListButtons_Sizer.SetSpacing( 4 );
 	CameraListButtons_Sizer.AddStretch();
 
@@ -336,9 +304,7 @@ namespace pcl
 	
 
     w.SetSizer( Global_Sizer );
-
     w.SetFixedWidth();
-
     w.AdjustToContents();
   }
 
@@ -347,16 +313,11 @@ namespace pcl
 	  TreeBox::Node* node = GUI->CameraList_TreeBox[i];
 	  if ( node == 0 )
 		  return;
-
 	  const ImageAcquisitionSettingsInstance::CameraItem& item = instance.installedCameras[i];
-
-	  
 	  node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
 	  node->SetAlignment( 0, TextAlign::Left );
-
 	  node->SetText( 1, item.cameraName );
 	  node->SetAlignment( 1, TextAlign::Right );
-
 	  node->SetIcon( 2, Bitmap( String( ":/images/icons/file.png" ) ) );
 	  String fileName = File::ExtractName( item.driverPath ) + File::ExtractExtension( item.driverPath );
 	  node->SetText( 2, fileName );
@@ -366,6 +327,7 @@ namespace pcl
 
   void ImageAcquisitionSettingsInterface::UpdateCameraList()
   {
+	  Console() << "UpdateCameraList() called\n";
 	  int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
 
 	  GUI->CameraList_TreeBox.DisableUpdates();
@@ -387,10 +349,61 @@ namespace pcl
 
 	  GUI->CameraList_TreeBox.EnableUpdates();
   }
+	
+  ImageAcquisitionSettingsInstance::CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
+  {
+	  return NULL;
+  }
 
-  // ----------------------------------------------------------------------------
+  //TODO:  need to handle "re" initialization?  Or we need to throw if there is a value and this method is called.
+  typedef IPixInsightCamera* (*MyFuncPtr)();
+  void ImageAcquisitionSettingsInterface::InitializeCamera(const ImageAcquisitionSettingsInstance::CameraItem &cItem)
+  {
+	  //IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
+	  IsoString theString = cItem.driverPath;
+	  const char * chars = theString.c_str();
+	  MyFuncPtr InitializePtr = NULL;
+	  if(activeCamera == 0)
+	  {
+#ifdef __PCL_WINDOWS
 
+		  HINSTANCE loadedLib = NULL;
+		  loadedLib = LoadLibrary(chars);
 
-  // ----------------------------------------------------------------------------
+		  InitializePtr = (MyFuncPtr) (// get the function pointer
+			  GetProcAddress( loadedLib, "InitializeCamera" ) 
+			  );
 
+#endif
+#ifdef __PCL_MACOSX
+		  Console().WriteLn("We are dealing with a mac env ");
+		  libHandle = dlopen(chars, RTLD_NOW);
+		  if(libHandle == NULL)
+		  {
+			  throw Error("Problem loading driver");
+			  Console().WriteLn(dlerror());
+		  }
+		  else
+		  {
+			  InitializePtr = (MyFuncPtr)dlsym(libHandle, "InitializeCamera");
+		  }
+#endif
+
+		  if(InitializePtr == NULL) 
+		  {
+			  throw Error("Failed to load library.  Make sure that you've pointed to a valid driver file.");
+		  }
+		  else
+		  {
+			  activeCamera = dynamic_cast<IPixInsightCamera *> (InitializePtr());
+			  String theString = activeCamera->Description();
+			  Console().Write("Loaded driver: ");	
+			  Console().WriteLn(theString);
+		  }
+	  }
+	  else
+	  {
+		  Console().Write("Active Camera Already Intialized: ");
+	  }
+  }
 } // pcl

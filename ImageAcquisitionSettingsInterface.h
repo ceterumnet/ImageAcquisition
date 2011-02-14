@@ -49,15 +49,21 @@ namespace pcl
 
 		virtual bool ImportProcess( const ProcessImplementation& );
 		void TestImage();
+		void InitializeCamera( const ImageAcquisitionSettingsInstance::CameraItem& );
 		// -------------------------------------------------------------------------
-
+		
+		ImageAcquisitionSettingsInstance::CameraItem *GetPrimaryImager();
 	private:
+#ifdef __PCL_MACOSX
 		void* libHandle;
+		void* libHandleGuider;
+#endif
+
         ImageAcquisitionSettingsInstance instance;
+
 		IPixInsightCamera *activeCamera;
-
-		// -------------------------------------------------------------------------
-
+		IPixInsightCamera *activeGuideCamera;
+		
 		struct GUIData
 		{
 			GUIData( ImageAcquisitionSettingsInterface& );
@@ -71,6 +77,8 @@ namespace pcl
 						PushButton AddCamera_PushButton;
 						PushButton EditCamera_PushButton;
 						PushButton DeleteCamera_PushButton;
+						PushButton MakePrimary_PushButton;
+						PushButton MakeGuider_PushButton;
 					VerticalSizer LoadSaveSettings_Buttons;
 						PushButton SaveSettings_PushButton;
 						PushButton LoadSettings_PushButton;

@@ -184,6 +184,10 @@ namespace pcl
   //I don't know if this should be an update call or something else...
   void ExposeImageInterface::UpdateCameraList()
   {
+	  ImageAcquisitionSettingsInstance::CameraItem *cItem = TheImageAcquisitionSettingsInterface->GetPrimaryImager();
+
+	  if(cItem)
+		  GUI->Camera_Label.SetText(cItem->cameraName);
     //GUI->Camera_ComboBox.SetToolTip("Select Your Camera Model");
   }
 
@@ -195,13 +199,13 @@ namespace pcl
   void ExposeImageInterface::__CameraConnectionButton_Click( Button& sender, bool checked )
   {
     Console().WriteLn("Connection Button Clicked");
-    if( sender == GUI->ChooseCamera_ToolButton )
-    {
-        CameraSelectorDialog dlg;
-        dlg.Execute();
-    }
-	//TheImageAcquisitionSettingsInterface->Show();
-	//TheImageAcquisitionSettingsInterface->ActivateWindow();
+    //if( sender == GUI->ChooseCamera_ToolButton )
+    //{
+    //    CameraSelectorDialog dlg;
+    //    dlg.Execute();
+    //}
+	TheImageAcquisitionSettingsInterface->Show();
+	TheImageAcquisitionSettingsInterface->ActivateWindow();
   }
 
   // ----------------------------------------------------------------------------

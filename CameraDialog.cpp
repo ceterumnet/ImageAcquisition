@@ -78,7 +78,6 @@ namespace pcl
             ofDlg.SetSelectedFileExtension( ".dll" );
             ofDlg.Execute();
             CameraDriver_Edit.SetText( ofDlg.FileName() );
-
         }
     }
 
