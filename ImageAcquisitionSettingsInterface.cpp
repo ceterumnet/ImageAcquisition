@@ -1,5 +1,6 @@
 #include "ImageAcquisitionSettingsInterface.h"
 #include "ImageAcquisitionSettingsProcess.h"
+#include "ExposeImageInterface.h"
 
 #include <pcl/Sizer.h>
 #include <pcl/Label.h>
@@ -25,8 +26,7 @@
 
 namespace pcl
 {
-
-  ImageAcquisitionSettingsInterface* TheImageAcquisitionSettingsInterface = 0;
+    ImageAcquisitionSettingsInterface* TheImageAcquisitionSettingsInterface = 0;
 
 #include "ImageAcquisitionSettingsIcon.xpm"
 
@@ -177,7 +177,8 @@ namespace pcl
   }
   void ImageAcquisitionSettingsInterface::AddCamera()
   {
-	  Console()<<"AddCamera()\n";
+      Console c = Console();
+	  c << "AddCamera()\n";
 	  	// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 	//CameraDialog dlg = new CameraDialog;
 		if(GUI->CamDlg.Execute())
@@ -185,12 +186,15 @@ namespace pcl
 			size_type i0 = TreeInsertionIndex( GUI->CameraList_TreeBox );
 			for(size_type i = 0, n = instance.installedCameras.Length();i < n;++i)
 			{
-				Console() << instance.installedCameras[i].cameraName;
+				Console c = Console();
+				c << instance.installedCameras[i].cameraName;
 				String theCameraName = GUI->CamDlg.GetCameraName();
 				if(theCameraName.Compare(instance.installedCameras[i].cameraName) == 0)
 					throw Error("Please use a unique camera name for each camera.");
 			}
-			instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), ImageAcquisitionSettingsInstance::CameraItem( GUI->CamDlg.GetCameraName(), GUI->CamDlg.GetDriverFile() ) );
+			instance.installedCameras.Insert( instance.installedCameras.At( i0++ ),
+			        ImageAcquisitionSettingsInstance::CameraItem( GUI->CamDlg.GetCameraName(),
+                    GUI->CamDlg.GetDriverFile() ) );
 		}
   }
 
@@ -200,9 +204,10 @@ namespace pcl
 	{
 		try 
 		{
-		Console() << "AddCamera clicked\n";
-		AddCamera();
-		UpdateCameraList();
+		Console c = Console();
+                c << "AddCamera clicked\n";
+                AddCamera();
+                UpdateCameraList();
 		} 
 		ERROR_HANDLER
 	}
@@ -226,9 +231,19 @@ namespace pcl
 		int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
 		for( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i)
 			if( GUI->CameraList_TreeBox[i]->IsEnabled() )
-				instance.installedCameras[i].enabled = false;
+			    if( activeCamera && activeCamera->Connected() )
+			        throw Error("Cannot change primary imager while camera is connected.");
+			    else
+			        instance.installedCameras[i].enabled = false;
 		instance.installedCameras[currentIdx].enabled = true;
+		InitializeCamera(instance.installedCameras[currentIdx]);
 		UpdateCameraList();
+
+		//TODO:  Deal with a non active window...
+		if( TheExposeImageInterface && TheExposeImageInterface->IsVisible())
+		    TheExposeImageInterface->UpdateCameraList();
+		else
+		    throw Error("Need to implement this with the exposeimage window not open...");
 	}
     else
 	{
@@ -327,7 +342,8 @@ namespace pcl
 
   void ImageAcquisitionSettingsInterface::UpdateCameraList()
   {
-	  Console() << "UpdateCameraList() called\n";
+	  Console c = Console();
+	  c << "UpdateCameraList() called\n";
 	  int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
 
 	  GUI->CameraList_TreeBox.DisableUpdates();
@@ -352,7 +368,10 @@ namespace pcl
 	
   ImageAcquisitionSettingsInstance::CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
   {
-	  return NULL;
+      for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
+            if( instance.installedCameras[i].enabled )
+                return &instance.installedCameras[i];
+      return NULL;
   }
 
   //TODO:  need to handle "re" initialization?  Or we need to throw if there is a value and this method is called.

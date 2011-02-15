@@ -92,7 +92,9 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
-  ../ImageAcquisitionSettingsProcess.h \
+  ../ImageAcquisitionSettingsProcess.h ../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h ../ExposeImageInstance.h \
+  ../ExposeImageParameters.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
   /Users/draphael/PCL/include/pcl/Matrix.h \
@@ -291,6 +293,14 @@ ImageAcquisitionSettingsInterface.o:  \
 /Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ImageAcquisitionSettingsProcess.h:
+
+../ExposeImageInterface.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+../ExposeImageInstance.h:
+
+../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/ColorDialog.h:
 

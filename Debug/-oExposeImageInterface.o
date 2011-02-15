@@ -95,7 +95,8 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
   /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h ../ExposeImageProcess.h \
   /Users/draphael/PCL/include/pcl/ViewList.h \
-  /Users/draphael/PCL/include/pcl/ErrorHandler.h ../ExposeImageIcon.xpm
+  /Users/draphael/PCL/include/pcl/ErrorHandler.h \
+  /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageIcon.xpm
 
 ../ExposeImageInterface.h:
 
@@ -298,5 +299,7 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 /Users/draphael/PCL/include/pcl/ViewList.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
+
+/Users/draphael/PCL/include/pcl/Timer.h:
 
 ../ExposeImageIcon.xpm:

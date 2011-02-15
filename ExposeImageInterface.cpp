@@ -9,61 +9,14 @@
 #include <pcl/ErrorHandler.h>
 #include <pcl/Console.h>
 #include <pcl/Thread.h>
+#include <pcl/Timer.h>
 
 namespace pcl
 {
 
-  ExposeImageInterface* TheExposeImageInterface = 0;
+    ExposeImageInterface* TheExposeImageInterface = 0;
 
 #include "ExposeImageIcon.xpm"
-
-
-  class CameraSelectorDialog: public Dialog
-    {
-    public:
-      VerticalSizer Global_Sizer;
-          ComboBox CameraSelector_ComboBox;
-          PushButton OK_PushButton;
-		  PushButton Cancel_PushButton;
-
-      CameraSelectorDialog() : Dialog()
-      {
-          pcl::Font fnt = Font();
-
-          for (size_type i = 0; i < TheImageAcquisitionSettingsInterface->instance.installedCameras.Length(); ++i)
-          {
-              CameraSelector_ComboBox.AddItem(
-                      TheImageAcquisitionSettingsInterface->instance.installedCameras.At(i)->cameraName);
-          }
-
-		  OK_PushButton.SetText("OK");
-		  Cancel_PushButton.SetText("Cancel");
-          Global_Sizer.Add(CameraSelector_ComboBox);
-          Global_Sizer.Add(OK_PushButton);
-		  Global_Sizer.Add(Cancel_PushButton);
-		  
-          SetSizer(Global_Sizer);
-          AdjustToContents();
-          SetFixedSize();
-          //CameraSelector_ComboBox.
-      }
-
-      virtual ~CameraSelectorDialog()
-      {
-
-      }
-  private:
-	  
-      void Button_Click( Button& sender, bool checked)
-      {
-
-      }
-      void Dialog_Return( pcl::Dialog &sender, int retVal )
-      {
-
-      }
-
-    };
 
   ExposeImageInterface::ExposeImageInterface() :
     ProcessInterface(), instance( TheExposeImageProcess ), GUI( 0 )
@@ -114,16 +67,16 @@ namespace pcl
   {
     // ### Deferred initialization
     if ( GUI == 0 )
-      {
-	GUI = new GUIData( *this );
-	SetWindowTitle( "ExposeImage" );
-	UpdateControls();
+        {
+            GUI = new GUIData( *this );
+            SetWindowTitle( "ExposeImage" );
+            UpdateControls();
 
-	// Restore position only
-	if ( !RestoreGeometry() )
-	  SetDefaultPosition();
-	AdjustToContents();
-      }
+            // Restore position only
+            if ( !RestoreGeometry() )
+                SetDefaultPosition();
+            AdjustToContents();
+        }
 
     dynamic = false;
     return &P == TheExposeImageProcess;
@@ -139,11 +92,11 @@ namespace pcl
     const ExposeImageInstance* r = dynamic_cast<const ExposeImageInstance*>( &p );
 
     if ( r == 0 )
-      {
-	whyNot = "Not an ExposeImage instance.";
-	return false;
+        {
+            whyNot = "Not an ExposeImage instance.";
+            return false;
 
-      }
+        }
 
     whyNot.Clear();
     return true;
@@ -171,12 +124,6 @@ namespace pcl
 
   void ExposeImageInterface::UpdateControls()
   {
-    //UpdateTargetImagesList();
-    //UpdateImageSelectionButtons();
-    //UpdateOutputFilesControls();
-    //UpdatePedestalControls();
-    //UpdateMasterFrameControls();
-    //UpdateOverscanControls();
     UpdateCameraList();
     // TODO: add update control method calls...
   }
@@ -187,7 +134,7 @@ namespace pcl
 	  ImageAcquisitionSettingsInstance::CameraItem *cItem = TheImageAcquisitionSettingsInterface->GetPrimaryImager();
 
 	  if(cItem)
-		  GUI->Camera_Label.SetText(cItem->cameraName);
+		  GUI->ActiveCamera_Edit.SetText(cItem->cameraName);
     //GUI->Camera_ComboBox.SetToolTip("Select Your Camera Model");
   }
 
@@ -198,15 +145,27 @@ namespace pcl
 
   void ExposeImageInterface::__CameraConnectionButton_Click( Button& sender, bool checked )
   {
-    Console().WriteLn("Connection Button Clicked");
-    //if( sender == GUI->ChooseCamera_ToolButton )
-    //{
-    //    CameraSelectorDialog dlg;
-    //    dlg.Execute();
-    //}
-	TheImageAcquisitionSettingsInterface->Show();
-	TheImageAcquisitionSettingsInterface->ActivateWindow();
+      if ( sender == GUI->CameraConnection_PushButton && TheImageAcquisitionSettingsInterface->activeCamera )
+        {
+            if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
+            {
+                TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( true );
+                EnableExposureButtons( true );
+            } else {
+                TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( false );
+                EnableExposureButtons( false );
+            }
+        }
   }
+
+  void ExposeImageInterface::EnableExposureButtons( bool enable = true )
+    {
+        GUI->Exposure_SectionBar.Enable( enable );
+        GUI->SetTemperature_PushButton.Enable( enable );
+        GUI->CameraConnection_PushButton.SetText( "Connect Camera" );
+        if ( enable )
+            GUI->CameraConnection_PushButton.SetText( "Disconnect Camera" );
+    }
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -215,7 +174,7 @@ namespace pcl
   {
 	pcl::Font fnt = w.Font();
 	int labelWidth1 = fnt.Width( String( "Delay Between Exposures (seconds):" ) + 'T' );
-	int labelWidth3 = fnt.Width( String( "Select Filter Wheel") + 'T' );
+	int labelWidth3 = fnt.Width( String( "Select Filter Wheel and some") + 'T' );
     //#ifndef __PCL_MACOSX
     //I guess this is a trick to get MACOSX spacing correct
     //TargetButtons_Sizer.SetSpacing( 4 );
@@ -273,11 +232,16 @@ namespace pcl
 	Exposure_SectionBar.SetTitle("Exposure");
 	Exposure_SectionBar.SetSection(ExposureSection_Control);
 	
-	BinMode_Label.SetText("Bin Mode:");
-	BinMode_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
-	BinMode_Label.SetFixedWidth(labelWidth1);
-	Binning_Sizer.Add(BinMode_Label);
-	Binning_Sizer.Add(BinMode_ComboBox);
+	BinModeX_Label.SetText("Bin Mode X:");
+	BinModeX_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
+	BinModeX_Label.SetFixedWidth(labelWidth1);
+    BinModeY_Label.SetText("Bin Mode Y:");
+    BinModeY_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
+    BinModeY_Label.SetFixedWidth(labelWidth1);
+	Binning_Sizer.Add(BinModeX_Label);
+	Binning_Sizer.Add(BinModeX_ComboBox);
+	Binning_Sizer.Add(BinModeY_Label);
+	Binning_Sizer.Add(BinModeY_ComboBox);
 	Binning_Sizer.SetSpacing( 4 );
 
 	Filter_Label.SetText("Filter:");
@@ -391,6 +355,10 @@ namespace pcl
     Global_Sizer.Add( FileOutput_SectionBar );
 	Global_Sizer.Add( FileOutputSection_Control );
 
+	//By default these should be disabled
+	Exposure_SectionBar.Enable(false);
+	SetTemperature_PushButton.Enable(false);
+
     w.SetSizer( Global_Sizer );
 
     w.SetFixedWidth();
@@ -398,29 +366,56 @@ namespace pcl
     w.AdjustToContents();
   }
 
+  void ExposeImageInterface::UpdateTemperature()
+  {
+      GUI->Temperature_Label.SetText( String( TheImageAcquisitionSettingsInterface->activeCamera->CCDTemperature() ) );
+  }
   // ----------------------------------------------------------------------------
 
-
-  // ----------------------------------------------------------------------------
-
-  class CameraConnectionThread: public Thread
-    {
-    public:
-        CameraConnectionThread()
-        {
-
-        }
-
-        virtual ~CameraConnectionThread()
-        {
-            Console().WriteLn( "Killed Camera Connection Thread" );
-        }
-
-        virtual void Run()
-        {
-            Console().WriteLn( "Started Camera Connection Thread" );
-        }
-    };
+  // So, in theory, this thread should be periodically udpating the data in the ExposeImage window like Temp, exposure progress...etc...
+//  class CameraControlThread: public Thread
+//    {
+//    public:
+//        CameraControlThread(IPixInsightCamera *_cam, int _pollingInterval = 5)
+//        {
+//            cam = _cam;
+//            pollingInterval = _pollingInterval;
+//            stayConnected = true;
+//        }
+//
+//        virtual ~CameraControlThread()
+//        {
+//            Console().WriteLn( "Killed Camera Connection Thread" );
+//        }
+//
+//        void DisconnectCamera()
+//        {
+//            stayConnected = false;
+//        }
+//
+//        IPixInsightCamera::CameraStateEnum CameraState()
+//        {
+//            return cam->CameraState();
+//        }
+//
+//        virtual void Run()
+//        {
+//            Console().WriteLn( "Started Camera Connection Thread" );
+//            //Need a Mutex lock here possibly?
+//            while(stayConnected)
+//            {
+//                Timer mainTimer;
+//                mainTimer.SetInterval(pollingInterval);
+//                mainTimer.Start();
+//                Console().WriteLn( "CameraConnection Thread running..." );
+//            }
+//            Console().WriteLn( "CameraConnection Thread stopped..." );
+//        }
+//    private:
+//        bool stayConnected;
+//        IPixInsightCamera *cam;
+//        int pollingInterval;
+//    };
 
 } // pcl
 

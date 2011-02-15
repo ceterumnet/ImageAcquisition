@@ -3,6 +3,9 @@
 #define __ExposeImageProcess_h
 
 #include <pcl/MetaProcess.h>
+#include "ExposeImageParameters.h"
+#include "ExposeImageInstance.h"
+#include "ExposeImageInterface.h"
 
 namespace pcl
 {

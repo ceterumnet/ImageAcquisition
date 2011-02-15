@@ -1,8 +1,4 @@
-
 #include "ExposeImageProcess.h"
-#include "ExposeImageParameters.h"
-#include "ExposeImageInstance.h"
-#include "ExposeImageInterface.h"
 
 namespace pcl
 {
@@ -23,6 +19,19 @@ ExposeImageProcess::ExposeImageProcess() : MetaProcess()
 
    // Instantiate process parameters
    new EIExposureCount( this );
+   new EICameraName( this );
+   new EIFilterWheelName( this );
+   new EISetTemperature( this );
+   new EIFilter( this );
+   new EIBinModeX( this );
+   new EIBinModeY( this );
+   new EISubFrameX1( this );
+   new EISubFrameY1( this );
+   new EISubFrameX2( this );
+   new EISubFrameY2( this );
+   new EIDelayBetweenExposures( this );
+   new EIFileOutputPath( this );
+   new EIFileOutputPattern( this );
    new EIOnError( this );
 }
 

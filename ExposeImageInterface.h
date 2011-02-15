@@ -22,8 +22,7 @@
 namespace pcl
 {
 
-  class CameraConnectionThread;
-  class CameraSelectorDialog;
+  //class CameraControlThread;
   // ----------------------------------------------------------------------------
 
   class ExposeImageInterface : public ProcessInterface
@@ -54,6 +53,7 @@ namespace pcl
 
     virtual void SaveSettings() const;
 
+    void EnableExposureButtons( bool enable );
     // -------------------------------------------------------------------------
 		
   private:
@@ -90,8 +90,10 @@ namespace pcl
 			Control ExposureSection_Control;
 			VerticalSizer	ExposureSection_Sizer;
 			HorizontalSizer Binning_Sizer;
-				Label		  BinMode_Label;
-				ComboBox	  BinMode_ComboBox;
+				Label		  BinModeX_Label;
+				ComboBox	  BinModeX_ComboBox;
+				Label         BinModeY_Label;
+				ComboBox      BinModeY_ComboBox;
 			HorizontalSizer Filter_Sizer;
 				Label		  Filter_Label;
 				ComboBox	  Filter_ComboBox;
@@ -135,15 +137,16 @@ namespace pcl
     // Interface Updates
 
     void UpdateControls();
-
+    void UpdateTemperature();
     //void UpdateCameraList( size_type );
     void UpdateCameraList( );
     void __ToggleSection( SectionBar& sender, Control& section, bool start );
     void __CameraConnectionButton_Click( Button& sender, bool checked );
 
     friend struct GUIData;
-    friend class CameraConnectionThread;
+    friend class CameraControlThread;
     friend class CameraSelectorDialog;
+    friend class ImageAcquisitionSettingsInterface;
   };
 
   // ----------------------------------------------------------------------------

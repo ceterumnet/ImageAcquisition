@@ -33,7 +33,6 @@ public:
 	   pcl_bool enabled;
 	   String driverPath;
 	   String cameraName;
-	   //pcl_bool locked;
 
 	   CameraItem(  const String& cn = String(), const String& dp = String()) : enabled( false ), driverPath( dp ), cameraName( cn )
 	   {
