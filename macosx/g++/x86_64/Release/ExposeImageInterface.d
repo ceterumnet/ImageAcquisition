@@ -92,11 +92,12 @@ x86_64/Release/ExposeImageInterface.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../IPixInsightCamera.h ../../ExposeImageInstance.h \
+  ../../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../../ExposeImageInstance.h \
   ../../ExposeImageParameters.h ../../ExposeImageProcess.h \
   /Users/draphael/PCL/include/pcl/ViewList.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h \
-  ../../ExposeImageIcon.xpm
+  /Users/draphael/PCL/include/pcl/Timer.h ../../ExposeImageIcon.xpm
 
 ../../ExposeImageInterface.h:
 
@@ -286,6 +287,10 @@ x86_64/Release/ExposeImageInterface.d \
 
 ../../IPixInsightCamera.h:
 
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
 ../../ExposeImageInstance.h:
 
 ../../ExposeImageParameters.h:
@@ -295,5 +300,7 @@ x86_64/Release/ExposeImageInterface.d \
 /Users/draphael/PCL/include/pcl/ViewList.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
+
+/Users/draphael/PCL/include/pcl/Timer.h:
 
 ../../ExposeImageIcon.xpm:

@@ -92,10 +92,11 @@ x86_64/Release/ImageAcquisitionModule.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
-  ../../ExposeImageProcess.h ../../ExposeImageInterface.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h ../../ExposeImageInstance.h \
-  ../../ExposeImageParameters.h
+  ../../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
+  ../../ImageAcquisitionSettingsProcess.h ../../ExposeImageProcess.h \
+  ../../ExposeImageParameters.h ../../ExposeImageInstance.h \
+  ../../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h
 
 ../../ImageAcquisitionModule.h:
 
@@ -285,14 +286,18 @@ x86_64/Release/ImageAcquisitionModule.d \
 
 ../../IPixInsightCamera.h:
 
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
 ../../ImageAcquisitionSettingsProcess.h:
 
 ../../ExposeImageProcess.h:
 
-../../ExposeImageInterface.h:
-
-/Users/draphael/PCL/include/pcl/TextBox.h:
+../../ExposeImageParameters.h:
 
 ../../ExposeImageInstance.h:
 
-../../ExposeImageParameters.h:
+../../ExposeImageInterface.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:

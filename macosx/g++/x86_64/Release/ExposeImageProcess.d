@@ -94,7 +94,8 @@ x86_64/Release/ExposeImageProcess.d x86_64/Release/ExposeImageProcess.o:  \
   /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   ../../ImageAcquisitionSettingsInstance.h \
   ../../ImageAcquisitionSettingsParameters.h ../../IPixInsightCamera.h \
-  ../../ExposeImageIcon.xpm
+  /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../../ExposeImageIcon.xpm
 
 ../../ExposeImageProcess.h:
 
@@ -289,5 +290,9 @@ x86_64/Release/ExposeImageProcess.d x86_64/Release/ExposeImageProcess.o:  \
 ../../ImageAcquisitionSettingsParameters.h:
 
 ../../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../../ExposeImageIcon.xpm:

@@ -91,7 +91,11 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   ../../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  ../../IPixInsightCamera.h ../../ImageAcquisitionSettingsProcess.h \
+  ../../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
+  ../../ImageAcquisitionSettingsProcess.h ../../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h ../../ExposeImageInstance.h \
+  ../../ExposeImageParameters.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
   /Users/draphael/PCL/include/pcl/Matrix.h \
@@ -285,7 +289,19 @@ x86_64/Release/ImageAcquisitionSettingsInterface.d \
 
 ../../IPixInsightCamera.h:
 
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
 ../../ImageAcquisitionSettingsProcess.h:
+
+../../ExposeImageInterface.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+../../ExposeImageInstance.h:
+
+../../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/ColorDialog.h:
 

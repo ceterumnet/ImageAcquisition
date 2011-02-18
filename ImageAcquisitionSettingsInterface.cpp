@@ -178,7 +178,8 @@ namespace pcl
   void ImageAcquisitionSettingsInterface::AddCamera()
   {
       Console c = Console();
-	  c << "AddCamera()\n";
+      c << "AddCamera()\n";
+
 	  	// Not sure if this should be a new instance...or just reuse...I think reuse is better.
 	//CameraDialog dlg = new CameraDialog;
 		if(GUI->CamDlg.Execute())
