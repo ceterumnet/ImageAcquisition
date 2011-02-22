@@ -18,6 +18,7 @@ ExposeImageProcess::ExposeImageProcess() : MetaProcess()
    TheExposeImageProcess = this;
 
    // Instantiate process parameters
+   new EIExposureDuration( this );
    new EIExposureCount( this );
    new EICameraName( this );
    new EIFilterWheelName( this );
@@ -60,9 +61,7 @@ uint32 ExposeImageProcess::Version() const
 
 String ExposeImageProcess::Description() const
 {
-   return
-
-   "";
+   return "Provides camera and filter wheel control for acquiring images.";
 }
 
 // ----------------------------------------------------------------------------

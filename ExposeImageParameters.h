@@ -8,7 +8,7 @@ namespace pcl
 
 	PCL_BEGIN_LOCAL
 
-    class EIExposureDuration : public MetaInt16
+	class EIExposureDuration : public MetaUInt32
     {
     public:
         EIExposureDuration ( MetaProcess* );

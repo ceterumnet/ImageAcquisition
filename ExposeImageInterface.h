@@ -106,13 +106,13 @@ namespace pcl
 			HorizontalSizer SubFrame_Sizer;
 				Label		  SubFrame_Label;
 				Label		  X1_Label;
-				Edit		  X1_Edit;
+				NumericEdit	  X1_Edit;
 				Label		  Y1_Label;
-				Edit		  Y1_Edit;
+				NumericEdit	  Y1_Edit;
 				Label		  X2_Label;
-				Edit		  X2_Edit;
+				NumericEdit	  X2_Edit;
 				Label		  Y2_Label;
-				Edit		  Y2_Edit;
+				NumericEdit	  Y2_Edit;
 				ToolButton	  SelectSubFrame_ToolButton;
 			HorizontalSizer Delay_Sizer;
 				Label		  DelayBetweenExposures_Label;

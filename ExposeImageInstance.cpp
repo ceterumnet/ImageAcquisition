@@ -5,7 +5,7 @@ namespace pcl
 
 	ExposeImageInstance::ExposeImageInstance( const MetaProcess* m) :
 ProcessImplementation( m ),
-exposureDuration( 1 ),
+exposureDuration( 1000 ),
 exposureCount( 1 ),
 cameraName( "cam_name" ),
 setTemperature( -15 ),
@@ -85,8 +85,6 @@ void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tabl
 		return &binModeX;
 	if( p == TheBinModeYParameter )
 		return &binModeY;
-	//if( p == TheEIOnErrorParameter )
-	//	return &onError;
 	if( p == TheFileOutputPathParameter )
 		return fileOutputPath.c_str();
 	if( p == TheFileOutputPatternParameter )

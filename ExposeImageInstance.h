@@ -35,7 +35,7 @@ public:
    virtual size_type ExposeImageInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const;
 private:
 	//do I need to use a safer type?
-	int16 exposureDuration; //milliseconds
+	uint32 exposureDuration; //milliseconds
 	int16 exposureCount;
 	String cameraName;
 	String filterWheelName;

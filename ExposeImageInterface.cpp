@@ -147,13 +147,33 @@ namespace pcl
 		  GUI->BinModeY_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinY() - 1 );
 		  //GUI->Filter_ComboBox.SetCurrentItem( 0 );
 		  GUI->NumberOfExposures_SpinBox.SetValue( instance.exposureCount );
+		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration / 1000.00 );
+		  GUI->X1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
+		  GUI->Y1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumY() );
+		  GUI->X2_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
+		  GUI->Y2_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumY() );
+		  GUI->X1_Edit.SetValue( instance.subFrameX1 );
+		  GUI->Y1_Edit.SetValue( instance.subFrameY1 );
+		  GUI->X2_Edit.SetValue( instance.subFrameX2 );
+		  GUI->Y2_Edit.SetValue( instance.subFrameY2 );
+		  GUI->DelayBetweenExposures_NumericEdit.SetValue( instance.delayBetweenExposures );
 	  }
   }
 
   void ExposeImageInterface::__Exposure_NumericValueUpdated( NumericEdit& sender, double value )
   {
 	  if ( sender == GUI->ExposureDuration_NumericControl )
-		  instance.exposureDuration = value;
+		  instance.exposureDuration = value * 1000;
+	  if ( sender == GUI->DelayBetweenExposures_NumericEdit )
+		  instance.delayBetweenExposures = value;
+	  if( sender == GUI->X1_Edit )
+		  instance.subFrameX1 = value;
+	  if( sender == GUI->Y1_Edit )
+		  instance.subFrameY1 = value;
+	  if( sender == GUI->X2_Edit )
+		  instance.subFrameX2 = value;
+	  if( sender == GUI->Y2_Edit )
+		  instance.subFrameY2 = value;
   }
 
   void ExposeImageInterface::__Exposure_SpinValueUpdated( SpinBox& sender, int value )
@@ -177,9 +197,11 @@ namespace pcl
 	  if( sender == GUI->FileOutputPattern_Edit )
 		  instance.fileOutputPattern = GUI->FileOutputPattern_Edit.Text();
   }
+
   void ExposeImageInterface::UpdateOutputControls()
   {
-
+	  GUI->FileOutputPath_Edit.SetText( instance.fileOutputPath );
+	  GUI->FileOutputPattern_Edit.SetText( instance.fileOutputPattern );
   }
   
   void ExposeImageInterface::__ToggleSection( SectionBar& sender, Control& section, bool start )	
@@ -326,8 +348,8 @@ namespace pcl
 	ExposureDuration_NumericControl.label.SetText("Exposure Duration (seconds):");
 	ExposureDuration_NumericControl.label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	ExposureDuration_NumericControl.label.SetFixedWidth(labelWidth1);
-	ExposureDuration_NumericControl.SetRange(0, 21600);
-	ExposureDuration_NumericControl.SetPrecision(2);
+	ExposureDuration_NumericControl.SetRange(0.001, uint16_max);
+	ExposureDuration_NumericControl.SetPrecision(3);
 	ExposureDuration_NumericControl.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
 	ExposureDuration_Sizer.Add(ExposureDuration_NumericControl);
 	ExposureDuration_Sizer.SetSpacing( 4 );
@@ -340,18 +362,30 @@ namespace pcl
 	X1_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	X1_Label.SetFixedWidth(labelWidth2);
 	X1_Edit.SetMaxWidth( labelWidth2*2 );
+	X1_Edit.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
+	X1_Edit.SetInteger();
+	
 	Y1_Label.SetText("y1:");
 	Y1_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	Y1_Label.SetFixedWidth(labelWidth2);
 	Y1_Edit.SetFixedWidth( labelWidth2*2 );
+	Y1_Edit.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
+	Y1_Edit.SetInteger();	
+	
 	X2_Label.SetText("x2:");
 	X2_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	X2_Label.SetFixedWidth(labelWidth2);
 	X2_Edit.SetFixedWidth( labelWidth2*2 );
+	X2_Edit.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
+	X2_Edit.SetInteger();
+	
 	Y2_Label.SetText("y2:");
 	Y2_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	Y2_Label.SetFixedWidth(labelWidth2);
 	Y2_Edit.SetFixedWidth( labelWidth2*2 );
+	Y2_Edit.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
+	Y2_Edit.SetInteger();
+	
 	SelectSubFrame_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" )));
 	
 	SubFrame_Sizer.Add(SubFrame_Label);
@@ -372,6 +406,8 @@ namespace pcl
 	Delay_Sizer.Add(DelayBetweenExposures_Label);
 	Delay_Sizer.Add(DelayBetweenExposures_NumericEdit);
 	Delay_Sizer.SetSpacing( 4 );
+	DelayBetweenExposures_NumericEdit.SetInteger();
+	DelayBetweenExposures_NumericEdit.SetRange(0, uint16_max);
 
 	ExposureSection_Sizer.Add(Binning_Sizer);
 	ExposureSection_Sizer.Add(Filter_Sizer);
