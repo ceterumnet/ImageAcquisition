@@ -2,7 +2,8 @@
 #define __ExposeImageInstance_h
 
 #include <pcl/ProcessImplementation.h>
-
+#include <pcl/Console.h>
+#include "ImageAcquisitionSettingsInterface.h"
 #include "ExposeImageParameters.h"
 
 namespace pcl

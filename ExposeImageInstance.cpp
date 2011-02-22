@@ -5,7 +5,7 @@ namespace pcl
 
 	ExposeImageInstance::ExposeImageInstance( const MetaProcess* m) :
 ProcessImplementation( m ),
-exposureDuration( 1000 ),
+exposureDuration( 1 ),
 exposureCount( 1 ),
 cameraName( "cam_name" ),
 setTemperature( -15 ),
@@ -66,9 +66,57 @@ bool ExposeImageInstance::CanExecuteGlobal(String &whyNot) const
 	return true;
 }
 
+
+void aLogger(String text)
+{
+	Console().Write(text);
+}
+
 bool ExposeImageInstance::ExecuteGlobal()
 {
-	return false;
+	{
+		String why;
+		if ( !CanExecuteGlobal( why ) )
+			throw Error( why );
+
+		if ( !fileOutputPath.IsEmpty() && !File::DirectoryExists( fileOutputPath ) )
+			throw( "The specified output directory does not exist: " + fileOutputPath );
+
+	}
+
+	Console console;
+
+	console << "Starting Image Exposure Process: \n";
+	TheImageAcquisitionSettingsInterface->activeCamera->SetLogger(&aLogger);
+	for( size_type i = 0, n = exposureCount; i < n; ++i )
+	{
+		console << "Starting Exposure " << i+1 << "\n";
+		TheImageAcquisitionSettingsInterface->activeCamera->StartExposure( exposureDuration );
+		while(!TheImageAcquisitionSettingsInterface->activeCamera->ImageReady())
+		{
+			Sleep(.01);
+		};
+
+		ImageWindow window ( TheImageAcquisitionSettingsInterface->activeCamera->NumX(),         // width
+			TheImageAcquisitionSettingsInterface->activeCamera->NumY(),         // height
+			1,             // numberOfChannels
+			16,            // bitsPerSample
+			false,         // floatSample
+			false,         // color
+			true,          // initialProcessing
+			String("exposure")  // id
+			);
+
+		View view = window.MainView();
+		ImageVariant v = view.Image();
+		UInt16Image* image = static_cast<UInt16Image*>( v.AnyImage() );
+
+		TheImageAcquisitionSettingsInterface->activeCamera->ImageArray(image);
+		window.Show();
+		window.ZoomToFit( false ); // don't allow zoom > 1
+
+	}
+	return true;
 }
 
 void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tableRow )

@@ -101,6 +101,7 @@ namespace pcl
 		void __CameraList_NodeSelectionUpdated( TreeBox& sender );
 		friend struct GUIData;
 		friend class ExposeImageInterface;
+		friend class ExposeImageInstance;
 		friend class CameraSelectorDialog;
 
 	};

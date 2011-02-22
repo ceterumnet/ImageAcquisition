@@ -147,7 +147,7 @@ namespace pcl
 		  GUI->BinModeY_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinY() - 1 );
 		  //GUI->Filter_ComboBox.SetCurrentItem( 0 );
 		  GUI->NumberOfExposures_SpinBox.SetValue( instance.exposureCount );
-		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration / 1000.00 );
+		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration );
 		  GUI->X1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
 		  GUI->Y1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumY() );
 		  GUI->X2_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
@@ -163,7 +163,7 @@ namespace pcl
   void ExposeImageInterface::__Exposure_NumericValueUpdated( NumericEdit& sender, double value )
   {
 	  if ( sender == GUI->ExposureDuration_NumericControl )
-		  instance.exposureDuration = value * 1000;
+		  instance.exposureDuration = value;
 	  if ( sender == GUI->DelayBetweenExposures_NumericEdit )
 		  instance.delayBetweenExposures = value;
 	  if( sender == GUI->X1_Edit )
