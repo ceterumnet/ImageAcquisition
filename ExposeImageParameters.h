@@ -144,24 +144,24 @@ namespace pcl
         //virtual String DefaultValue();
     };
 
-	class EIOnError : public MetaEnumeration
-	{
-	public:
+	//class EIOnError : public MetaEnumeration
+	//{
+	//public:
 
-		enum { Continue,
-			Abort,
-			AskUser,
-			NumberOfErrorPolicies,
-			Default = Continue };
+	//	enum { Continue,
+	//		Abort,
+	//		AskUser,
+	//		NumberOfErrorPolicies,
+	//		Default = Continue };
 
-		EIOnError( MetaProcess* );
+	//	EIOnError( MetaProcess* );
 
-		virtual IsoString Id() const;
-		virtual size_type NumberOfElements() const;
-		virtual IsoString ElementId( size_type ) const;
-		virtual int ElementValue( size_type ) const;
-		virtual size_type DefaultValueIndex() const;
-	};
+	//	virtual IsoString Id() const;
+	//	virtual size_type NumberOfElements() const;
+	//	virtual IsoString ElementId( size_type ) const;
+	//	virtual int ElementValue( size_type ) const;
+	//	virtual size_type DefaultValueIndex() const;
+	//};
 	extern EIExposureDuration* TheExposureDurationParameter;
     extern EIExposureCount* TheExposureCountParameter;
     extern EICameraName* TheCameraNameParameter;
@@ -177,7 +177,7 @@ namespace pcl
     extern EIDelayBetweenExposures* TheDelayBetweenExposuresParameter;
     extern EIFileOutputPath* TheFileOutputPathParameter;
     extern EIFileOutputPattern* TheFileOutputPatternParameter;
-    extern EIOnError* TheEIOnErrorParameter;
+//    extern EIOnError* TheEIOnErrorParameter;
 
 	// ----------------------------------------------------------------------------
 

@@ -32,7 +32,7 @@ public:
 
    virtual void* LockParameter( const MetaParameter*, size_type /*tableRow*/ );
    virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
-   
+   virtual size_type ExposeImageInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const;
 private:
 	//do I need to use a safer type?
 	int16 exposureDuration; //milliseconds
@@ -51,21 +51,6 @@ private:
 	String fileOutputPath;
 	String fileOutputPattern;
 	pcl_enum onError;
-
-	//int16 filterIndex; // starting at 0
-	//This might need to be more dynamic...tbd
-	//pcl_enum binningMode; // 1x1, 2x2, 3x3, 4x4
-	//pcl_enum imageType; // light | dark | bias | flat
-
-   // Output files
-   //String          outputDirectory;
-   //String          outputExtension;
-   //String          outputPrefix;
-   //String          outputPostfix;
-   //pcl_enum        outputSampleFormat;
-
-   // -------------------------------------------------------------------------
-
 
    // Expose an Image
 	//Image* ExposeImage( ... const ExposeImageThread& );

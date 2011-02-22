@@ -32,7 +32,7 @@ ExposeImageProcess::ExposeImageProcess() : MetaProcess()
    new EIDelayBetweenExposures( this );
    new EIFileOutputPath( this );
    new EIFileOutputPattern( this );
-   new EIOnError( this );
+//   new EIOnError( this );
 }
 
 // ----------------------------------------------------------------------------

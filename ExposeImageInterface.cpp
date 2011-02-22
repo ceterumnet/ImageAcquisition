@@ -124,20 +124,64 @@ namespace pcl
 
   void ExposeImageInterface::UpdateControls()
   {
-    UpdateCameraList();
-    // TODO: add update control method calls...
+    UpdateCameraControls();
+    UpdateExposureControls();
+	UpdateOutputControls();
   }
 
   //I don't know if this should be an update call or something else...
-  void ExposeImageInterface::UpdateCameraList()
+  void ExposeImageInterface::UpdateCameraControls()
   {
 	  ImageAcquisitionSettingsInstance::CameraItem *cItem = TheImageAcquisitionSettingsInterface->GetPrimaryImager();
 
 	  if(cItem)
 		  GUI->ActiveCamera_Edit.SetText(cItem->cameraName);
-    //GUI->Camera_ComboBox.SetToolTip("Select Your Camera Model");
+		
   }
 
+  void ExposeImageInterface::UpdateExposureControls()
+  {
+	  if( GUI->Exposure_SectionBar.IsEnabled() )
+	  {
+		  GUI->BinModeX_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinX() - 1 );
+		  GUI->BinModeY_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinY() - 1 );
+		  //GUI->Filter_ComboBox.SetCurrentItem( 0 );
+		  GUI->NumberOfExposures_SpinBox.SetValue( instance.exposureCount );
+	  }
+  }
+
+  void ExposeImageInterface::__Exposure_NumericValueUpdated( NumericEdit& sender, double value )
+  {
+	  if ( sender == GUI->ExposureDuration_NumericControl )
+		  instance.exposureDuration = value;
+  }
+
+  void ExposeImageInterface::__Exposure_SpinValueUpdated( SpinBox& sender, int value )
+  {
+	  if ( sender == GUI->NumberOfExposures_SpinBox )
+		  instance.exposureCount = value;
+  }
+
+  void ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted( ComboBox& sender, int value )
+  {
+	  if ( sender == GUI->BinModeX_ComboBox )
+		  instance.binModeX = value + 1;
+	  if ( sender == GUI->BinModeY_ComboBox )
+		  instance.binModeY = value + 1;
+  }
+
+  void ExposeImageInterface::__FileEdit_EditCompleted( Edit& sender )
+  {
+	  if( sender == GUI->FileOutputPath_Edit )
+		  instance.fileOutputPath = GUI->FileOutputPath_Edit.Text();
+	  if( sender == GUI->FileOutputPattern_Edit )
+		  instance.fileOutputPattern = GUI->FileOutputPattern_Edit.Text();
+  }
+  void ExposeImageInterface::UpdateOutputControls()
+  {
+
+  }
+  
   void ExposeImageInterface::__ToggleSection( SectionBar& sender, Control& section, bool start )	
   {
 
@@ -146,16 +190,35 @@ namespace pcl
   void ExposeImageInterface::__CameraConnectionButton_Click( Button& sender, bool checked )
   {
       if ( sender == GUI->CameraConnection_PushButton && TheImageAcquisitionSettingsInterface->activeCamera )
-        {
+        {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
             {
                 TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( true );
+				
+				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
+				UpdateControls();
             } else {
                 TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( false );
                 EnableExposureButtons( false );
             }
         }
+  }
+
+  //set the dropdowns for the appropriate bin levels etc...
+  void ExposeImageInterface::UpdateControlsForCameraFeatures()
+  {
+	  GUI->BinModeX_ComboBox.Clear();
+	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinX(); i == n; ++i )
+	  {
+		  GUI->BinModeX_ComboBox.AddItem( String(i) );
+	  }
+	  
+	  GUI->BinModeY_ComboBox.Clear(); 
+	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinY(); i == n; ++i )
+	  {
+		  GUI->BinModeY_ComboBox.AddItem( String(i) );
+	  }
   }
 
   void ExposeImageInterface::EnableExposureButtons( bool enable = true )
@@ -243,6 +306,7 @@ namespace pcl
 	Binning_Sizer.Add(BinModeY_Label);
 	Binning_Sizer.Add(BinModeY_ComboBox);
 	Binning_Sizer.SetSpacing( 4 );
+	BinModeX_ComboBox.OnItemHighlighted( (ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
 
 	Filter_Label.SetText("Filter:");
 	Filter_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
@@ -256,6 +320,7 @@ namespace pcl
 	NumberOfExposures_Label.SetFixedWidth(labelWidth1);
 	NumberOfExposures_Sizer.Add(NumberOfExposures_Label);
 	NumberOfExposures_Sizer.Add(NumberOfExposures_SpinBox);
+	NumberOfExposures_SpinBox.OnValueUpdated( (SpinBox::value_event_handler)&ExposeImageInterface::__Exposure_SpinValueUpdated, w );
 	NumberOfExposures_Sizer.SetSpacing( 4 );
 
 	ExposureDuration_NumericControl.label.SetText("Exposure Duration (seconds):");
@@ -263,6 +328,7 @@ namespace pcl
 	ExposureDuration_NumericControl.label.SetFixedWidth(labelWidth1);
 	ExposureDuration_NumericControl.SetRange(0, 21600);
 	ExposureDuration_NumericControl.SetPrecision(2);
+	ExposureDuration_NumericControl.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
 	ExposureDuration_Sizer.Add(ExposureDuration_NumericControl);
 	ExposureDuration_Sizer.SetSpacing( 4 );
 
@@ -328,6 +394,8 @@ namespace pcl
 	FileOutputPath_Sizer.Add(FileOutputPath_Edit);
 	FileOutputPath_Sizer.Add(FileOutputPath_ToolButton);
 	FileOutputPath_Sizer.SetSpacing( 4 );
+	FileOutputPath_Edit.OnEditCompleted( (Edit::edit_event_handler)& ExposeImageInterface::__FileEdit_EditCompleted, w );
+
 
 	FileOutputPattern_Label.SetText("File Output Pattern:");
 	FileOutputPattern_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
@@ -337,6 +405,7 @@ namespace pcl
 	FileOutputPattern_Sizer.Add(FileOutputPattern_Edit);
 	FileOutputPattern_Sizer.Add(FileOutputPattern_ToolButton);
 	FileOutputPattern_Sizer.SetSpacing( 4 );
+	FileOutputPattern_Edit.OnEditCompleted( (Edit::edit_event_handler)& ExposeImageInterface::__FileEdit_EditCompleted, w );
 
 	FileOutputSection_Sizer.Add(FileOutputPath_Sizer);
 	FileOutputSection_Sizer.Add(FileOutputPattern_Sizer);
@@ -364,6 +433,7 @@ namespace pcl
     w.SetFixedWidth();
 	w.SetFixedHeight();
     w.AdjustToContents();
+	
   }
 
   void ExposeImageInterface::UpdateTemperature()

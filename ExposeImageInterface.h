@@ -134,15 +134,19 @@ namespace pcl
 
     GUIData* GUI;
     bool cameraConnected;
-    // Interface Updates
 
     void UpdateControls();
     void UpdateTemperature();
-    //void UpdateCameraList( size_type );
-    void UpdateCameraList( );
+    void UpdateCameraControls( );
+	void UpdateExposureControls();
+	void UpdateOutputControls();
+	void UpdateControlsForCameraFeatures();
     void __ToggleSection( SectionBar& sender, Control& section, bool start );
     void __CameraConnectionButton_Click( Button& sender, bool checked );
-
+	void __Exposure_SpinValueUpdated( SpinBox& sender, int value );
+	void __Exposure_NumericValueUpdated( NumericEdit& sender, double value );
+	void __BinMode_ComboBoxItem_Highlighted( ComboBox& sender, int value );
+	void __FileEdit_EditCompleted( Edit& sender );
     friend struct GUIData;
     friend class CameraControlThread;
     friend class CameraSelectorDialog;

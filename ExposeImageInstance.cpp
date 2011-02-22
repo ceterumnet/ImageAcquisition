@@ -71,33 +71,105 @@ bool ExposeImageInstance::ExecuteGlobal()
 	return false;
 }
 
-void* ExposeImageInstance::LockParameter( const MetaParameter*, size_type /*tableRow*/ )
+void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tableRow )
 {
-//	if( p == TheExposureDurationParameter )
-//	    return NULL;
-//	if( p == TheExposureCountParameter )
-
+	if( p == TheExposureDurationParameter )
+		return &exposureDuration;
+	if( p == TheExposureCountParameter )
+		return &exposureCount;
+	if( p == TheCameraNameParameter )
+		return cameraName.c_str();
+	if( p == TheDelayBetweenExposuresParameter )
+		return &delayBetweenExposures;
+	if( p == TheBinModeXParameter )
+		return &binModeX;
+	if( p == TheBinModeYParameter )
+		return &binModeY;
+	//if( p == TheEIOnErrorParameter )
+	//	return &onError;
+	if( p == TheFileOutputPathParameter )
+		return fileOutputPath.c_str();
+	if( p == TheFileOutputPatternParameter )
+		return fileOutputPattern.c_str();
+	if( p == TheFilterParameter )
+		return filter.c_str();
+	if( p == TheFilterWheelNameParameter )
+		return filterWheelName.c_str();
+	if( p == TheSetTemperatureParameter )
+		return &setTemperature;
+	if( p == TheSubFrameX1Parameter )
+		return &subFrameX1;
+	if( p == TheSubFrameY1Parameter )
+		return &subFrameY1;
+	if( p == TheSubFrameX2Parameter )
+		return &subFrameX2;
+	if( p == TheSubFrameY2Parameter )
+		return &subFrameY2;
+	return NULL;
 }
 //
 //
 bool ExposeImageInstance::AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow )
 {
-	if ( p == TheExposureCountParameter)
+	if( p == TheExposureDurationParameter ) {}
+	if( p == TheExposureCountParameter ) {}
+	if( p == TheCameraNameParameter ) {}
 	{
-		//we need to do something here...
+		cameraName.Clear();
+		if( sizeOrLength > 0 )
+			cameraName.Reserve( sizeOrLength );	
 	}
+	if( p == TheDelayBetweenExposuresParameter ) {}
+	if( p == TheBinModeXParameter ) {}
+	if( p == TheBinModeYParameter ) {}
+	if( p == TheFileOutputPathParameter )
+	{
+		fileOutputPath.Clear();
+		if( sizeOrLength > 0 )
+			fileOutputPath.Reserve( sizeOrLength );
+	}
+	if( p == TheFileOutputPatternParameter )
+	{
+		fileOutputPattern.Clear();
+		if( sizeOrLength > 0 )
+			fileOutputPattern.Reserve( sizeOrLength );
+	}
+	if( p == TheFilterParameter )
+	{
+		filter.Clear();
+		if( sizeOrLength > 0 )
+			filter.Reserve( sizeOrLength );
+	}
+	if( p == TheFilterWheelNameParameter )
+	{
+		filterWheelName.Clear();
+		if( sizeOrLength > 0 )
+			filterWheelName.Reserve( sizeOrLength );
+	}
+	if( p == TheSetTemperatureParameter ) {}
+	if( p == TheSubFrameX1Parameter ) {}
+	if( p == TheSubFrameY1Parameter ) {}
+	if( p == TheSubFrameX2Parameter ) {}
+	if( p == TheSubFrameY2Parameter ) {}
 	else
 		return false;
-
 	return true;
 }
-//
-//size_type ExposeImageInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const
-//{
-////	if ( p == TheExposureCountParameter )
-////		return exposureCount;
-//	return 0;
-//}
+
+size_type ExposeImageInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const
+{
+	if( p == TheCameraNameParameter )
+		return cameraName.Length();
+	if( p == TheFileOutputPathParameter )
+		return fileOutputPath.Length();
+	if( p == TheFileOutputPatternParameter )
+		return fileOutputPattern.Length();
+	if( p == TheFilterParameter )
+		return filter.Length();
+	if( p == TheFilterWheelNameParameter )
+		return filterWheelName.Length();
+	return 0;
+}
 
 
 }

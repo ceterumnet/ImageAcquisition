@@ -18,8 +18,7 @@ namespace pcl
     EIDelayBetweenExposures* TheDelayBetweenExposuresParameter = 0;
     EIFileOutputPath* TheFileOutputPathParameter = 0;
     EIFileOutputPattern* TheFileOutputPatternParameter = 0;
-
-	EIOnError* TheEIOnErrorParameter = 0;
+	//EIOnError* TheEIOnErrorParameter = 0;
 
 	EIExposureDuration::EIExposureDuration( MetaProcess* P) : MetaInt16( P )
 	{
@@ -224,41 +223,41 @@ namespace pcl
         return "fileOutputPattern";
     }
 
-	EIOnError::EIOnError( MetaProcess* P) : MetaEnumeration( P )
-	{
-		TheEIOnErrorParameter = this;
-	}
+	//EIOnError::EIOnError( MetaProcess* P) : MetaEnumeration( P )
+	//{
+	//	TheEIOnErrorParameter = this;
+	//}
 
-	IsoString EIOnError::Id() const
-	{
-		return "onError";
-	}
+	//IsoString EIOnError::Id() const
+	//{
+	//	return "onError";
+	//}
 
-	size_type EIOnError::NumberOfElements() const
-	{
-		return NumberOfErrorPolicies;
-	}
+	//size_type EIOnError::NumberOfElements() const
+	//{
+	//	return NumberOfErrorPolicies;
+	//}
 
-	IsoString EIOnError::ElementId( size_type i ) const
-	{
-		switch ( i )
-		{
-		default:
-		case Continue: return "Continue";
-		case Abort:    return "Abort";
-		case AskUser:  return "AskUser";
-		}
-	}
+	//IsoString EIOnError::ElementId( size_type i ) const
+	//{
+	//	switch ( i )
+	//	{
+	//	default:
+	//	case Continue: return "Continue";
+	//	case Abort:    return "Abort";
+	//	case AskUser:  return "AskUser";
+	//	}
+	//}
 
-	int EIOnError::ElementValue( size_type i ) const
-	{
-		return int( i );
-	}
+	//int EIOnError::ElementValue( size_type i ) const
+	//{
+	//	return int( i );
+	//}
 
-	size_type EIOnError::DefaultValueIndex() const
-	{
-		return size_type( Default );
-	}
+	//size_type EIOnError::DefaultValueIndex() const
+	//{
+	//	return size_type( Default );
+	//}
 
 
 

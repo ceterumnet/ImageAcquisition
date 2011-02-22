@@ -242,7 +242,7 @@ namespace pcl
 
 		//TODO:  Deal with a non active window...
 		if( TheExposeImageInterface && TheExposeImageInterface->IsVisible())
-		    TheExposeImageInterface->UpdateCameraList();
+		    TheExposeImageInterface->UpdateCameraControls();
 		else
 		    throw Error("Need to implement this with the exposeimage window not open...");
 	}
@@ -389,7 +389,6 @@ namespace pcl
 
 		  HINSTANCE loadedLib = NULL;
 		  loadedLib = LoadLibrary(chars);
-
 		  InitializePtr = (MyFuncPtr) (// get the function pointer
 			  GetProcAddress( loadedLib, "InitializeCamera" ) 
 			  );
