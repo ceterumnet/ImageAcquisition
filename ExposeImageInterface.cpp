@@ -14,6 +14,24 @@
 namespace pcl
 {
 
+
+    class ExposeImageDialog : public Dialog
+    {
+    public:
+
+       ExposeImageDialog() : Dialog()
+       {
+//          ... build your dialog here
+//
+//          // Handle Abort button click events
+//          Abort_PushButton.OnClick( (Button::click_event_handler)&ExposeImageDialog::__Button_Click, *this );
+//
+//          // Attach your own dialog execution handler, so you gain control
+//          // as soon as your dialog is executed modally.
+//          OnExecute( (Dialog::execute_event_handler)&ExposeImageDialog::__Dialog_Execute, *this );
+       }
+    };
+
     ExposeImageInterface* TheExposeImageInterface = 0;
 
 #include "ExposeImageIcon.xpm"
@@ -49,7 +67,7 @@ namespace pcl
 
   InterfaceFeatures ExposeImageInterface::Features() const
   {
-    return InterfaceFeature::DefaultGlobal;
+    return InterfaceFeature::InfoArea | InterfaceFeature::ResetButton | InterfaceFeature::DragObject;
   }
 
   void ExposeImageInterface::ApplyInstance() const
@@ -211,6 +229,10 @@ namespace pcl
 
   void ExposeImageInterface::__CameraConnectionButton_Click( Button& sender, bool checked )
   {
+      if ( sender == GUI->FilterWheelConnection_PushButton )
+      {
+          instance.ExposeImages();
+      }
       if ( sender == GUI->CameraConnection_PushButton && TheImageAcquisitionSettingsInterface->activeCamera )
         {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
@@ -231,13 +253,13 @@ namespace pcl
   void ExposeImageInterface::UpdateControlsForCameraFeatures()
   {
 	  GUI->BinModeX_ComboBox.Clear();
-	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinX(); i == n; ++i )
+	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinX() + 1; i < n; ++i )
 	  {
 		  GUI->BinModeX_ComboBox.AddItem( String(i) );
 	  }
 	  
 	  GUI->BinModeY_ComboBox.Clear(); 
-	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinY(); i == n; ++i )
+	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinY() + 1; i < n; ++i )
 	  {
 		  GUI->BinModeY_ComboBox.AddItem( String(i) );
 	  }
@@ -299,6 +321,7 @@ namespace pcl
 	FilterWheel_Label.SetFixedWidth(labelWidth1);
 	FilterWheelConnection_PushButton.SetText("Select Filter Wheel");
 	FilterWheelConnection_PushButton.SetFixedWidth(labelWidth3);
+	FilterWheelConnection_PushButton.OnClick( (Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w );
 	FilterWheel_Edit.SetReadOnly();
 	FilterWheel_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" )));
 	FilterWheel_Sizer.Add(FilterWheel_Label);
@@ -476,52 +499,7 @@ namespace pcl
   {
       GUI->Temperature_Label.SetText( String( TheImageAcquisitionSettingsInterface->activeCamera->CCDTemperature() ) );
   }
-  // ----------------------------------------------------------------------------
 
-  // So, in theory, this thread should be periodically udpating the data in the ExposeImage window like Temp, exposure progress...etc...
-//  class CameraControlThread: public Thread
-//    {
-//    public:
-//        CameraControlThread(IPixInsightCamera *_cam, int _pollingInterval = 5)
-//        {
-//            cam = _cam;
-//            pollingInterval = _pollingInterval;
-//            stayConnected = true;
-//        }
-//
-//        virtual ~CameraControlThread()
-//        {
-//            Console().WriteLn( "Killed Camera Connection Thread" );
-//        }
-//
-//        void DisconnectCamera()
-//        {
-//            stayConnected = false;
-//        }
-//
-//        IPixInsightCamera::CameraStateEnum CameraState()
-//        {
-//            return cam->CameraState();
-//        }
-//
-//        virtual void Run()
-//        {
-//            Console().WriteLn( "Started Camera Connection Thread" );
-//            //Need a Mutex lock here possibly?
-//            while(stayConnected)
-//            {
-//                Timer mainTimer;
-//                mainTimer.SetInterval(pollingInterval);
-//                mainTimer.Start();
-//                Console().WriteLn( "CameraConnection Thread running..." );
-//            }
-//            Console().WriteLn( "CameraConnection Thread stopped..." );
-//        }
-//    private:
-//        bool stayConnected;
-//        IPixInsightCamera *cam;
-//        int pollingInterval;
-//    };
 
 } // pcl
 

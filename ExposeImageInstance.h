@@ -5,6 +5,7 @@
 #include <pcl/Console.h>
 #include "ImageAcquisitionSettingsInterface.h"
 #include "ExposeImageParameters.h"
+#include <pcl/Mutex.h>
 
 namespace pcl
 {
@@ -12,9 +13,6 @@ namespace pcl
 class FileFormatInstance;
 
 class ExposeImageThread;
-class ExposeImageThreadData;
-
-typedef IndirectArray<ExposeImageThread>  thread_list;
 
 class ExposeImageInstance : public ProcessImplementation
 {
@@ -30,10 +28,10 @@ public:
 
    virtual bool CanExecuteGlobal( String& whyNot ) const;
    virtual bool ExecuteGlobal();
-
+   bool ExposeImages();
    virtual void* LockParameter( const MetaParameter*, size_type /*tableRow*/ );
    virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
-   virtual size_type ExposeImageInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const;
+   virtual size_type ParameterLength( const MetaParameter* p, size_type tableRow ) const;
 private:
 	//do I need to use a safer type?
 	uint32 exposureDuration; //milliseconds
@@ -52,6 +50,7 @@ private:
 	String fileOutputPath;
 	String fileOutputPattern;
 	pcl_enum onError;
+	ExposeImageThread *exposeThread;
 
    // Expose an Image
 	//Image* ExposeImage( ... const ExposeImageThread& );

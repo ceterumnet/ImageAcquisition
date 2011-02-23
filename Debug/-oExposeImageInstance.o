@@ -57,8 +57,42 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  ../ExposeImageParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h
+  /Users/draphael/PCL/include/pcl/Console.h \
+  ../ImageAcquisitionSettingsInterface.h \
+  /Users/draphael/PCL/include/pcl/ProcessInterface.h \
+  /Users/draphael/PCL/include/pcl/Control.h \
+  /Users/draphael/PCL/include/pcl/Sizer.h \
+  /Users/draphael/PCL/include/pcl/KeyCodes.h \
+  /Users/draphael/PCL/include/pcl/ButtonCodes.h \
+  /Users/draphael/PCL/include/pcl/Cursor.h \
+  /Users/draphael/PCL/include/pcl/Font.h \
+  /Users/draphael/PCL/include/pcl/SectionBar.h \
+  /Users/draphael/PCL/include/pcl/Label.h \
+  /Users/draphael/PCL/include/pcl/Frame.h \
+  /Users/draphael/PCL/include/pcl/TextAlign.h \
+  /Users/draphael/PCL/include/pcl/ToolButton.h \
+  /Users/draphael/PCL/include/pcl/Button.h \
+  /Users/draphael/PCL/include/pcl/CheckBox.h \
+  /Users/draphael/PCL/include/pcl/PushButton.h \
+  /Users/draphael/PCL/include/pcl/NumericControl.h \
+  /Users/draphael/PCL/include/pcl/Edit.h \
+  /Users/draphael/PCL/include/pcl/Slider.h \
+  /Users/draphael/PCL/include/pcl/TreeBox.h \
+  /Users/draphael/PCL/include/pcl/ScrollBox.h \
+  /Users/draphael/PCL/include/pcl/SpinBox.h \
+  /Users/draphael/PCL/include/pcl/ComboBox.h \
+  /Users/draphael/PCL/include/pcl/TabBox.h ../CameraDialog.h \
+  /Users/draphael/PCL/include/pcl/Dialog.h \
+  /Users/draphael/PCL/include/pcl/GroupBox.h \
+  /Users/draphael/PCL/include/pcl/RadioButton.h \
+  /Users/draphael/PCL/include/pcl/FileDialog.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
+  ../ImageAcquisitionSettingsInstance.h \
+  ../ImageAcquisitionSettingsParameters.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageParameters.h \
+  /Users/draphael/PCL/include/pcl/Mutex.h
 
 ../ExposeImageInstance.h:
 
@@ -176,6 +210,80 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
-../ExposeImageParameters.h:
+/Users/draphael/PCL/include/pcl/Console.h:
+
+../ImageAcquisitionSettingsInterface.h:
+
+/Users/draphael/PCL/include/pcl/ProcessInterface.h:
+
+/Users/draphael/PCL/include/pcl/Control.h:
+
+/Users/draphael/PCL/include/pcl/Sizer.h:
+
+/Users/draphael/PCL/include/pcl/KeyCodes.h:
+
+/Users/draphael/PCL/include/pcl/ButtonCodes.h:
+
+/Users/draphael/PCL/include/pcl/Cursor.h:
+
+/Users/draphael/PCL/include/pcl/Font.h:
+
+/Users/draphael/PCL/include/pcl/SectionBar.h:
+
+/Users/draphael/PCL/include/pcl/Label.h:
+
+/Users/draphael/PCL/include/pcl/Frame.h:
+
+/Users/draphael/PCL/include/pcl/TextAlign.h:
+
+/Users/draphael/PCL/include/pcl/ToolButton.h:
+
+/Users/draphael/PCL/include/pcl/Button.h:
+
+/Users/draphael/PCL/include/pcl/CheckBox.h:
+
+/Users/draphael/PCL/include/pcl/PushButton.h:
+
+/Users/draphael/PCL/include/pcl/NumericControl.h:
+
+/Users/draphael/PCL/include/pcl/Edit.h:
+
+/Users/draphael/PCL/include/pcl/Slider.h:
+
+/Users/draphael/PCL/include/pcl/TreeBox.h:
+
+/Users/draphael/PCL/include/pcl/ScrollBox.h:
+
+/Users/draphael/PCL/include/pcl/SpinBox.h:
+
+/Users/draphael/PCL/include/pcl/ComboBox.h:
+
+/Users/draphael/PCL/include/pcl/TabBox.h:
+
+../CameraDialog.h:
+
+/Users/draphael/PCL/include/pcl/Dialog.h:
+
+/Users/draphael/PCL/include/pcl/GroupBox.h:
+
+/Users/draphael/PCL/include/pcl/RadioButton.h:
+
+/Users/draphael/PCL/include/pcl/FileDialog.h:
+
+/Users/draphael/PCL/include/pcl/GlobalSettings.h:
+
+../ImageAcquisitionSettingsInstance.h:
+
+../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
+../ExposeImageParameters.h:
+
+/Users/draphael/PCL/include/pcl/Mutex.h:
