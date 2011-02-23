@@ -93,6 +93,7 @@ namespace pcl
                 data->mutex.Lock();
                 cam->ImageArray( data->image );
                 data->paused = false;
+                // This is probably not needed...may create a bug?
                 data->waitingToBeRead = true;
                 data->imageReady = false;
                 data->mutex.Unlock();
