@@ -32,6 +32,7 @@ public:
    virtual void* LockParameter( const MetaParameter*, size_type /*tableRow*/ );
    virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
    virtual size_type ParameterLength( const MetaParameter* p, size_type tableRow ) const;
+   void SerializeParameters( ByteArray &bArray );
 private:
 	//do I need to use a safer type?
 	uint32 exposureDuration; //milliseconds

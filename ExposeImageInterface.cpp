@@ -358,7 +358,6 @@ namespace pcl
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( true );
 				cameraData->mutex.Unlock();
-				Console() << "Timer is running? " << timer->IsRunning() << "\n";
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
 				UpdateControls();

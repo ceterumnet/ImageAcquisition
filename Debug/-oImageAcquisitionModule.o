@@ -96,7 +96,8 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h
 
 ../ImageAcquisitionModule.h:
 
@@ -303,3 +304,7 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
 ../ExposeImageInterface.h:
 
 /Users/draphael/PCL/include/pcl/TextBox.h:
+
+/Users/draphael/PCL/include/pcl/Timer.h:
+
+../CameraData.h:

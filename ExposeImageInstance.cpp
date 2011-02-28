@@ -129,6 +129,11 @@ namespace pcl
         Assign( x );
     }
 
+    void ExposeImageInstance::SerializeParameters( ByteArray &bArray )
+    {
+
+    }
+
     void ExposeImageInstance::Assign( const ProcessImplementation& p )
     {
         const ExposeImageInstance* x = dynamic_cast<const ExposeImageInstance*> ( &p );

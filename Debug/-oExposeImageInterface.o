@@ -1,5 +1,5 @@
 ExposeImageInterface.o: ../ExposeImageInterface.cpp \
-  ../ExposeImageInterface.h \
+  ../ImageAcquisitionSettingsInterface.h \
   /Users/draphael/PCL/include/pcl/ProcessInterface.h \
   /Users/draphael/PCL/include/pcl/Defs.h \
   /Users/draphael/PCL/include/pcl/Flags.h \
@@ -69,8 +69,6 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
   /Users/draphael/PCL/include/pcl/ScrollBox.h \
   /Users/draphael/PCL/include/pcl/SpinBox.h \
   /Users/draphael/PCL/include/pcl/ComboBox.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
-  ../ImageAcquisitionSettingsInterface.h \
   /Users/draphael/PCL/include/pcl/TabBox.h ../CameraDialog.h \
   /Users/draphael/PCL/include/pcl/Dialog.h \
   /Users/draphael/PCL/include/pcl/GroupBox.h \
@@ -92,13 +90,15 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageInstance.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
-  ../ExposeImageProcess.h /Users/draphael/PCL/include/pcl/ViewList.h \
-  /Users/draphael/PCL/include/pcl/ErrorHandler.h \
-  /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageIcon.xpm
+  ../ExposeImageProcess.h ../CameraData.h \
+  /Users/draphael/PCL/include/pcl/ViewList.h \
+  /Users/draphael/PCL/include/pcl/ErrorHandler.h ../ExposeImageIcon.xpm
 
-../ExposeImageInterface.h:
+../ImageAcquisitionSettingsInterface.h:
 
 /Users/draphael/PCL/include/pcl/ProcessInterface.h:
 
@@ -238,10 +238,6 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 
 /Users/draphael/PCL/include/pcl/ComboBox.h:
 
-/Users/draphael/PCL/include/pcl/TextBox.h:
-
-../ImageAcquisitionSettingsInterface.h:
-
 /Users/draphael/PCL/include/pcl/TabBox.h:
 
 ../CameraDialog.h:
@@ -290,6 +286,12 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 
 /Users/draphael/PCL/include/pcl/Selection.h:
 
+../ExposeImageInterface.h:
+
+/Users/draphael/PCL/include/pcl/TextBox.h:
+
+/Users/draphael/PCL/include/pcl/Timer.h:
+
 ../ExposeImageInstance.h:
 
 ../ExposeImageParameters.h:
@@ -298,10 +300,10 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 
 ../ExposeImageProcess.h:
 
+../CameraData.h:
+
 /Users/draphael/PCL/include/pcl/ViewList.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
-
-/Users/draphael/PCL/include/pcl/Timer.h:
 
 ../ExposeImageIcon.xpm:

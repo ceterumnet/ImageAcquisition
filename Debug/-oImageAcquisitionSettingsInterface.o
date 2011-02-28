@@ -93,7 +93,8 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageInterface.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h ../ExposeImageInstance.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
+  /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
@@ -101,7 +102,7 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/Pen.h \
   /Users/draphael/PCL/include/pcl/Brush.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h \
-  /Users/draphael/PCL/include/pcl/Settings.h \
+  /Users/draphael/PCL/include/pcl/Settings.h ../CameraData.h \
   ../ImageAcquisitionSettingsIcon.xpm
 
 ../ImageAcquisitionSettingsInterface.h:
@@ -298,6 +299,8 @@ ImageAcquisitionSettingsInterface.o:  \
 
 /Users/draphael/PCL/include/pcl/TextBox.h:
 
+/Users/draphael/PCL/include/pcl/Timer.h:
+
 ../ExposeImageInstance.h:
 
 ../ExposeImageParameters.h:
@@ -317,5 +320,7 @@ ImageAcquisitionSettingsInterface.o:  \
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:
 
 /Users/draphael/PCL/include/pcl/Settings.h:
+
+../CameraData.h:
 
 ../ImageAcquisitionSettingsIcon.xpm:
