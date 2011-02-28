@@ -17,6 +17,7 @@
 #include <pcl/ErrorHandler.h>
 #include <pcl/Console.h>
 #include <pcl/Settings.h>
+#include "CameraData.h"
 
 #ifdef __PCL_MACOSX
 #include <dlfcn.h>
@@ -26,6 +27,7 @@
 
 namespace pcl
 {
+
     ImageAcquisitionSettingsInterface* TheImageAcquisitionSettingsInterface = 0;
 
 #include "ImageAcquisitionSettingsIcon.xpm"
@@ -426,6 +428,11 @@ namespace pcl
             else
             {
                 activeCamera = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
+				if( cameraData == 0)
+					cameraData = new CameraData;
+				cameraData->mutex.Lock();
+				cameraData->cam = activeCamera;
+				cameraData->mutex.Unlock();
                 String theString = activeCamera->Description();
                 Console().Write( "Loaded driver: " );
                 Console().WriteLn( theString );

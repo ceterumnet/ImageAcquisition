@@ -1,6 +1,8 @@
+#include "ImageAcquisitionSettingsInterface.h"
 #include "ExposeImageInterface.h"
 #include "ExposeImageProcess.h"
 #include "CameraDialog.h"
+#include "CameraData.h"
 
 #include <pcl/Dialog.h>
 #include <pcl/FileDialog.h>
@@ -11,9 +13,121 @@
 #include <pcl/Thread.h>
 #include <pcl/Timer.h>
 
+
 namespace pcl
 {
 
+	//This thread will run while camera is connected...only in modal mode at the moment...
+   	class ObserveCameraThread : public Thread
+    {
+    public:
+        ObserveCameraThread (  )
+        {
+			//running = false;
+
+        }
+
+        virtual void Run()
+        {
+            while( true )
+            {
+				cameraData->mutex.Lock();
+				if( !cameraData->cam->Connected() )
+				{	cameraData->mutex.Unlock();
+					break;
+				}
+				cameraData->mutex.Unlock();
+				//poll every half second
+				pcl::Sleep( .5 );
+				TheExposeImageInterface->UpdateTemperature();
+            }
+        }
+
+    };
+
+
+
+	class FileOutputPatternDialog : public Dialog
+	{
+	public:
+		FileOutputPatternDialog() : Dialog()
+		{
+			pcl::Font fnt = Font();
+			String fileOutputPatternString( "File Output Pattern:" );
+			int labelWidth = fnt.Width( fileOutputPatternString + 'M' );
+			String instructionText = "This will be a target formatting string like M51-<DATE>-<FILTER>-<SEQUENCE>";
+			Instructions_Label.SetText(instructionText);
+			Instructions_Label.SetFixedWidth( fnt.Width( instructionText ) );
+			int editWidth = fnt.Width( String( "target_name_that_might_get_a_little_long-<20110224>-<filter>-whateverelse" + 'T' ) );
+			Pattern_Label.SetText( "File Output Pattern:" );
+		    Pattern_Label.SetTextAlignment( TextAlign::Right | TextAlign::VertCenter );
+			Pattern_Label.SetFixedWidth( labelWidth );
+	
+			Pattern_Sizer.Add( Pattern_Label );
+			Pattern_Sizer.Add( Pattern_Edit );	
+			Pattern_Sizer.SetSpacing( 4 );
+			
+			OK_PushButton.SetText( "OK" );
+			OK_PushButton.SetDefault();
+			OK_PushButton.SetCursor( StdCursor::Checkmark );
+			OK_PushButton.OnClick( (pcl::Button::click_event_handler) &FileOutputPatternDialog::Button_Click, *this );
+			Cancel_PushButton.SetText( "Cancel" );
+			Cancel_PushButton.SetCursor( StdCursor::Crossmark );
+			Cancel_PushButton.OnClick( (pcl::Button::click_event_handler) &FileOutputPatternDialog::Button_Click, *this );
+	
+			BottomSection_Sizer.Add( OK_PushButton );
+			BottomSection_Sizer.Add( Cancel_PushButton );
+			BottomSection_Sizer.SetSpacing( 4 );
+
+			Global_Sizer.Add( Instructions_Label );
+			Global_Sizer.Add( Pattern_Sizer );
+			Global_Sizer.Add( BottomSection_Sizer );
+			Global_Sizer.SetSpacing( 4 ); 
+
+			SetWindowTitle("File Output Pattern Edit");
+			SetSizer( Global_Sizer );
+			AdjustToContents();
+			SetFixedSize();
+			OnReturn( (pcl::Dialog::return_event_handler) &FileOutputPatternDialog::Dialog_Return, *this );
+		}
+
+		String GetFileOutputPattern()
+		{
+			return Pattern_Edit.Text();
+		}
+
+		void SetFileOutputPattern( String _fileOutputPattern )
+		{
+			Pattern_Edit.SetText( _fileOutputPattern );
+		}
+		
+
+		void Button_Click( Button& sender, bool checked )
+		{
+			if ( sender == OK_PushButton )
+			{
+				Ok();
+			}
+			else if ( sender == Cancel_PushButton )
+				Cancel();
+		}
+
+		void Dialog_Return( pcl::Dialog &sender, int retVal )
+		{
+			
+		}
+
+	private:
+		VerticalSizer Global_Sizer;
+			Label Instructions_Label;
+			HorizontalSizer Pattern_Sizer;
+				Label Pattern_Label;
+				Edit Pattern_Edit;
+			HorizontalSizer BottomSection_Sizer;
+				PushButton OK_PushButton;
+				PushButton Cancel_PushButton;
+
+	};
 
     class ExposeImageDialog : public Dialog
     {
@@ -41,6 +155,9 @@ namespace pcl
   {
     TheExposeImageInterface = this;
     cameraConnected = false;
+	fileOutputPatternDialog = 0;
+	observeCamThread = 0;
+	timer = 0;
   }
 
   ExposeImageInterface::~ExposeImageInterface()
@@ -67,7 +184,7 @@ namespace pcl
 
   InterfaceFeatures ExposeImageInterface::Features() const
   {
-    return InterfaceFeature::InfoArea | InterfaceFeature::ResetButton | InterfaceFeature::DragObject;
+	  return InterfaceFeature::InfoArea | InterfaceFeature::ResetButton | InterfaceFeature::DragObject | InterfaceFeature::ApplyGlobalButton;
   }
 
   void ExposeImageInterface::ApplyInstance() const
@@ -86,6 +203,7 @@ namespace pcl
     // ### Deferred initialization
     if ( GUI == 0 )
         {
+			cameraData = new CameraData;
             GUI = new GUIData( *this );
             SetWindowTitle( "ExposeImage" );
             UpdateControls();
@@ -237,16 +355,52 @@ namespace pcl
         {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
             {
-                TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( true );
-				
+				cameraData->mutex.Lock();
+				cameraData->cam->SetConnected( true );
+				cameraData->mutex.Unlock();
+				Console() << "Timer is running? " << timer->IsRunning() << "\n";
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
 				UpdateControls();
+
             } else {
-                TheImageAcquisitionSettingsInterface->activeCamera->SetConnected( false );
-                EnableExposureButtons( false );
+				cameraData->mutex.Lock();
+				cameraData->cam->SetConnected( false );
+				cameraData->mutex.Unlock();
+				EnableExposureButtons( false );
             }
         }
+  }
+  void ExposeImageInterface::__UpdateTemperature( Timer &sender )
+  {
+
+  }
+
+  void ExposeImageInterface::__FileOutputButton_Click( Button& sender, bool checked )
+  {
+	  Console console;
+	  Console().WriteLn("the button was definitely clicked");
+	  if ( sender == GUI->FileOutputPattern_ToolButton )
+      {
+		  //lazy init
+		  if( fileOutputPatternDialog == 0 )
+			 fileOutputPatternDialog = new FileOutputPatternDialog;
+		  fileOutputPatternDialog->SetFileOutputPattern( GUI->FileOutputPattern_Edit.Text() );
+		  if( fileOutputPatternDialog->Execute() )
+		  {
+			  String thePattern = fileOutputPatternDialog->GetFileOutputPattern();
+			  while( true )
+			  {
+				  size_type firstDelimPos = thePattern.Find("<");
+				  console << "Found delim: " << firstDelimPos << "\n";
+				  break;
+			  }
+			  
+			  Console().WriteLn( "first delim found" );
+
+			  GUI->FileOutputPattern_Edit.SetText( fileOutputPatternDialog->GetFileOutputPattern() );
+		  }
+      }
   }
 
   //set the dropdowns for the appropriate bin levels etc...
@@ -295,7 +449,7 @@ namespace pcl
 	Camera_Label.SetFixedWidth(labelWidth1);
 	ActiveCamera_Edit.SetReadOnly();
 	ChooseCamera_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" )));
-	ChooseCamera_ToolButton.OnClick((Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w);
+	ChooseCamera_ToolButton.OnClick( (Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w );
 	CameraConnection_PushButton.SetText("Connect Camera");
 	CameraConnection_PushButton.SetFixedWidth(labelWidth3);
 	CameraConnection_PushButton.OnClick((Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w);
@@ -460,6 +614,7 @@ namespace pcl
 	FileOutputPattern_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	FileOutputPattern_Label.SetFixedWidth(labelWidth1);
 	FileOutputPattern_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" )));
+	FileOutputPattern_ToolButton.OnClick( (Button::click_event_handler)&ExposeImageInterface::__FileOutputButton_Click, w );
 	FileOutputPattern_Sizer.Add(FileOutputPattern_Label);
 	FileOutputPattern_Sizer.Add(FileOutputPattern_Edit);
 	FileOutputPattern_Sizer.Add(FileOutputPattern_ToolButton);
@@ -497,7 +652,13 @@ namespace pcl
 
   void ExposeImageInterface::UpdateTemperature()
   {
-      GUI->Temperature_Label.SetText( String( TheImageAcquisitionSettingsInterface->activeCamera->CCDTemperature() ) );
+	  Console console;
+	  console << "Updating temp\n";
+	  if( cameraData->mutex.TryLock() ) 
+	  {
+		GUI->Temperature_Label.SetText( String( cameraData->cam->CCDTemperature() ) );
+		cameraData->mutex.Unlock();
+	  }
   }
 
 

@@ -22,6 +22,7 @@ namespace pcl
     };
 
     ExposeImageData *data = 0;
+
     class ExposeImageThread: public Thread
     {
 
@@ -52,7 +53,6 @@ namespace pcl
 
         virtual void Run()
         {
-
             for ( size_type i = 0, n = exposureCount; i < n; ++i )
             {
                 data->mutex.Lock();
@@ -165,7 +165,7 @@ namespace pcl
 
     bool ExposeImageInstance::CanExecuteGlobal( String &whyNot ) const
     {
-        return false;
+        return true;
     }
 
     void aLogger( String text )

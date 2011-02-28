@@ -23,7 +23,6 @@ namespace pcl
 {
 
 	// ----------------------------------------------------------------------------
-
 	class ImageAcquisitionSettingsInterface : public ProcessInterface
 	{
 	public:

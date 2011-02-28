@@ -15,6 +15,7 @@
 #include <pcl/CheckBox.h>
 #include <pcl/TextBox.h>
 #include <pcl/SpinBox.h>
+#include <pcl/Timer.h>
 #include "ImageAcquisitionSettingsInterface.h"
 
 #include "ExposeImageInstance.h"
@@ -24,8 +25,10 @@ namespace pcl
 
   //class CameraControlThread;
   // ----------------------------------------------------------------------------
-
+  class FileOutputPatternDialog;
+  class ObserveCameraThread;
   class ExposeImageInterface : public ProcessInterface
+	  	
   {
   public:
 
@@ -55,7 +58,7 @@ namespace pcl
 
     void EnableExposureButtons( bool enable );
     // -------------------------------------------------------------------------
-		
+	void UpdateTemperature();
   private:
 		
     ExposeImageInstance instance;
@@ -134,9 +137,12 @@ namespace pcl
 
     GUIData* GUI;
     bool cameraConnected;
+	ObserveCameraThread *observeCamThread;
+	FileOutputPatternDialog *fileOutputPatternDialog;
+	Timer *timer;
 
     void UpdateControls();
-    void UpdateTemperature();
+    
     void UpdateCameraControls( );
 	void UpdateExposureControls();
 	void UpdateOutputControls();
@@ -147,10 +153,13 @@ namespace pcl
 	void __Exposure_NumericValueUpdated( NumericEdit& sender, double value );
 	void __BinMode_ComboBoxItem_Highlighted( ComboBox& sender, int value );
 	void __FileEdit_EditCompleted( Edit& sender );
+	void __FileOutputButton_Click( Button &sender, bool checked );
+	void __UpdateTemperature( Timer & );
     friend struct GUIData;
     friend class CameraControlThread;
     friend class CameraSelectorDialog;
     friend class ImageAcquisitionSettingsInterface;
+
   };
 
   // ----------------------------------------------------------------------------

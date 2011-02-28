@@ -367,6 +367,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\CameraData.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\CameraDialog.cpp"
 				>
 			</File>
@@ -395,6 +399,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\ImageAcquisitionSession.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\ImageAcquisitionSettingsInstance.cpp"
 				>
 			</File>
@@ -412,6 +420,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\CameraData.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\CameraDialog.h"
 				>
@@ -437,6 +449,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\ImageAcquisitionSession.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionInstance.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionParameters.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionProcess.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\ImageAcquisitionSettingsInstance.h"
 				>
 			</File>
@@ -454,6 +482,10 @@
 			</File>
 			<File
 				RelativePath="..\..\IPixInsightCamera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\IPixInsightFilterWheel.h"
 				>
 			</File>
 		</Filter>
