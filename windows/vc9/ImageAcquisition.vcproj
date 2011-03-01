@@ -403,6 +403,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\ImageAcquisitionSessionInstance.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionInterface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionParameters.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\ImageAcquisitionSessionProcess.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\ImageAcquisitionSettingsInstance.cpp"
 				>
 			</File>
