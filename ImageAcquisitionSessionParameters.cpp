@@ -4,6 +4,7 @@ namespace pcl
 {
     IASSerializedProcesses *TheIASSerializedProcessesParameter = 0;
     IASSerializedProcessName *TheIASSerializedProcessNameParameter = 0;
+    IASSerializedProcessData *TheIASSerializedProcessDataParameter = 0;
 
     IASSerializedProcesses::IASSerializedProcesses( MetaProcess *P ) : MetaTable( P )
     {
