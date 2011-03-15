@@ -3,7 +3,7 @@ ImageAcquisitionModule
  - ExposeImage (in progress)
    This will support the following parameters:
        cameraID (this will dispatch to the Camera object that exists
-       		         in the camera settings...)
+       		         in the camera settings...) <- I am rethinking this.  Perhaps this is something better left to introduce at a later stage...
        exposureCount
        exposureDuration
          ...
@@ -25,6 +25,9 @@ ImageAcquisitionModule
  - Autoguide
     This would be higher priority, but PHD guiding is good and
     free. (I've bumped this up the list per Vicent's feedback.)
+    I'm not sure if Autoguide is a standalone process or not.  I think 
+    it probably is.  But I don't think I can say that for sure at this
+    point.
 
  - ImageAcquisitionSettings
     There needs to be a place to store things like F/L, Aperture, Site
@@ -58,4 +61,20 @@ ImageAcquisitionModule
 All of these processes will have GUI interfaces where appropriate and
 instance classes.
 
-
+TODOs:
+ [x] Unify Current Camera logic across processes (currently there is a direct
+ 		access to the pointer...not good)
+ [x] Implement Temperature Monitoring
+ [ ] Implement Default Camera Driver ( maybe just in Windows? )
+ [ ] Fix range sliders.  Perhaps use a different UI paradigm.
+ [ ] Implement Filter Wheel Control
+ 	[x] Implement Simulator
+ 	[ ] Add filter wheel selection to Settings Interface
+ 	[ ] Wire up filterWheelData as a globally shared object
+ 	
+ [ ] Implement Serialized Settings Persistance
+ [ ] Implement FileOutputPattern stuff
+ [ ] Implement error handling across the different user interactions
+ [ ] Expose scripting interface
+ [ ] Implement Frame and Focus
+ [ ] Implement Sub Frame Exposure

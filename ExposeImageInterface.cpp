@@ -17,36 +17,6 @@
 namespace pcl
 {
 
-	//This thread will run while camera is connected...only in modal mode at the moment...
-   	class ObserveCameraThread : public Thread
-    {
-    public:
-        ObserveCameraThread (  )
-        {
-			//running = false;
-
-        }
-
-        virtual void Run()
-        {
-            while( true )
-            {
-				cameraData->mutex.Lock();
-				if( !cameraData->cam->Connected() )
-				{	cameraData->mutex.Unlock();
-					break;
-				}
-				cameraData->mutex.Unlock();
-				//poll every half second
-				pcl::Sleep( .5 );
-				TheExposeImageInterface->UpdateTemperature();
-            }
-        }
-
-    };
-
-
-
 	class FileOutputPatternDialog : public Dialog
 	{
 	public:
@@ -59,6 +29,8 @@ namespace pcl
 			Instructions_Label.SetText(instructionText);
 			Instructions_Label.SetFixedWidth( fnt.Width( instructionText ) );
 			int editWidth = fnt.Width( String( "target_name_that_might_get_a_little_long-<20110224>-<filter>-whateverelse" + 'T' ) );
+
+			Pattern_Edit.SetFixedWidth(editWidth);
 			Pattern_Label.SetText( "File Output Pattern:" );
 		    Pattern_Label.SetTextAlignment( TextAlign::Right | TextAlign::VertCenter );
 			Pattern_Label.SetFixedWidth( labelWidth );
@@ -156,8 +128,6 @@ namespace pcl
     TheExposeImageInterface = this;
     cameraConnected = false;
 	fileOutputPatternDialog = 0;
-	observeCamThread = 0;
-	timer = 0;
   }
 
   ExposeImageInterface::~ExposeImageInterface()
@@ -203,7 +173,6 @@ namespace pcl
     // ### Deferred initialization
     if ( GUI == 0 )
         {
-			cameraData = new CameraData;
             GUI = new GUIData( *this );
             SetWindowTitle( "ExposeImage" );
             UpdateControls();
@@ -360,25 +329,36 @@ namespace pcl
 				cameraData->mutex.Unlock();
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
+                GUI->UpdateCameraData_Timer.Start();
 				UpdateControls();
 
             } else {
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( false );
+				GUI->UpdateCameraData_Timer.Stop();
 				cameraData->mutex.Unlock();
 				EnableExposureButtons( false );
             }
         }
   }
-  void ExposeImageInterface::__UpdateTemperature( Timer &sender )
+  void ExposeImageInterface::__UpdateCameraData_Timer( Timer &sender )
   {
+      if( sender == GUI->UpdateCameraData_Timer )
+          UpdateTemperature();
+  }
 
+  void ExposeImageInterface::UpdateTemperature()
+  {
+     if( cameraData->mutex.TryLock() )
+      {
+        GUI->Temperature_Label.SetText( String( cameraData->cam->CCDTemperature() ) );
+        cameraData->mutex.Unlock();
+      }
   }
 
   void ExposeImageInterface::__FileOutputButton_Click( Button& sender, bool checked )
   {
 	  Console console;
-	  Console().WriteLn("the button was definitely clicked");
 	  if ( sender == GUI->FileOutputPattern_ToolButton )
       {
 		  //lazy init
@@ -641,6 +621,10 @@ namespace pcl
 	Exposure_SectionBar.Enable(false);
 	SetTemperature_PushButton.Enable(false);
 
+	UpdateCameraData_Timer.SetInterval( 0.5 );
+	UpdateCameraData_Timer.SetPeriodic( true );
+	UpdateCameraData_Timer.OnTimer( (Timer::timer_event_handler)&ExposeImageInterface::__UpdateCameraData_Timer, w );
+
     w.SetSizer( Global_Sizer );
 
     w.SetFixedWidth();
@@ -649,16 +633,6 @@ namespace pcl
 	
   }
 
-  void ExposeImageInterface::UpdateTemperature()
-  {
-	  Console console;
-	  console << "Updating temp\n";
-	  if( cameraData->mutex.TryLock() ) 
-	  {
-		GUI->Temperature_Label.SetText( String( cameraData->cam->CCDTemperature() ) );
-		cameraData->mutex.Unlock();
-	  }
-  }
 
 
 } // pcl

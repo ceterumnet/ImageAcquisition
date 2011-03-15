@@ -8,7 +8,6 @@ namespace pcl
 	{
 		Mutex mutex;	
 		CameraData() : mutex() {};
-	
 		IPixInsightCamera *cam;
 	};
 	

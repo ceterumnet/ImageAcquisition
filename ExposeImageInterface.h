@@ -23,10 +23,7 @@
 namespace pcl
 {
 
-  //class CameraControlThread;
-  // ----------------------------------------------------------------------------
   class FileOutputPatternDialog;
-  class ObserveCameraThread;
   class ExposeImageInterface : public ProcessInterface
 	  	
   {
@@ -69,7 +66,7 @@ namespace pcl
     struct GUIData
     {
       GUIData( ExposeImageInterface& );
-
+      Timer UpdateCameraData_Timer;
       VerticalSizer  Global_Sizer;
 		SectionBar        Camera_SectionBar;
 			Control           Camera_Control;
@@ -137,11 +134,11 @@ namespace pcl
 
     GUIData* GUI;
     bool cameraConnected;
-	ObserveCameraThread *observeCamThread;
 	FileOutputPatternDialog *fileOutputPatternDialog;
-	Timer *timer;
 
-    void UpdateControls();
+	void __UpdateCameraData_Timer( Timer& sender );
+
+	void UpdateControls();
     
     void UpdateCameraControls( );
 	void UpdateExposureControls();
@@ -154,8 +151,8 @@ namespace pcl
 	void __BinMode_ComboBoxItem_Highlighted( ComboBox& sender, int value );
 	void __FileEdit_EditCompleted( Edit& sender );
 	void __FileOutputButton_Click( Button &sender, bool checked );
-	void __UpdateTemperature( Timer & );
-    friend struct GUIData;
+
+	friend struct GUIData;
     friend class CameraControlThread;
     friend class CameraSelectorDialog;
     friend class ImageAcquisitionSettingsInterface;
