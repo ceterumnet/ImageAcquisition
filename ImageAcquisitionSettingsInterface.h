@@ -59,9 +59,6 @@ namespace pcl
 #endif
 
         ImageAcquisitionSettingsInstance instance;
-
-		IPixInsightCamera *activeCamera;
-		IPixInsightCamera *activeGuideCamera;
 		
 		struct GUIData
 		{
@@ -69,6 +66,7 @@ namespace pcl
 
 			VerticalSizer  Global_Sizer;
 			TabBox	ImageAcquisitionSettings_TabBox;
+			    // Camera Tab
 				Control CameraSelection_Control;
 				HorizontalSizer CameraSelection_Sizer;
 					TreeBox CameraList_TreeBox;
@@ -81,6 +79,13 @@ namespace pcl
 					VerticalSizer LoadSaveSettings_Buttons;
 						PushButton SaveSettings_PushButton;
 						PushButton LoadSettings_PushButton;
+				// Filter Wheel Tab
+                Control FWSelection_Control;
+                VerticalSizer FWSelection_Sizer;
+                    Label SelectedFilterWheelDriverLabel;
+                    ToolButton SelectFilterDriver_ToolButton;
+                    TreeBox FilterList_TreeBox;
+
 			CameraDialog CamDlg;
 		};
 

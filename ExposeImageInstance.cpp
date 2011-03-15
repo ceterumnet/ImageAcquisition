@@ -1,5 +1,5 @@
 #include "ExposeImageInstance.h"
-
+#include "CameraData.h"
 namespace pcl
 {
     struct ExposeImageData
@@ -9,7 +9,6 @@ namespace pcl
        abort( false ), error( false ), paused( false ), waitingToBeRead( true ), errorMessage()
        {
        }
-
        Mutex       mutex;         // To protect data from concurrent accesses
        UInt16Image *image;         // The image being acquired
        int         imageProgress; // Progress indicator, e.g. from 0 to 100
@@ -200,10 +199,10 @@ namespace pcl
         Console console;
 
         console << "Starting Image Exposure Process: \n";
-        IPixInsightCamera *cam = TheImageAcquisitionSettingsInterface->activeCamera;
+        IPixInsightCamera *cam = cameraData->cam;
         //cam->SetLogger( &aLogger );
 
-        exposeThread = new ExposeImageThread( TheImageAcquisitionSettingsInterface->activeCamera, exposureDuration, exposureCount );
+        exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, exposureCount );
         exposeThread->Start();
 
         while ( exposeThread->IsExposing() )

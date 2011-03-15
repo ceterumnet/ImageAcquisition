@@ -38,8 +38,6 @@ namespace pcl
         ProcessInterface(), instance( TheImageAcquisitionSettingsProcess ), GUI( 0 )
     {
         TheImageAcquisitionSettingsInterface = this;
-        activeCamera = NULL;
-        activeGuideCamera = NULL;
 #ifdef __PCL_MACOSX
         libHandle = NULL;
         libHandleGuider = NULL;
@@ -51,8 +49,6 @@ namespace pcl
         //globalItemControls.Clear();
         if ( GUI != 0 )
             delete GUI, GUI = 0;
-        if ( activeCamera != 0 )
-            delete activeCamera;
 #ifdef __PCL_MACOSX
         if ( libHandle )
             dlclose( libHandle );
@@ -103,6 +99,9 @@ namespace pcl
             SetWindowTitle( "Image Acquisition Settings" );
             UpdateControls();
         }
+
+        if( cameraData == 0 )
+            cameraData = new CameraData;
         dynamic = false;
         return &P == TheImageAcquisitionSettingsProcess;
     }
@@ -148,35 +147,6 @@ namespace pcl
         Console().Write( text );
     }
 
-    void ImageAcquisitionSettingsInterface::TestImage()
-    {
-        activeCamera->SetConnected( true );
-        activeCamera->StartExposure( 1 );
-        Console().WriteLn( "taking exposure" );
-        while ( !activeCamera->ImageReady() )
-        {
-            //Console().WriteLn("camera not ready yet...");
-        }
-
-        activeCamera->SetLogger( &theLogger );
-        ImageWindow window( activeCamera->NumX(), // width
-                activeCamera->NumY(), // height
-                1, // numberOfChannels
-                16, // bitsPerSample
-                false, // floatSample
-                false, // color
-                true, // initialProcessing
-                "camera_test" // id
-                );
-
-        View view = window.MainView();
-        ImageVariant v = view.Image();
-        UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
-
-        activeCamera->ImageArray( image );
-        window.Show();
-        window.ZoomToFit( false ); // don't allow zoom > 1
-    }
     void ImageAcquisitionSettingsInterface::AddCamera()
     {
         Console c = Console();
@@ -233,7 +203,7 @@ namespace pcl
             int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
             for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
                 if ( GUI->CameraList_TreeBox[i]->IsEnabled() )
-                    if ( activeCamera && activeCamera->Connected() )
+                    if ( cameraData->cam && cameraData->cam->Connected() )
                         throw Error( "Cannot change primary imager while camera is connected." );
                     else
                         instance.installedCameras[i].enabled = false;
@@ -326,7 +296,9 @@ namespace pcl
         CameraListButtons_Sizer.SetSpacing( 4 );
         CameraListButtons_Sizer.AddStretch();
 
+
         ImageAcquisitionSettings_TabBox.AddPage( CameraSelection_Control, "Camera" );
+        ImageAcquisitionSettings_TabBox.AddPage( FWSelection_Control, "Filter Wheel" );
 
         Global_Sizer.SetMargin( 8 );
         Global_Sizer.SetSpacing( 6 );
@@ -392,11 +364,10 @@ namespace pcl
     typedef IPixInsightCamera* (*MyFuncPtr)();
     void ImageAcquisitionSettingsInterface::InitializeCamera( const ImageAcquisitionSettingsInstance::CameraItem &cItem )
     {
-        //IsoString theString = GUI->CamDlg.GetDriverFile().ToIsoString();
         IsoString theString = cItem.driverPath;
         const char * chars = theString.c_str();
         MyFuncPtr InitializePtr = NULL;
-        if ( activeCamera == 0 )
+        if ( cameraData->cam == 0 )
         {
 #ifdef __PCL_WINDOWS
 
@@ -427,13 +398,11 @@ namespace pcl
             }
             else
             {
-                activeCamera = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
-				if( cameraData == 0)
-					cameraData = new CameraData;
+
 				cameraData->mutex.Lock();
-				cameraData->cam = activeCamera;
+				cameraData->cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );;
+				String theString = cameraData->cam->Description();
 				cameraData->mutex.Unlock();
-                String theString = activeCamera->Description();
                 Console().Write( "Loaded driver: " );
                 Console().WriteLn( theString );
             }

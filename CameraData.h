@@ -7,7 +7,7 @@ namespace pcl
 	struct CameraData 
 	{
 		Mutex mutex;	
-		CameraData() : mutex() {};
+		CameraData() : mutex(), cam(0) {};
 		IPixInsightCamera *cam;
 	};
 	

@@ -248,15 +248,15 @@ namespace pcl
   {
 	  if( GUI->Exposure_SectionBar.IsEnabled() )
 	  {
-		  GUI->BinModeX_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinX() - 1 );
-		  GUI->BinModeY_ComboBox.SetCurrentItem( TheImageAcquisitionSettingsInterface->activeCamera->BinY() - 1 );
+		  GUI->BinModeX_ComboBox.SetCurrentItem( cameraData->cam->BinX() - 1 );
+		  GUI->BinModeY_ComboBox.SetCurrentItem( cameraData->cam->BinY() - 1 );
 		  //GUI->Filter_ComboBox.SetCurrentItem( 0 );
 		  GUI->NumberOfExposures_SpinBox.SetValue( instance.exposureCount );
 		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration );
-		  GUI->X1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
-		  GUI->Y1_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumY() );
-		  GUI->X2_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumX() );
-		  GUI->Y2_Edit.SetRange(0, TheImageAcquisitionSettingsInterface->activeCamera->NumY() );
+		  GUI->X1_Edit.SetRange(0, cameraData->cam->NumX() );
+		  GUI->Y1_Edit.SetRange(0, cameraData->cam->NumY() );
+		  GUI->X2_Edit.SetRange(0, cameraData->cam->NumX() );
+		  GUI->Y2_Edit.SetRange(0, cameraData->cam->NumY() );
 		  GUI->X1_Edit.SetValue( instance.subFrameX1 );
 		  GUI->Y1_Edit.SetValue( instance.subFrameY1 );
 		  GUI->X2_Edit.SetValue( instance.subFrameX2 );
@@ -320,7 +320,7 @@ namespace pcl
       {
           instance.ExposeImages();
       }
-      if ( sender == GUI->CameraConnection_PushButton && TheImageAcquisitionSettingsInterface->activeCamera )
+      if ( sender == GUI->CameraConnection_PushButton && cameraData->cam )
         {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
             {
@@ -386,13 +386,13 @@ namespace pcl
   void ExposeImageInterface::UpdateControlsForCameraFeatures()
   {
 	  GUI->BinModeX_ComboBox.Clear();
-	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinX() + 1; i < n; ++i )
+	  for( size_type i = 1, n = cameraData->cam->MaxBinX() + 1; i < n; ++i )
 	  {
 		  GUI->BinModeX_ComboBox.AddItem( String(i) );
 	  }
 	  
 	  GUI->BinModeY_ComboBox.Clear(); 
-	  for( size_type i = 1, n = TheImageAcquisitionSettingsInterface->activeCamera->MaxBinY() + 1; i < n; ++i )
+	  for( size_type i = 1, n = cameraData->cam->MaxBinY() + 1; i < n; ++i )
 	  {
 		  GUI->BinModeY_ComboBox.AddItem( String(i) );
 	  }

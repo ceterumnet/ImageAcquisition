@@ -92,7 +92,7 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageParameters.h \
-  /Users/draphael/PCL/include/pcl/Mutex.h
+  /Users/draphael/PCL/include/pcl/Mutex.h ../CameraData.h
 
 ../ExposeImageInstance.h:
 
@@ -287,3 +287,5 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 ../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
+
+../CameraData.h:
