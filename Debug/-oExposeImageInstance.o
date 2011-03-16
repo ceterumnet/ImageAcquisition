@@ -87,12 +87,13 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
   /Users/draphael/PCL/include/pcl/FileDialog.h \
   /Users/draphael/PCL/include/pcl/GlobalSettings.h \
-  ../ImageAcquisitionSettingsInstance.h \
-  ../ImageAcquisitionSettingsParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
+  ../ImageAcquisitionSettingsInstance.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h ../ExposeImageParameters.h \
-  /Users/draphael/PCL/include/pcl/Mutex.h ../CameraData.h
+  /Users/draphael/PCL/include/pcl/Selection.h \
+  ../ImageAcquisitionSettingsParameters.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h \
+  ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
+  ../CameraData.h
 
 ../ExposeImageInstance.h:
 
@@ -274,15 +275,15 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 
 ../ImageAcquisitionSettingsInstance.h:
 
-../ImageAcquisitionSettingsParameters.h:
-
-/Users/draphael/PCL/include/pcl/MetaParameter.h:
-
 ../IPixInsightCamera.h:
 
 /Users/draphael/PCL/include/pcl/Vector.h:
 
 /Users/draphael/PCL/include/pcl/Selection.h:
+
+../ImageAcquisitionSettingsParameters.h:
+
+/Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../ExposeImageParameters.h:
 

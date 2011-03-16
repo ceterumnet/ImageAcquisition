@@ -38,10 +38,6 @@ namespace pcl
         ProcessInterface(), instance( TheImageAcquisitionSettingsProcess ), GUI( 0 )
     {
         TheImageAcquisitionSettingsInterface = this;
-#ifdef __PCL_MACOSX
-        libHandle = NULL;
-        libHandleGuider = NULL;
-#endif
     }
 
     ImageAcquisitionSettingsInterface::~ImageAcquisitionSettingsInterface()
@@ -49,10 +45,6 @@ namespace pcl
         //globalItemControls.Clear();
         if ( GUI != 0 )
             delete GUI, GUI = 0;
-#ifdef __PCL_MACOSX
-        if ( libHandle )
-            dlclose( libHandle );
-#endif
     }
 
     IsoString ImageAcquisitionSettingsInterface::Id() const
@@ -149,9 +141,6 @@ namespace pcl
 
     void ImageAcquisitionSettingsInterface::AddCamera()
     {
-        Console c = Console();
-        c << "AddCamera()\n";
-
         // Not sure if this should be a new instance...or just reuse...I think reuse is better.
         //CameraDialog dlg = new CameraDialog;
         if ( GUI->CamDlg.Execute() )
@@ -159,8 +148,6 @@ namespace pcl
             size_type i0 = TreeInsertionIndex( GUI->CameraList_TreeBox );
             for ( size_type i = 0, n = instance.installedCameras.Length(); i < n; ++i )
             {
-                Console c = Console();
-                c << instance.installedCameras[i].cameraName;
                 String theCameraName = GUI->CamDlg.GetCameraName();
                 if ( theCameraName.Compare( instance.installedCameras[i].cameraName ) == 0 )
                     throw Error( "Please use a unique camera name for each camera." );
@@ -177,13 +164,13 @@ namespace pcl
         {
             try
             {
-                console << "AddCamera clicked\n";
                 AddCamera();
                 UpdateCameraList();
             }
             ERROR_HANDLER
         }
         //TODO:  decide how to handle edit if camera is not active etc...
+        //  I think we need to invoke the configuration dialog of the driver here.
         else if ( sender == GUI->EditCamera_PushButton )
         {
             int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
@@ -191,41 +178,61 @@ namespace pcl
         }
         else if ( sender == GUI->DeleteCamera_PushButton )
         {
-            ImageAcquisitionSettingsInstance::camera_list newCameraList;
-            for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
-                if ( !GUI->CameraList_TreeBox[i]->IsSelected() )
-                    newCameraList.Add( instance.installedCameras[i] );
-            instance.installedCameras = newCameraList;
-            UpdateCameraList();
+            try
+            {
+                int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+                if( instance.installedCameras[currentIdx].cam && instance.installedCameras[currentIdx].cam.Connected() )
+                    throw Error( "Can't delete an imager while it is connected.");
+
+                //TODO: I need to deal with the user deleting the primary imager.
+                //The expose image interface will still work I think because there is a global reference
+                //to the cameraData...maybe this will get figured out with the persistant camera settings.
+                ImageAcquisitionSettingsInstance::camera_list newCameraList;
+                for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
+                    if ( !GUI->CameraList_TreeBox[i]->IsSelected() )
+                        newCameraList.Add( instance.installedCameras[i] );
+                instance.installedCameras = newCameraList;
+                UpdateCameraList();
+            }
+
+            ERROR_HANDLER
         }
         else if ( sender == GUI->MakePrimary_PushButton )
         {
-            int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
-            for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
-                if ( GUI->CameraList_TreeBox[i]->IsEnabled() )
-                    if ( cameraData->cam && cameraData->cam->Connected() )
-                        throw Error( "Cannot change primary imager while camera is connected." );
-                    else
-                        instance.installedCameras[i].enabled = false;
+            try {
+                int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+                for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
+                    if ( GUI->CameraList_TreeBox[i]->IsEnabled() )
+                        if ( cameraData->cam && cameraData->cam->Connected() )
+                            throw Error( "Cannot change primary imager while camera is connected." );
+                        else
+                            instance.installedCameras[i].enabled = false;
 
-            console << "made it through loop...";
-            instance.installedCameras[currentIdx].enabled = true;
-            InitializeCamera( instance.installedCameras[currentIdx] );
-            UpdateCameraList();
+                instance.installedCameras[currentIdx].enabled = true;
+                if( instance.installedCameras[currentIdx].cam == NULL)
+                    InitializeCamera( instance.installedCameras[currentIdx] );
+                cameraData->mutex.Lock();
+                cameraData->cam = instance.installedCameras[currentIdx].cam;
+                cameraData->mutex.Unlock();
+                UpdateCameraList();
 
-            //TODO:  Deal with a non active window...
-            if ( TheExposeImageInterface && TheExposeImageInterface->IsVisible() )
-                TheExposeImageInterface->UpdateCameraControls();
-            else
-            {
-                //this is broken...need to rework this anyways...it is crappy.
-//                TheExposeImageInterface->UpdateCameraControls();
+                //TODO:  Deal with a non active window...
+                if ( TheExposeImageInterface && TheExposeImageInterface->IsVisible() )
+                    TheExposeImageInterface->UpdateCameraControls();
+                else
+                {
+                    //this is broken...need to rework this anyways...it is crappy.
+    //                TheExposeImageInterface->UpdateCameraControls();
+                }
+
+
             }
 
+            ERROR_HANDLER
         }
         else
         {
-
+            //TODO:  maybe just throw an exception here...
         }
     }
 
@@ -360,35 +367,33 @@ namespace pcl
         return NULL;
     }
 
-    //TODO:  need to handle "re" initialization?  Or we need to throw if there is a value and this method is called.
     typedef IPixInsightCamera* (*MyFuncPtr)();
     void ImageAcquisitionSettingsInterface::InitializeCamera( const ImageAcquisitionSettingsInstance::CameraItem &cItem )
     {
         IsoString theString = cItem.driverPath;
         const char * chars = theString.c_str();
         MyFuncPtr InitializePtr = NULL;
-        if ( cameraData->cam == 0 )
+        if ( cItem.cam == 0 )
         {
 #ifdef __PCL_WINDOWS
 
-            HINSTANCE loadedLib = NULL;
-            loadedLib = LoadLibrary(chars);
+            //HINSTANCE loadedLib = NULL;
+            cItem.libHandle = LoadLibrary(chars);
             InitializePtr = (MyFuncPtr) (// get the function pointer
-                    GetProcAddress( loadedLib, "InitializeCamera" )
+                    GetProcAddress( cItem.libHandle, "InitializeCamera" )
             );
 
 #endif
 #ifdef __PCL_MACOSX
-            Console().WriteLn( "We are dealing with a mac env " );
-            libHandle = dlopen( chars, RTLD_NOW );
-            if ( libHandle == NULL )
+            cItem.libHandle = dlopen( chars, RTLD_NOW );
+            if ( cItem.libHandle == NULL )
             {
                 throw Error( "Problem loading driver" );
                 Console().WriteLn( dlerror() );
             }
             else
             {
-                InitializePtr = (MyFuncPtr) dlsym( libHandle, "InitializeCamera" );
+                InitializePtr = (MyFuncPtr) dlsym( cItem.libHandle, "InitializeCamera" );
             }
 #endif
 
@@ -398,18 +403,15 @@ namespace pcl
             }
             else
             {
-
-				cameraData->mutex.Lock();
-				cameraData->cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );;
-				String theString = cameraData->cam->Description();
-				cameraData->mutex.Unlock();
+                cItem.cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
+                String theString = cItem.cam->Description();
                 Console().Write( "Loaded driver: " );
                 Console().WriteLn( theString );
             }
         }
         else
         {
-            Console().Write( "Active Camera Already Intialized: " );
+            Console().Write( "Camera Already Intialized: " );
         }
     }
 } // pcl

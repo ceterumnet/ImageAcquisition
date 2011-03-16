@@ -61,6 +61,8 @@ ImageAcquisitionSettingsProcess.o:  \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
+  ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsInterface.h \
   /Users/draphael/PCL/include/pcl/ProcessInterface.h \
   /Users/draphael/PCL/include/pcl/Control.h \
@@ -90,9 +92,7 @@ ImageAcquisitionSettingsProcess.o:  \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
   /Users/draphael/PCL/include/pcl/Console.h \
   /Users/draphael/PCL/include/pcl/FileDialog.h \
-  /Users/draphael/PCL/include/pcl/GlobalSettings.h ../IPixInsightCamera.h \
-  /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/GlobalSettings.h \
   ../ImageAcquisitionSettingsIcon.xpm
 
 ../ImageAcquisitionSettingsProcess.h:
@@ -217,6 +217,12 @@ ImageAcquisitionSettingsProcess.o:  \
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
+../IPixInsightCamera.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
 ../ImageAcquisitionSettingsInterface.h:
 
 /Users/draphael/PCL/include/pcl/ProcessInterface.h:
@@ -278,11 +284,5 @@ ImageAcquisitionSettingsProcess.o:  \
 /Users/draphael/PCL/include/pcl/FileDialog.h:
 
 /Users/draphael/PCL/include/pcl/GlobalSettings.h:
-
-../IPixInsightCamera.h:
-
-/Users/draphael/PCL/include/pcl/Vector.h:
-
-/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ImageAcquisitionSettingsIcon.xpm:

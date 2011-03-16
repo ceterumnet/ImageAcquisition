@@ -2,7 +2,7 @@
 #define __ImageAcquisitionSettingsInstance_h
 
 #include <pcl/ProcessImplementation.h>
-
+#include "IPixInsightCamera.h"
 #include "ImageAcquisitionSettingsParameters.h"
 
 namespace pcl
@@ -33,11 +33,21 @@ public:
 	   pcl_bool enabled;
 	   String driverPath;
 	   String cameraName;
+	   mutable IPixInsightCamera *cam;
+#ifdef __PCL_MACOSX
+	   mutable void* libHandle;
+#endif
+#ifdef __PCL_WINDOWS
 
-	   CameraItem(  const String& cn = String(), const String& dp = String()) : enabled( false ), driverPath( dp ), cameraName( cn )
+	   mutable HINSTANCE libHandle;
+#endif
+
+	   CameraItem(  const String& cn = String(), const String& dp = String()) :
+	       enabled( false ), driverPath( dp ), cameraName( cn ), cam( 0 ), libHandle( 0 )
 	   {
 	   }
-	   CameraItem( const CameraItem& x ) : enabled( x.enabled ), driverPath( x.driverPath ), cameraName( x.cameraName )
+	   CameraItem( const CameraItem& x ) :
+	       enabled( x.enabled ), driverPath( x.driverPath ), cameraName( x.cameraName ), cam( x.cam ), libHandle( x.libHandle )
 	   {
 	   }
    };

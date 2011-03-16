@@ -53,11 +53,6 @@ namespace pcl
 		
 		ImageAcquisitionSettingsInstance::CameraItem *GetPrimaryImager();
 	private:
-#ifdef __PCL_MACOSX
-		void* libHandle;
-		void* libHandleGuider;
-#endif
-
         ImageAcquisitionSettingsInstance instance;
 		
 		struct GUIData

@@ -89,10 +89,10 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  ../ImageAcquisitionSettingsParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h ../IPixInsightCamera.h \
-  /Users/draphael/PCL/include/pcl/Vector.h \
+  ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
+  ../ImageAcquisitionSettingsParameters.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -281,15 +281,15 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
-../ImageAcquisitionSettingsParameters.h:
-
-/Users/draphael/PCL/include/pcl/MetaParameter.h:
-
 ../IPixInsightCamera.h:
 
 /Users/draphael/PCL/include/pcl/Vector.h:
 
 /Users/draphael/PCL/include/pcl/Selection.h:
+
+../ImageAcquisitionSettingsParameters.h:
+
+/Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 
