@@ -92,4 +92,6 @@ namespace pcl
 		return installedCameras[tableRow].cameraName.Length();
     return 0;
   }
+
+
 }

@@ -90,7 +90,7 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
   ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
   ../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
@@ -285,6 +285,8 @@ ExposeImageInterface.o: ../ExposeImageInterface.cpp \
 ../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../CameraItem.h:
 
 ../ExposeImageInterface.h:
 

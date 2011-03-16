@@ -152,7 +152,7 @@ namespace pcl
                 if ( theCameraName.Compare( instance.installedCameras[i].cameraName ) == 0 )
                     throw Error( "Please use a unique camera name for each camera." );
             }
-            instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), ImageAcquisitionSettingsInstance::CameraItem( GUI->CamDlg.GetCameraName(),
+            instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), CameraItem( GUI->CamDlg.GetCameraName(),
                     GUI->CamDlg.GetDriverFile() ) );
         }
     }
@@ -181,7 +181,7 @@ namespace pcl
             try
             {
                 int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
-                if( instance.installedCameras[currentIdx].cam && instance.installedCameras[currentIdx].cam.Connected() )
+                if( instance.installedCameras[currentIdx].cam && instance.installedCameras[currentIdx].cam->Connected() )
                     throw Error( "Can't delete an imager while it is connected.");
 
                 //TODO: I need to deal with the user deleting the primary imager.
@@ -321,7 +321,7 @@ namespace pcl
         TreeBox::Node* node = GUI->CameraList_TreeBox[i];
         if ( node == 0 )
             return;
-        const ImageAcquisitionSettingsInstance::CameraItem& item = instance.installedCameras[i];
+        const CameraItem& item = instance.installedCameras[i];
         node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
         node->SetAlignment( 0, TextAlign::Left );
         node->SetText( 1, item.cameraName );
@@ -359,7 +359,7 @@ namespace pcl
         GUI->CameraList_TreeBox.EnableUpdates();
     }
 
-    ImageAcquisitionSettingsInstance::CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
+    CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
     {
         for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
             if ( instance.installedCameras[i].enabled )
@@ -368,7 +368,7 @@ namespace pcl
     }
 
     typedef IPixInsightCamera* (*MyFuncPtr)();
-    void ImageAcquisitionSettingsInterface::InitializeCamera( const ImageAcquisitionSettingsInstance::CameraItem &cItem )
+    void ImageAcquisitionSettingsInterface::InitializeCamera( const CameraItem &cItem )
     {
         IsoString theString = cItem.driverPath;
         const char * chars = theString.c_str();

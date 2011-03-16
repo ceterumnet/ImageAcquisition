@@ -91,7 +91,7 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
   ../CameraData.h
 
@@ -284,6 +284,8 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 ../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../CameraItem.h:
 
 ../ExposeImageParameters.h:
 

@@ -1,4 +1,3 @@
-
 #ifndef __ImageAcquisitionSettingsInterface_h
 #define __ImageAcquisitionSettingsInterface_h
 
@@ -18,6 +17,7 @@
 #include "CameraDialog.h"
 #include "ImageAcquisitionSettingsInstance.h"
 #include "IPixInsightCamera.h"
+#include "CameraItem.h"
 
 namespace pcl
 {
@@ -48,10 +48,10 @@ namespace pcl
 
 		virtual bool ImportProcess( const ProcessImplementation& );
 		void TestImage();
-		void InitializeCamera( const ImageAcquisitionSettingsInstance::CameraItem& );
+		void InitializeCamera( const CameraItem& );
 		// -------------------------------------------------------------------------
 		
-		ImageAcquisitionSettingsInstance::CameraItem *GetPrimaryImager();
+		CameraItem *GetPrimaryImager();
 	private:
         ImageAcquisitionSettingsInstance instance;
 		

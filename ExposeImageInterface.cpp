@@ -237,7 +237,7 @@ namespace pcl
   //I don't know if this should be an update call or something else...
   void ExposeImageInterface::UpdateCameraControls()
   {
-	  ImageAcquisitionSettingsInstance::CameraItem *cItem = TheImageAcquisitionSettingsInterface->GetPrimaryImager();
+	  CameraItem *cItem = TheImageAcquisitionSettingsInterface->GetPrimaryImager();
 
 	  if(cItem)
 		  GUI->ActiveCamera_Edit.SetText(cItem->cameraName);

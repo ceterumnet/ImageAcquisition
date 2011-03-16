@@ -92,7 +92,7 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
   ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
-  /Users/draphael/PCL/include/pcl/MetaParameter.h \
+  /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -290,6 +290,8 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
 ../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
+
+../CameraItem.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 
