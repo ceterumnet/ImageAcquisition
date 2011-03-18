@@ -1,5 +1,6 @@
 #include "CameraItem.h"
 #include "ImageAcquisitionModule.h"
+#include "SerializableTraits.h"
 namespace pcl
 {
 

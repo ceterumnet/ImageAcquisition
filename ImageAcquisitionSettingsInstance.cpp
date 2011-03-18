@@ -4,9 +4,29 @@ namespace pcl
 {
 
   ImageAcquisitionSettingsInstance::ImageAcquisitionSettingsInstance( const MetaProcess* m) : 
-    ProcessImplementation( m ),
-    installedCameras()
+    ProcessImplementation( m ), installedCameras()
   {
+      //installedCameras = LoadCameras();
+  }
+
+  ImageAcquisitionSettingsInstance::camera_list ImageAcquisitionSettingsInstance::LoadCameras()
+  {
+      camera_list cameras;
+      ByteArray data;
+      if( Settings::Read( "CameraData", data ) )
+      {
+          CameraItem camera;
+          for ( ByteArray::const_iterator i = data.Begin(); i < data.End(); i = camera.GetFromRawData( i ) )
+                   cameras.Add( camera );
+      }
+  }
+
+  void ImageAcquisitionSettingsInstance::SaveCameras( const camera_list& cameras )
+  {
+     ByteArray data;
+     for ( camera_list::const_iterator i = cameras.Begin(); i != cameras.End(); ++i )
+        i->AddToRawData( data );
+     Settings::Write( "CameraData", data );
   }
 
   ImageAcquisitionSettingsInstance::ImageAcquisitionSettingsInstance( const ImageAcquisitionSettingsInstance& x ) :

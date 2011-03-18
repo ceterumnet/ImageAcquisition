@@ -58,7 +58,8 @@ ImageAcquisitionSettingsInstance.o:  \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h
@@ -178,6 +179,8 @@ ImageAcquisitionSettingsInstance.o:  \
 /Users/draphael/PCL/include/pcl/ImageOptions.h:
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
+
+/Users/draphael/PCL/include/pcl/Settings.h:
 
 ../IPixInsightCamera.h:
 

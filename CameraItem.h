@@ -3,6 +3,7 @@
 #include <pcl/String.h>
 #include <pcl/Defs.h>
 #include <pcl/MetaParameter.h>
+
 namespace pcl
 {
     class IPixInsightCamera;

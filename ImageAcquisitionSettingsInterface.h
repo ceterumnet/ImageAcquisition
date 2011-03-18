@@ -71,7 +71,7 @@ namespace pcl
 						PushButton DeleteCamera_PushButton;
 						PushButton MakePrimary_PushButton;
 						PushButton MakeGuider_PushButton;
-					VerticalSizer LoadSaveSettings_Buttons;
+					HorizontalSizer LoadSaveSettings_Sizer;
 						PushButton SaveSettings_PushButton;
 						PushButton LoadSettings_PushButton;
 				// Filter Wheel Tab
@@ -89,12 +89,14 @@ namespace pcl
 		// Interface Updates
 
 		void UpdateControls();
+		void LoadUserSettings();
 		void UpdateCameraList();
 		void UpdateCameraItem(size_type);
 		void AddCamera();
 
 		void __ToggleSection( SectionBar& sender, Control& section, bool start );
 		void __CameraListButtons_Click( Button& sender, bool checked );
+		void __LoadSaveSettingsButtons_Click( Button& sender, bool checked );
 		void __CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
 		void __CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
 		void __CameraList_NodeSelectionUpdated( TreeBox& sender );

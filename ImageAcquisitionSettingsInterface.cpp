@@ -72,10 +72,16 @@ namespace pcl
         instance.LaunchGlobal();
     }
 
+    void ImageAcquisitionSettingsInterface::LoadUserSettings()
+    {
+
+    }
+
     void ImageAcquisitionSettingsInterface::UpdateControls()
     {
         UpdateCameraList();
     }
+
     void ImageAcquisitionSettingsInterface::ResetInstance()
     {
         ImageAcquisitionSettingsInstance defaultInstance( TheImageAcquisitionSettingsProcess );
@@ -89,6 +95,7 @@ namespace pcl
         {
             GUI = new GUIData( *this );
             SetWindowTitle( "Image Acquisition Settings" );
+            //LoadUserSettings();
             UpdateControls();
         }
 
@@ -154,6 +161,19 @@ namespace pcl
             }
             instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), CameraItem( GUI->CamDlg.GetCameraName(),
                     GUI->CamDlg.GetDriverFile() ) );
+        }
+    }
+
+    void ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click( Button& sender, bool checked )
+    {
+        if( sender == GUI->LoadSettings_PushButton )
+        {
+            instance.LoadCameras();
+            UpdateControls();
+        }
+        else if ( sender == GUI->SaveSettings_PushButton )
+        {
+            instance.SaveCameras( instance.installedCameras );
         }
     }
 
@@ -294,6 +314,15 @@ namespace pcl
 
         CameraSelection_Sizer.Add( CameraListButtons_Sizer );
 
+        LoadSettings_PushButton.SetText( "Load Current Settings" );
+        SaveSettings_PushButton.SetText( "Save Settings" );
+
+        LoadSettings_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click, w );
+        SaveSettings_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click, w );
+
+        LoadSaveSettings_Sizer.Add( LoadSettings_PushButton );
+        LoadSaveSettings_Sizer.Add( SaveSettings_PushButton );
+
         CameraListButtons_Sizer.Add( AddCamera_PushButton );
         CameraListButtons_Sizer.Add( EditCamera_PushButton );
         CameraListButtons_Sizer.Add( DeleteCamera_PushButton );
@@ -304,12 +333,14 @@ namespace pcl
         CameraListButtons_Sizer.AddStretch();
 
 
+
         ImageAcquisitionSettings_TabBox.AddPage( CameraSelection_Control, "Camera" );
         ImageAcquisitionSettings_TabBox.AddPage( FWSelection_Control, "Filter Wheel" );
 
         Global_Sizer.SetMargin( 8 );
         Global_Sizer.SetSpacing( 6 );
         Global_Sizer.Add( ImageAcquisitionSettings_TabBox );
+        Global_Sizer.Add( LoadSaveSettings_Sizer );
 
         w.SetSizer( Global_Sizer );
         w.SetFixedWidth();

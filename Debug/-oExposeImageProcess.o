@@ -88,7 +88,8 @@ ExposeImageProcess.o: ../ExposeImageProcess.cpp ../ExposeImageProcess.h \
   /Users/draphael/PCL/include/pcl/RadioButton.h \
   /Users/draphael/PCL/include/pcl/FileDialog.h \
   /Users/draphael/PCL/include/pcl/GlobalSettings.h \
-  ../ImageAcquisitionSettingsInstance.h ../IPixInsightCamera.h \
+  ../ImageAcquisitionSettingsInstance.h \
+  /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
@@ -281,6 +282,8 @@ ExposeImageProcess.o: ../ExposeImageProcess.cpp ../ExposeImageProcess.h \
 /Users/draphael/PCL/include/pcl/GlobalSettings.h:
 
 ../ImageAcquisitionSettingsInstance.h:
+
+/Users/draphael/PCL/include/pcl/Settings.h:
 
 ../IPixInsightCamera.h:
 

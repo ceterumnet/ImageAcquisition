@@ -90,14 +90,16 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  ../IPixInsightCamera.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
+  /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
   /Users/draphael/PCL/include/pcl/TextBox.h \
-  /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h
+  /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h \
+  ../SerializableTraits.h
 
 ../CameraItem.h:
 
@@ -285,6 +287,8 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
+/Users/draphael/PCL/include/pcl/Settings.h:
+
 ../IPixInsightCamera.h:
 
 /Users/draphael/PCL/include/pcl/Vector.h:
@@ -310,3 +314,5 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 /Users/draphael/PCL/include/pcl/Timer.h:
 
 ../CameraData.h:
+
+../SerializableTraits.h:
