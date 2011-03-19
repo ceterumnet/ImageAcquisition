@@ -331,7 +331,6 @@ namespace pcl
                 EnableExposureButtons( true );
                 GUI->UpdateCameraData_Timer.Start();
 				UpdateControls();
-
             } else {
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( false );
