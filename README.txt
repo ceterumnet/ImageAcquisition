@@ -62,19 +62,34 @@ All of these processes will have GUI interfaces where appropriate and
 instance classes.
 
 TODOs:
+ [x] Implement cross platform driver for devices
+ 	[x] Camera
+ 	[x] Filter Wheel
+ [ ] Implement Device Simulators
+ 	[x] Camera
+ 	[/] Filter Wheel (50%)
  [x] Unify Current Camera logic across processes (currently there is a direct
  		access to the pointer...not good)
- [x] Implement Temperature Monitoring
- [ ] Implement Default Camera Driver ( maybe just in Windows? )
- [ ] Fix range sliders.  Perhaps use a different UI paradigm.
- [ ] Implement Filter Wheel Control
- 	[x] Implement Simulator
- 	[ ] Add filter wheel selection to Settings Interface
- 	[ ] Wire up filterWheelData as a globally shared object
- 	
- [ ] Implement Serialized Settings Persistance
- [ ] Implement FileOutputPattern stuff
+ [ ] Wire up filterWheelData as a globally shared object (similar to cameraData)
+ [ ] ExposeImage process / instance / interface
+ 	[x] Duration
+ 	[x] Qty
+ 	[x] Camera Connection Logic
+ 	[x] Threading for global execution
+ 	[ ] Filter selection
+ 	[/] Implement FileOutputPattern stuff (50%)
+ 	[ ] Fix range sliders.  Perhaps use a different UI paradigm.
+ 	[x] Implement Temperature Monitoring / UI updates
+ 	[ ] Implement Set Temperature
+ 	[ ] Implement Frame and Focus
+ 	[ ] Implement Sub Frame Exposure
+ [ ] ImageAcquisitionSettings process / instance / interface
+ 	[x] Camera
+ 	[ ] Filter Wheel Settings
+ 	[x] Implement Serialized Settings Persistance for Cameras
+ 	[ ] Implement Serialized Settings Persistance for Filter Wheels
+ 	[ ] Implement Default Camera Driver ( maybe just in Windows? )
+ [x] Add thread safety for Camera Data access 
  [ ] Implement error handling across the different user interactions
- [ ] Expose scripting interface
- [ ] Implement Frame and Focus
- [ ] Implement Sub Frame Exposure
+ [ ] Expose scripting interface (make sure that the std paradigms that PI offers are 
+ 		adhered to)

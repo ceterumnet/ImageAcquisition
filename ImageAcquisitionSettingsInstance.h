@@ -31,8 +31,8 @@ namespace pcl
         virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
         virtual size_type ParameterLength( const MetaParameter* p, size_type tableRow ) const;
 
-        void SaveCameras( const camera_list& cameras );
-        camera_list LoadCameras();
+        void SaveCameras( );
+        void LoadCameras();
 
     private:
         camera_list installedCameras;

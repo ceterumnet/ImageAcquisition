@@ -47,10 +47,10 @@ namespace pcl
     ByteArray::const_iterator GetStringFromRawData( S& s, ByteArray::const_iterator i )
     {
        uint32 n;
+       //Read the size of the string into n
        i = GetFromRawData( n, i );
        if ( n > 0 )
        {
-
           s.Assign( reinterpret_cast<const typename S::char_type*>( i ), 0, n );
           i += n * sizeof( typename S::char_type );
        }

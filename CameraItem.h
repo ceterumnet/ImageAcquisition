@@ -22,11 +22,11 @@ namespace pcl
        mutable HINSTANCE libHandle;
 #endif
 
-       CameraItem( const String& cn = String(), const String& dp = String());
+       CameraItem( );
+       CameraItem( const String& cn, const String& dp);
        CameraItem( const CameraItem& x );
 
        void AddToRawData( ByteArray& ) const;
-
        ByteArray::const_iterator GetFromRawData( ByteArray::const_iterator );
    };
 }

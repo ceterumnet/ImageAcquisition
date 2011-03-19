@@ -173,7 +173,7 @@ namespace pcl
         }
         else if ( sender == GUI->SaveSettings_PushButton )
         {
-            instance.SaveCameras( instance.installedCameras );
+            instance.SaveCameras( );
         }
     }
 
