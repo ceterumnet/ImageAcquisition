@@ -49,4 +49,50 @@ namespace pcl
 		return "installedCameraName";
 	}
 
+    IAInstalledFilterWheels* TheIAInstalledFilterWheelsParameter = 0;
+    IAInstalledFilterWheelEnabled* TheIAInstalledFilterWheelEnabledParameter = 0;
+    IAInstalledFilterWheelDriverPath* TheIAInstalledFilterWheelDriverPathParameter = 0;
+    IAInstalledFilterWheelName* TheIAInstalledFilterWheelNameParameter = 0;
+
+
+    IAInstalledFilterWheels::IAInstalledFilterWheels( MetaProcess* P) : MetaTable( P )
+    {
+        TheIAInstalledFilterWheelsParameter = this;
+    }
+
+    IsoString IAInstalledFilterWheels::Id() const
+    {
+        return "installedFilterWheels";
+    }
+
+    IAInstalledFilterWheelEnabled::IAInstalledFilterWheelEnabled( MetaTable* T) : MetaBoolean( T )
+    {
+        TheIAInstalledFilterWheelEnabledParameter = this;
+    }
+
+    IsoString IAInstalledFilterWheelEnabled::Id() const
+    {
+        return "installedFilterWheelEnabled";
+    }
+
+    IAInstalledFilterWheelDriverPath::IAInstalledFilterWheelDriverPath( MetaTable* T) : MetaString( T )
+    {
+        TheIAInstalledFilterWheelDriverPathParameter = this;
+    }
+
+    IsoString IAInstalledFilterWheelDriverPath::Id() const
+    {
+        return "installedFilterWheelDriverPath";
+    }
+
+    IAInstalledFilterWheelName::IAInstalledFilterWheelName( MetaTable* T) : MetaString( T )
+    {
+        TheIAInstalledFilterWheelNameParameter = this;
+    }
+
+    IsoString IAInstalledFilterWheelName::Id() const
+    {
+        return "installedFilterWheelName";
+    }
+
 }

@@ -44,6 +44,38 @@ namespace pcl
 	extern IAInstalledCameraName* TheIAInstalledCameraNameParameter ;
 
 
+	class IAInstalledFilterWheels: public MetaTable
+    {
+    public:
+        IAInstalledFilterWheels( MetaProcess* );
+        virtual IsoString Id() const;
+    };
+    extern IAInstalledFilterWheels* TheIAInstalledFilterWheelsParameter;
+
+    class IAInstalledFilterWheelEnabled: public MetaBoolean
+    {
+    public:
+        IAInstalledFilterWheelEnabled( MetaTable* );
+        virtual IsoString Id() const;
+    };
+    extern IAInstalledFilterWheelEnabled* TheIAInstalledFilterWheelEnabledParameter;
+
+    class IAInstalledFilterWheelDriverPath: public MetaString
+    {
+    public:
+        IAInstalledFilterWheelDriverPath( MetaTable* );
+        virtual IsoString Id() const;
+    };
+    extern IAInstalledFilterWheelDriverPath* TheIAInstalledFilterWheelDriverPathParameter;
+
+    class IAInstalledFilterWheelName: public MetaString
+    {
+    public:
+        IAInstalledFilterWheelName( MetaTable* );
+        virtual IsoString Id() const;
+    };
+    extern IAInstalledFilterWheelName* TheIAInstalledFilterWheelNameParameter;
+
 	// ----------------------------------------------------------------------------
 
 	PCL_END_LOCAL

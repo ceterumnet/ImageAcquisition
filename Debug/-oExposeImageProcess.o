@@ -93,8 +93,8 @@ ExposeImageProcess.o: ../ExposeImageProcess.cpp ../ExposeImageProcess.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
-  /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
-  /Users/draphael/PCL/include/pcl/TextBox.h \
+  ../FilterWheelItem.h /Users/draphael/PCL/include/pcl/Mutex.h \
+  ../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageIcon.xpm
 
 ../ExposeImageProcess.h:
@@ -294,6 +294,8 @@ ExposeImageProcess.o: ../ExposeImageProcess.cpp ../ExposeImageProcess.h \
 ../ImageAcquisitionSettingsParameters.h:
 
 ../CameraItem.h:
+
+../FilterWheelItem.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
 

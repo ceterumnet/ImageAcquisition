@@ -1,6 +1,7 @@
 #include "ImageAcquisitionSettingsInstance.h"
 #include <pcl/Console.h>
 #include "CameraData.h"
+#include "FilterWheelData.h"
 #include <pcl/ErrorHandler.h>
 namespace pcl
 {
@@ -53,6 +54,50 @@ namespace pcl
             // Don't know if this is really necessary...
             Settings::Remove( "CameraData" );
             Settings::Write( "CameraData", data );
+        }
+    }
+
+    void ImageAcquisitionSettingsInstance::LoadFilterWheels()
+    {
+        try {
+            filterWheelData->mutex.Lock();
+            if( filterWheelData->fw && filterWheelData->fw->Connected() )
+            {
+                filterWheelData->mutex.Unlock();
+                throw Error( "Cannot load settings while filterWheel is connected." );
+            }
+            filterWheelData->mutex.Unlock();
+        }
+        ERROR_HANDLER
+
+        installedFilterWheels.Clear();
+        ByteArray data;
+        if ( Settings::Read( "FilterWheelData", data ) )
+        {
+            FilterWheelItem fw;
+            ByteArray::const_iterator i = data.Begin();
+            while ( i < data.End() )
+            {
+                i = fw.GetFromRawData( i );
+                installedFilterWheels.Add( fw );
+            }
+        }
+    }
+    void ImageAcquisitionSettingsInstance::SaveFilterWheels()
+    {
+
+        Console c;
+        ByteArray data;
+        for ( filter_wheel_list::const_iterator i = installedFilterWheels.Begin(); i != installedFilterWheels.End(); ++i )
+        {
+            i->AddToRawData( data );
+        }
+
+        if( data.Available() > 0)
+        {
+            // Don't know if this is really necessary...
+            Settings::Remove( "FilterWheelData" );
+            Settings::Write( "FilterWheelData", data );
         }
     }
 

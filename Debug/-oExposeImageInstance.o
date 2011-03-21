@@ -93,8 +93,8 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/Selection.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
-  ../CameraData.h
+  ../FilterWheelItem.h ../ExposeImageParameters.h \
+  /Users/draphael/PCL/include/pcl/Mutex.h ../CameraData.h ../parsers.h
 
 ../ExposeImageInstance.h:
 
@@ -290,8 +290,12 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 
 ../CameraItem.h:
 
+../FilterWheelItem.h:
+
 ../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
 
 ../CameraData.h:
+
+../parsers.h:

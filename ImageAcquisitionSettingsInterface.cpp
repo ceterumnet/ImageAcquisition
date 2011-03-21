@@ -169,11 +169,13 @@ namespace pcl
         if( sender == GUI->LoadSettings_PushButton )
         {
             instance.LoadCameras();
+            instance.LoadFilterWheels();
             UpdateControls();
         }
         else if ( sender == GUI->SaveSettings_PushButton )
         {
             instance.SaveCameras( );
+            instance.SaveFilterWheels( );
         }
     }
 
@@ -279,6 +281,11 @@ namespace pcl
     ImageAcquisitionSettingsInterface::GUIData::GUIData( ImageAcquisitionSettingsInterface& w )
     {
         pcl::Font fnt = w.Font();
+        int buttonWidth = fnt.Width( "Set as Primary Filter Wheel" ) * 1.5;
+        Console c;
+        c << "width: ";
+        c << buttonWidth;
+        /************ CAMERA PANEL ***********/
         CameraList_TreeBox.SetMinHeight( CAMERALIST_MINHEIGHT(fnt) );
 
         CameraList_TreeBox.SetNumberOfColumns( 3 );
@@ -294,6 +301,7 @@ namespace pcl
 
         AddCamera_PushButton.SetText( "Add Camera" );
         AddCamera_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        AddCamera_PushButton.SetFixedWidth( buttonWidth );
         EditCamera_PushButton.SetText( "Edit Camera" );
         EditCamera_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
         EditCamera_PushButton.Enable( false );
@@ -331,7 +339,57 @@ namespace pcl
 
         CameraListButtons_Sizer.SetSpacing( 4 );
         CameraListButtons_Sizer.AddStretch();
+        /************ END CAMERA PANEL ***********/
 
+        /************ FILTER_WHEEL PANEL ***********/
+        FWList_TreeBox.SetMinHeight( CAMERALIST_MINHEIGHT(fnt) );
+
+        FWList_TreeBox.SetNumberOfColumns( 3 );
+        FWList_TreeBox.HideHeader();
+        FWList_TreeBox.EnableMultipleSelections();
+        FWList_TreeBox.DisableRootDecoration();
+        FWList_TreeBox.EnableAlternateRowColor();
+
+        FWList_TreeBox.OnCurrentNodeUpdated( (TreeBox::node_navigation_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_CurrentNodeUpdated,
+                w );
+        FWList_TreeBox.OnNodeActivated( (TreeBox::node_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_NodeActivated, w );
+        FWList_TreeBox.OnNodeSelectionUpdated( (TreeBox::tree_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_NodeSelectionUpdated, w );
+
+        AddFW_PushButton.SetText( "Add Filter Wheel" );
+        AddFW_PushButton.SetFixedWidth( buttonWidth );
+        AddFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        DeleteFW_PushButton.SetText( "Delete Filter Wheel" );
+        DeleteFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        DeleteFW_PushButton.Enable( false );
+        MakeFW_PushButton.SetText( "Set as Primary Filter Wheel" );
+        MakeFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        MakeFW_PushButton.Enable( false );
+
+        FWSelection_Control.SetSizer( FWSelection_Sizer );
+        FWSelection_Control.AdjustToContents();
+
+        FWSelection_Sizer.Add( FWList_TreeBox );
+
+        FWSelection_Sizer.Add( FWListButtons_Sizer );
+
+        FWListButtons_Sizer.Add( AddFW_PushButton );
+        FWListButtons_Sizer.Add( DeleteFW_PushButton );
+        FWListButtons_Sizer.Add( MakeFW_PushButton );
+
+        FWListButtons_Sizer.SetSpacing( 4 );
+        FWListButtons_Sizer.AddStretch();
+
+
+        /********* END FILTER WHEEL ********/
+
+        LoadSettings_PushButton.SetText( "Load Current Settings" );
+        SaveSettings_PushButton.SetText( "Save Settings" );
+
+        LoadSettings_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click, w );
+        SaveSettings_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click, w );
+
+        LoadSaveSettings_Sizer.Add( LoadSettings_PushButton );
+        LoadSaveSettings_Sizer.Add( SaveSettings_PushButton );
 
 
         ImageAcquisitionSettings_TabBox.AddPage( CameraSelection_Control, "Camera" );

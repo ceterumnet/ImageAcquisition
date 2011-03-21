@@ -1,4 +1,4 @@
-CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
+FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   /Users/draphael/PCL/include/pcl/String.h \
   /Users/draphael/PCL/include/pcl/Defs.h \
   /Users/draphael/PCL/include/pcl/Diagnostics.h \
@@ -93,7 +93,7 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
-  ../ImageAcquisitionSettingsParameters.h ../FilterWheelItem.h \
+  ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -101,7 +101,7 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h \
   ../SerializableTraits.h
 
-../CameraItem.h:
+../FilterWheelItem.h:
 
 /Users/draphael/PCL/include/pcl/String.h:
 
@@ -297,7 +297,7 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 
 ../ImageAcquisitionSettingsParameters.h:
 
-../FilterWheelItem.h:
+../CameraItem.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 

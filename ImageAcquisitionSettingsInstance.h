@@ -6,6 +6,7 @@
 #include "IPixInsightCamera.h"
 #include "ImageAcquisitionSettingsParameters.h"
 #include "CameraItem.h"
+#include "FilterWheelItem.h"
 namespace pcl
 {
 
@@ -16,6 +17,8 @@ namespace pcl
     {
     public:
         typedef Array<CameraItem> camera_list;
+        typedef Array<FilterWheelItem> filter_wheel_list;
+
         ImageAcquisitionSettingsInstance( const MetaProcess* );
         ImageAcquisitionSettingsInstance( const ImageAcquisitionSettingsInstance& );
 
@@ -34,8 +37,12 @@ namespace pcl
         void SaveCameras( );
         void LoadCameras();
 
+        void LoadFilterWheels();
+        void SaveFilterWheels();
+
     private:
         camera_list installedCameras;
+        filter_wheel_list installedFilterWheels;
 
         friend class ImageAcquisitionSettingsInterface;
         friend class CameraSelectorDialog;

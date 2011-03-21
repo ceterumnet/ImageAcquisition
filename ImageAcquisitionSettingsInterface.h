@@ -71,15 +71,18 @@ namespace pcl
 						PushButton DeleteCamera_PushButton;
 						PushButton MakePrimary_PushButton;
 						PushButton MakeGuider_PushButton;
-					HorizontalSizer LoadSaveSettings_Sizer;
-						PushButton SaveSettings_PushButton;
-						PushButton LoadSettings_PushButton;
 				// Filter Wheel Tab
                 Control FWSelection_Control;
-                VerticalSizer FWSelection_Sizer;
-                    Label SelectedFilterWheelDriverLabel;
-                    ToolButton SelectFilterDriver_ToolButton;
-                    TreeBox FilterList_TreeBox;
+                HorizontalSizer FWSelection_Sizer;
+                    TreeBox FWList_TreeBox;
+                    VerticalSizer FWListButtons_Sizer;
+                        PushButton AddFW_PushButton;
+                        PushButton DeleteFW_PushButton;
+                        PushButton MakeFW_PushButton;
+                // Load and Save settings
+                HorizontalSizer LoadSaveSettings_Sizer;
+                    PushButton SaveSettings_PushButton;
+                    PushButton LoadSettings_PushButton;
 
 			CameraDialog CamDlg;
 		};

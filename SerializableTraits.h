@@ -63,12 +63,12 @@ namespace pcl
      * Template instantiations for the String type.
      */
 
-    void AddToRawData( ByteArray& b, const String& s )
+    inline void AddToRawData( ByteArray& b, const String& s )
     {
        AddStringToRawData( b, s );
     }
 
-    ByteArray::const_iterator GetFromRawData( String& s, ByteArray::const_iterator i )
+    inline ByteArray::const_iterator GetFromRawData( String& s, ByteArray::const_iterator i )
     {
        return GetStringFromRawData( s, i );
     }
@@ -77,12 +77,12 @@ namespace pcl
      * Template instantiations for the IsoString type.
      */
 
-    void AddToRawData( ByteArray& b, const IsoString& s )
+    inline void AddToRawData( ByteArray& b, const IsoString& s )
     {
        AddStringToRawData( b, s );
     }
 
-    ByteArray::const_iterator GetFromRawData( IsoString& s, ByteArray::const_iterator i )
+    inline ByteArray::const_iterator GetFromRawData( IsoString& s, ByteArray::const_iterator i )
     {
        return GetStringFromRawData( s, i );
     }

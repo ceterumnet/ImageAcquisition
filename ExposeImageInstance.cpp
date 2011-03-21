@@ -190,7 +190,8 @@ namespace pcl
 
         }
 		OutputData __data;
-		String foo = GenerateOutputFileName(String("<YYYY>"), __data);
+		String stmp("<YYYY>");
+		String foo = GenerateOutputFileName(stmp, __data);
 		Console c;
 		c << "output: " << foo << "\n"; 
         ExposeImages();
@@ -201,11 +202,11 @@ namespace pcl
     {
         if( data == 0)
             data = new ExposeImageData;
+
         Console console;
 
-        console << "Starting Image Exposure Process: \n";
+        console << "Starting ExposeImage Process: \n";
         IPixInsightCamera *cam = cameraData->cam;
-        //cam->SetLogger( &aLogger );
 
         exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, exposureCount );
         exposeThread->Start();
@@ -222,7 +223,6 @@ namespace pcl
 
             if ( myImageReady )
             {
-                Console().WriteLn("Image is ready...");
                 ImageWindow window( cam->NumX(), // width
                         cam->NumY(), // height
                         1, // numberOfChannels
