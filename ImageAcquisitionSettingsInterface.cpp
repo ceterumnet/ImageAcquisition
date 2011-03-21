@@ -232,7 +232,7 @@ namespace pcl
 
                 instance.installedCameras[currentIdx].enabled = true;
                 if( instance.installedCameras[currentIdx].cam == NULL)
-                    InitializeCamera( instance.installedCameras[currentIdx] );
+                    instance.installedCameras[currentIdx].InitializeCamera();
                 cameraData->mutex.Lock();
                 cameraData->cam = instance.installedCameras[currentIdx].cam;
                 cameraData->mutex.Unlock();
@@ -456,51 +456,4 @@ namespace pcl
         return NULL;
     }
 
-    typedef IPixInsightCamera* (*MyFuncPtr)();
-    void ImageAcquisitionSettingsInterface::InitializeCamera( const CameraItem &cItem )
-    {
-        IsoString theString = cItem.driverPath;
-        const char * chars = theString.c_str();
-        MyFuncPtr InitializePtr = NULL;
-        if ( cItem.cam == 0 )
-        {
-#ifdef __PCL_WINDOWS
-
-            //HINSTANCE loadedLib = NULL;
-            cItem.libHandle = LoadLibrary(chars);
-            InitializePtr = (MyFuncPtr) (// get the function pointer
-                    GetProcAddress( cItem.libHandle, "InitializeCamera" )
-            );
-
-#endif
-#ifdef __PCL_MACOSX
-            cItem.libHandle = dlopen( chars, RTLD_NOW );
-            if ( cItem.libHandle == NULL )
-            {
-                throw Error( "Problem loading driver" );
-                Console().WriteLn( dlerror() );
-            }
-            else
-            {
-                InitializePtr = (MyFuncPtr) dlsym( cItem.libHandle, "InitializeCamera" );
-            }
-#endif
-
-            if ( InitializePtr == NULL )
-            {
-                throw Error( "Failed to load library.  Make sure that you've pointed to a valid driver file." );
-            }
-            else
-            {
-                cItem.cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
-                String theString = cItem.cam->Description();
-                Console().Write( "Loaded driver: " );
-                Console().WriteLn( theString );
-            }
-        }
-        else
-        {
-            Console().Write( "Camera Already Intialized: " );
-        }
-    }
 } // pcl

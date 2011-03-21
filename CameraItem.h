@@ -25,7 +25,7 @@ namespace pcl
        CameraItem( );
        CameraItem( const String& cn, const String& dp);
        CameraItem( const CameraItem& x );
-
+       void InitializeCamera( );
        void AddToRawData( ByteArray& ) const;
        ByteArray::const_iterator GetFromRawData( ByteArray::const_iterator );
    };

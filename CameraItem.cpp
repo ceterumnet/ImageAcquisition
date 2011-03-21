@@ -2,6 +2,9 @@
 #include "ImageAcquisitionModule.h"
 #include "SerializableTraits.h"
 #include <pcl/Console.h>
+#ifdef __PCL_MACOSX
+#include <dlfcn.h>
+#endif
 namespace pcl
 {
 
@@ -31,5 +34,53 @@ namespace pcl
                   pcl::GetFromRawData( driverPath,
                      pcl::GetFromRawData( cameraName, i ) ) );
 
+    }
+
+    typedef IPixInsightCamera* (*MyFuncPtr)();
+    void CameraItem::InitializeCamera( )
+    {
+        IsoString theString = driverPath;
+        const char * chars = theString.c_str();
+        MyFuncPtr InitializePtr = NULL;
+        if ( cam == 0 )
+        {
+#ifdef __PCL_WINDOWS
+
+            //HINSTANCE loadedLib = NULL;
+            libHandle = LoadLibrary(chars);
+            InitializePtr = (MyFuncPtr) (// get the function pointer
+                    GetProcAddress( libHandle, "InitializeCamera" )
+            );
+
+#endif
+#ifdef __PCL_MACOSX
+            libHandle = dlopen( chars, RTLD_NOW );
+            if ( libHandle == NULL )
+            {
+                throw Error( "Problem loading driver" );
+                Console().WriteLn( dlerror() );
+            }
+            else
+            {
+                InitializePtr = (MyFuncPtr) dlsym( libHandle, "InitializeCamera" );
+            }
+#endif
+
+            if ( InitializePtr == NULL )
+            {
+                throw Error( "Failed to load library.  Make sure that you've pointed to a valid driver file." );
+            }
+            else
+            {
+                cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
+                String theString = cam->Description();
+                Console().Write( "Loaded driver: " );
+                Console().WriteLn( theString );
+            }
+        }
+        else
+        {
+            Console().Write( "Camera Already Initialized: " );
+        }
     }
 }

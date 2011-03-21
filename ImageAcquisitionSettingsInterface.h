@@ -48,7 +48,6 @@ namespace pcl
 
 		virtual bool ImportProcess( const ProcessImplementation& );
 		void TestImage();
-		void InitializeCamera( const CameraItem& );
 		// -------------------------------------------------------------------------
 		
 		CameraItem *GetPrimaryImager();
