@@ -1,24 +1,66 @@
-#include <string.h>
-#include <stdio.h>
-
+#include "parsers.h"
 %%{
   machine fileOutputFormat;
-  main :=
-	( 'foo' | 'bar' )
-	0 @{ res = 1; };
+  write data;  
 }%%
 
-%%write data;
+pcl::String GenerateOutputFileName(pcl::String &outputPattern, struct OutputData &outputData)
+{
+	pcl::String outputFileName;
+	outputFileName += "works: ";
+	pcl::IsoString isoStr = outputPattern.ToIsoString();
+	char *p = isoStr.c_str();
+	char *pe = isoStr.c_str() + strlen(isoStr.c_str());
+	char *eof = 0;
+	
+	int cs;
+	%%{
+	  action YEAR {
+		outputFileName += "YYYY";
+	  }
+	  
+	  action S_YEAR {
+		outputFileName += "YY";
+	  }
+	  
+	  action MONTH {
+		outputFileName += "MM";
+	  }
+	  
+	  action DAY {
+		outputFileName += "DD";
+	  }
+	  
+	  action OTHER {
+		outputFileName += "X";
+	  }
+	  action FILTER {
+		outputFileName += "Filter";
+	  }
+	  YYYY = '<YYYY>';
+	  YY = '<YY>';
+	  MM = '<MM>';
+      DD = '<DD>';
+	  FILTER = '<FILTER>';
+	  
+	  
+	  main :=
+	  (  YYYY @YEAR | 
+		 YY @S_YEAR | 
+		 MM @MONTH  | 
+		 DD @DAY | 
+		 FILTER @FILTER |
+		 any @OTHER
+	  )+;
+	  write init;
+	  write exec;
+	}%%
+	
+	return outputFileName;
+}
 
 int main( int argc, char **argv )
 {
-  int cs, res = 0;
-  if ( argc > 1 ) {
-    char *p = argv[1];
-    char *pe = p + strlen(p) + 1;
-    %% write init;
-    %% write exec;
-  }
-  printf("result = %i\n", res);
-  return 0;
+	
+	return 0;
 }

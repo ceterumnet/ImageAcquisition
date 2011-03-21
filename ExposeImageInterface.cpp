@@ -326,10 +326,12 @@ namespace pcl
             {
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( true );
+				bool canReadTemp = cameraData->cam->CanSetCCDTemperature();
 				cameraData->mutex.Unlock();
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
-                GUI->UpdateCameraData_Timer.Start();
+				if( canReadTemp )
+					GUI->UpdateCameraData_Timer.Start();
 				UpdateControls();
             } else {
 				cameraData->mutex.Lock();

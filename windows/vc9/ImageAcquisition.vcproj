@@ -375,6 +375,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\CameraItem.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\ExposeImageInstance.cpp"
 				>
 			</File>
@@ -430,6 +434,10 @@
 				RelativePath="..\..\ImageAcquisitionSettingsProcess.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\parsers.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -437,11 +445,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\CameraData.h"
+				RelativePath="..\..\CameraData.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\CameraDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\CameraItem.h"
 				>
 			</File>
 			<File
@@ -502,6 +514,14 @@
 			</File>
 			<File
 				RelativePath="..\..\IPixInsightFilterWheel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\parsers.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\SerializableTraits.h"
 				>
 			</File>
 		</Filter>

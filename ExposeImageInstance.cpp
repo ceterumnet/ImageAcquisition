@@ -1,5 +1,6 @@
 #include "ExposeImageInstance.h"
 #include "CameraData.h"
+#include "parsers.h"
 namespace pcl
 {
     struct ExposeImageData
@@ -188,6 +189,10 @@ namespace pcl
                 throw("The specified output directory does not exist: " + fileOutputPath);
 
         }
+		OutputData __data;
+		String foo = GenerateOutputFileName(String("<YYYY>"), __data);
+		Console c;
+		c << "output: " << foo << "\n"; 
         ExposeImages();
         return true;
     }
