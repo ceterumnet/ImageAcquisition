@@ -32,8 +32,6 @@ namespace pcl
 
 #include "ImageAcquisitionSettingsIcon.xpm"
 
-    // ----------------------------------------------------------------------------
-
     ImageAcquisitionSettingsInterface::ImageAcquisitionSettingsInterface() :
         ProcessInterface(), instance( TheImageAcquisitionSettingsProcess ), GUI( 0 )
     {
@@ -42,7 +40,6 @@ namespace pcl
 
     ImageAcquisitionSettingsInterface::~ImageAcquisitionSettingsInterface()
     {
-        //globalItemControls.Clear();
         if ( GUI != 0 )
             delete GUI, GUI = 0;
     }
@@ -72,10 +69,6 @@ namespace pcl
         instance.LaunchGlobal();
     }
 
-    void ImageAcquisitionSettingsInterface::LoadUserSettings()
-    {
-
-    }
 
     void ImageAcquisitionSettingsInterface::UpdateControls()
     {
@@ -193,9 +186,10 @@ namespace pcl
         }
         //TODO:  decide how to handle edit if camera is not active etc...
         //  I think we need to invoke the configuration dialog of the driver here.
+        // I'm not sure we need to have edit functionality here...it is pretty easy to add/delete...
         else if ( sender == GUI->EditCamera_PushButton )
         {
-            int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+            //int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
             //instance.installedCameras[currentIdx]
         }
         else if ( sender == GUI->DeleteCamera_PushButton )
@@ -203,12 +197,8 @@ namespace pcl
             try
             {
                 int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
-                if( instance.installedCameras[currentIdx].cam && instance.installedCameras[currentIdx].cam->Connected() )
+                if( instance.installedCameras[currentIdx].GetDevice() && instance.installedCameras[currentIdx].GetDevice()->Connected() )
                     throw Error( "Can't delete an imager while it is connected.");
-
-                //TODO: I need to deal with the user deleting the primary imager.
-                //The expose image interface will still work I think because there is a global reference
-                //to the cameraData...maybe this will get figured out with the persistant camera settings.
                 ImageAcquisitionSettingsInstance::camera_list newCameraList;
                 for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
                     if ( !GUI->CameraList_TreeBox[i]->IsSelected() )
@@ -231,10 +221,10 @@ namespace pcl
                             instance.installedCameras[i].enabled = false;
 
                 instance.installedCameras[currentIdx].enabled = true;
-                if( instance.installedCameras[currentIdx].cam == NULL)
+                if( instance.installedCameras[currentIdx].GetDevice() == NULL)
                     instance.installedCameras[currentIdx].InitializeCamera();
                 cameraData->mutex.Lock();
-                cameraData->cam = instance.installedCameras[currentIdx].cam;
+                cameraData->cam = instance.installedCameras[currentIdx].GetDevice();
                 cameraData->mutex.Unlock();
                 UpdateCameraList();
 

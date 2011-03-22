@@ -35,14 +35,14 @@ ImageAcquisitionModule
 		 	[x] Qty
 		 	[x] Camera Connection Logic
 		 	[x] Threading for global execution
-		 	[ ] Test Binning
+		 	[ ] Binning
 		 	[ ] Filter selection
 		 	[/] Implement FileOutputPattern stuff (75%)
 		 	[ ] Fix range sliders.  Perhaps use a different UI paradigm.
 		 	[x] Implement Temperature Monitoring / UI updates
 		 	[ ] Implement Set Temperature
 		 	[ ] Implement Frame and Focus
-		 	[ ] Implement Sub Frame Exposure
+		 	[ ] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
 		 	[ ] Add delay in between exposures
 		 [ ] ImageAcquisitionSettings process / instance / interface
 		 	[x] Camera Settings

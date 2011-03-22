@@ -91,7 +91,6 @@ namespace pcl
 		// Interface Updates
 
 		void UpdateControls();
-		void LoadUserSettings();
 		void UpdateCameraList();
 		void UpdateCameraItem(size_type);
 		void AddCamera();

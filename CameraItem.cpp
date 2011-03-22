@@ -36,13 +36,18 @@ namespace pcl
 
     }
 
+    IPixInsightCamera* CameraItem::GetDevice()
+    {
+        return cam;
+    }
+
     typedef IPixInsightCamera* (*MyFuncPtr)();
     void CameraItem::InitializeCamera( )
     {
         IsoString theString = driverPath;
         const char * chars = theString.c_str();
         MyFuncPtr InitializePtr = NULL;
-        if ( cam == 0 )
+        if ( GetDevice() == 0 )
         {
 #ifdef __PCL_WINDOWS
 
@@ -72,6 +77,9 @@ namespace pcl
             }
             else
             {
+                // TODO: Add validation here that the cast was successful.  I think this
+                // could be a problem if someone tries to load another driver that also responds to
+                // this method...especially as we abstract the loading architecture of the drivers.
                 cam = dynamic_cast<IPixInsightCamera *> ( InitializePtr() );
                 String theString = cam->Description();
                 Console().Write( "Loaded driver: " );

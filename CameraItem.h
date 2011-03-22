@@ -13,9 +13,8 @@ namespace pcl
        pcl_bool enabled;
        String driverPath;
        String cameraName;
-       mutable IPixInsightCamera *cam;
 #ifdef __PCL_MACOSX
-       mutable void* libHandle;
+
 #endif
 #ifdef __PCL_WINDOWS
 
@@ -28,6 +27,12 @@ namespace pcl
        void InitializeCamera( );
        void AddToRawData( ByteArray& ) const;
        ByteArray::const_iterator GetFromRawData( ByteArray::const_iterator );
+       IPixInsightCamera* GetDevice();
+
+   private:
+       IPixInsightCamera *cam;
+       void* libHandle;
+
    };
 }
 
