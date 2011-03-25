@@ -219,12 +219,15 @@ namespace pcl
                             throw Error( "Cannot change primary imager while camera is connected." );
                         else
                             instance.installedCameras[i].enabled = false;
-
-                instance.installedCameras[currentIdx].enabled = true;
-                if( instance.installedCameras[currentIdx].GetDevice() == NULL)
-                    instance.installedCameras[currentIdx].InitializeCamera();
+                CameraItem *theItem = &instance.installedCameras[currentIdx];
+                theItem->enabled = true;
+                if( theItem->GetDevice() == NULL)
+                    theItem->InitializeDevice();
                 cameraData->mutex.Lock();
-                cameraData->cam = instance.installedCameras[currentIdx].GetDevice();
+                if( theItem->GetDevice() == NULL)
+                    throw Error("Device not properly initialized...");
+                IPixInsightCamera *c = instance.installedCameras[currentIdx].GetDevice();
+                cameraData->cam = c;
                 cameraData->mutex.Unlock();
                 UpdateCameraList();
 

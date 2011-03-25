@@ -46,7 +46,7 @@ CameraData.o: ../CameraData.cpp ../CameraData.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/ImageRenderingModes.h \
   /Users/draphael/PCL/include/pcl/File.h \
   /Users/draphael/PCL/include/pcl/StringList.h \
-  /Users/draphael/PCL/include/pcl/ImageVariant.h \
+  /Users/draphael/PCL/include/pcl/ImageVariant.h ../IPixInsightDevice.h \
   /Users/draphael/PCL/include/pcl/Mutex.h
 
 ../CameraData.h:
@@ -148,5 +148,7 @@ CameraData.o: ../CameraData.cpp ../CameraData.h ../IPixInsightCamera.h \
 /Users/draphael/PCL/include/pcl/StringList.h:
 
 /Users/draphael/PCL/include/pcl/ImageVariant.h:
+
+../IPixInsightDevice.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:

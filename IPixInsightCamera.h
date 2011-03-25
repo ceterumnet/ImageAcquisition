@@ -3,9 +3,11 @@
 #include <pcl/String.h>
 #include <pcl/Vector.h>
 #include <pcl/Image.h>
+#include "IPixInsightDevice.h"
+
 namespace pcl
 {
-	class IPixInsightCamera
+	class IPixInsightCamera : public IPixInsightDevice
 	{
 	public:
 	    enum CameraStateEnum
@@ -25,6 +27,12 @@ namespace pcl
 	        GuideEast,
 	        GuideWest
 	    };
+
+	    //virtual String Description() = 0;
+        //virtual bool Connected() = 0;
+        //virtual int SetConnected(bool) = 0;
+
+
 		virtual void SetLogger(void(*)(String)) = 0;
 	    virtual short BinX() = 0;
 	    virtual short BinY() = 0;
@@ -40,12 +48,10 @@ namespace pcl
 	    virtual bool CanSetCCDTemperature() = 0;
 	    virtual bool CanStopExposure() = 0;
 	    virtual double CCDTemperature() = 0;
-	    virtual bool Connected() = 0;
-	    virtual int SetConnected(bool) = 0;
 	    virtual bool CoolerOn() = 0;
 	    virtual int SetCoolerOn(bool) = 0;
 	    virtual double CoolerPower() = 0;
-	    virtual String Description() = 0;
+
 	    virtual double ElectronsPerADU() = 0;
 	    virtual double FullWellCapacity() = 0;
 	    virtual bool HasShutter() = 0;

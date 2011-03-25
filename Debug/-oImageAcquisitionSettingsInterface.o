@@ -90,11 +90,12 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../FilterWheelItem.h ../ImageAcquisitionSettingsProcess.h \
-  ../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h \
+  ../DeviceItem.h ../FilterWheelItem.h \
+  ../ImageAcquisitionSettingsProcess.h ../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
@@ -291,11 +292,15 @@ ImageAcquisitionSettingsInterface.o:  \
 
 /Users/draphael/PCL/include/pcl/Selection.h:
 
+../IPixInsightDevice.h:
+
 ../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../CameraItem.h:
+
+../DeviceItem.h:
 
 ../FilterWheelItem.h:
 

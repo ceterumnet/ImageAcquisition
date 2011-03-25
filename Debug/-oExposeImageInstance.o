@@ -90,10 +90,10 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   ../ImageAcquisitionSettingsInstance.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../FilterWheelItem.h ../ExposeImageParameters.h \
+  ../DeviceItem.h ../FilterWheelItem.h ../ExposeImageParameters.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../CameraData.h ../parsers.h
 
 ../ExposeImageInstance.h:
@@ -284,11 +284,15 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 
 /Users/draphael/PCL/include/pcl/Selection.h:
 
+../IPixInsightDevice.h:
+
 ../ImageAcquisitionSettingsParameters.h:
 
 /Users/draphael/PCL/include/pcl/MetaParameter.h:
 
 ../CameraItem.h:
+
+../DeviceItem.h:
 
 ../FilterWheelItem.h:
 

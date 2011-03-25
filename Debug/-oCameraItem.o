@@ -20,43 +20,45 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
   /Users/draphael/PCL/include/pcl/Sort.h \
   /Users/draphael/PCL/include/pcl/Indirect.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  /Users/draphael/PCL/include/pcl/MetaObject.h \
-  ../ImageAcquisitionModule.h \
-  /Users/draphael/PCL/include/pcl/MetaModule.h \
-  ../ImageAcquisitionSettingsInterface.h \
-  /Users/draphael/PCL/include/pcl/ProcessInterface.h \
-  /Users/draphael/PCL/include/pcl/Flags.h \
-  /Users/draphael/PCL/include/pcl/Control.h \
-  /Users/draphael/PCL/include/pcl/UIObject.h \
-  /Users/draphael/PCL/include/pcl/Rectangle.h \
-  /Users/draphael/PCL/include/pcl/Math.h \
-  /Users/draphael/PCL/include/pcl/Constants.h \
-  /Users/draphael/PCL/include/pcl/Point.h \
-  /Users/draphael/PCL/include/pcl/Sizer.h \
-  /Users/draphael/PCL/include/pcl/KeyCodes.h \
-  /Users/draphael/PCL/include/pcl/ButtonCodes.h \
-  /Users/draphael/PCL/include/pcl/Color.h \
-  /Users/draphael/PCL/include/pcl/Cursor.h \
-  /Users/draphael/PCL/include/pcl/Font.h \
-  /Users/draphael/PCL/include/pcl/StringList.h \
+  /Users/draphael/PCL/include/pcl/MetaObject.h ../DeviceItem.h \
+  ../IPixInsightDevice.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/Exception.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Image.h \
   /Users/draphael/PCL/include/pcl/PixelData.h \
   /Users/draphael/PCL/include/pcl/AbstractImage.h \
   /Users/draphael/PCL/include/pcl/ImageGeometry.h \
+  /Users/draphael/PCL/include/pcl/Point.h \
+  /Users/draphael/PCL/include/pcl/Math.h \
+  /Users/draphael/PCL/include/pcl/Constants.h \
+  /Users/draphael/PCL/include/pcl/Rectangle.h \
+  /Users/draphael/PCL/include/pcl/Flags.h \
   /Users/draphael/PCL/include/pcl/List.h \
   /Users/draphael/PCL/include/pcl/StatusMonitor.h \
-  /Users/draphael/PCL/include/pcl/Exception.h \
   /Users/draphael/PCL/include/pcl/ImageColor.h \
   /Users/draphael/PCL/include/pcl/RGBColorSystem.h \
   /Users/draphael/PCL/include/pcl/Thread.h \
+  /Users/draphael/PCL/include/pcl/UIObject.h \
   /Users/draphael/PCL/include/pcl/PixelTraits.h \
   /Users/draphael/PCL/include/pcl/Complex.h \
   /Users/draphael/PCL/include/pcl/PixelAllocator.h \
   /Users/draphael/PCL/include/pcl/SharedPixelData.h \
   /Users/draphael/PCL/include/pcl/Bitmap.h \
+  /Users/draphael/PCL/include/pcl/Color.h \
   /Users/draphael/PCL/include/pcl/ImageRenderingModes.h \
   /Users/draphael/PCL/include/pcl/File.h \
+  /Users/draphael/PCL/include/pcl/StringList.h \
   /Users/draphael/PCL/include/pcl/ImageVariant.h \
+  ../ImageAcquisitionModule.h \
+  /Users/draphael/PCL/include/pcl/MetaModule.h \
+  ../ImageAcquisitionSettingsInterface.h \
+  /Users/draphael/PCL/include/pcl/ProcessInterface.h \
+  /Users/draphael/PCL/include/pcl/Control.h \
+  /Users/draphael/PCL/include/pcl/Sizer.h \
+  /Users/draphael/PCL/include/pcl/KeyCodes.h \
+  /Users/draphael/PCL/include/pcl/ButtonCodes.h \
+  /Users/draphael/PCL/include/pcl/Cursor.h \
+  /Users/draphael/PCL/include/pcl/Font.h \
   /Users/draphael/PCL/include/pcl/SectionBar.h \
   /Users/draphael/PCL/include/pcl/Label.h \
   /Users/draphael/PCL/include/pcl/Frame.h \
@@ -90,9 +92,7 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
   /Users/draphael/PCL/include/pcl/ImageTransformation.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
-  /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
-  /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/Settings.h \
   ../ImageAcquisitionSettingsParameters.h ../FilterWheelItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
@@ -147,41 +147,17 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 
 /Users/draphael/PCL/include/pcl/MetaObject.h:
 
-../ImageAcquisitionModule.h:
+../DeviceItem.h:
 
-/Users/draphael/PCL/include/pcl/MetaModule.h:
+../IPixInsightDevice.h:
 
-../ImageAcquisitionSettingsInterface.h:
+/Users/draphael/PCL/include/pcl/Vector.h:
 
-/Users/draphael/PCL/include/pcl/ProcessInterface.h:
+/Users/draphael/PCL/include/pcl/Selection.h:
 
-/Users/draphael/PCL/include/pcl/Flags.h:
+/Users/draphael/PCL/include/pcl/Exception.h:
 
-/Users/draphael/PCL/include/pcl/Control.h:
-
-/Users/draphael/PCL/include/pcl/UIObject.h:
-
-/Users/draphael/PCL/include/pcl/Rectangle.h:
-
-/Users/draphael/PCL/include/pcl/Math.h:
-
-/Users/draphael/PCL/include/pcl/Constants.h:
-
-/Users/draphael/PCL/include/pcl/Point.h:
-
-/Users/draphael/PCL/include/pcl/Sizer.h:
-
-/Users/draphael/PCL/include/pcl/KeyCodes.h:
-
-/Users/draphael/PCL/include/pcl/ButtonCodes.h:
-
-/Users/draphael/PCL/include/pcl/Color.h:
-
-/Users/draphael/PCL/include/pcl/Cursor.h:
-
-/Users/draphael/PCL/include/pcl/Font.h:
-
-/Users/draphael/PCL/include/pcl/StringList.h:
+../IPixInsightCamera.h:
 
 /Users/draphael/PCL/include/pcl/Image.h:
 
@@ -191,17 +167,27 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 
 /Users/draphael/PCL/include/pcl/ImageGeometry.h:
 
+/Users/draphael/PCL/include/pcl/Point.h:
+
+/Users/draphael/PCL/include/pcl/Math.h:
+
+/Users/draphael/PCL/include/pcl/Constants.h:
+
+/Users/draphael/PCL/include/pcl/Rectangle.h:
+
+/Users/draphael/PCL/include/pcl/Flags.h:
+
 /Users/draphael/PCL/include/pcl/List.h:
 
 /Users/draphael/PCL/include/pcl/StatusMonitor.h:
-
-/Users/draphael/PCL/include/pcl/Exception.h:
 
 /Users/draphael/PCL/include/pcl/ImageColor.h:
 
 /Users/draphael/PCL/include/pcl/RGBColorSystem.h:
 
 /Users/draphael/PCL/include/pcl/Thread.h:
+
+/Users/draphael/PCL/include/pcl/UIObject.h:
 
 /Users/draphael/PCL/include/pcl/PixelTraits.h:
 
@@ -213,11 +199,35 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 
 /Users/draphael/PCL/include/pcl/Bitmap.h:
 
+/Users/draphael/PCL/include/pcl/Color.h:
+
 /Users/draphael/PCL/include/pcl/ImageRenderingModes.h:
 
 /Users/draphael/PCL/include/pcl/File.h:
 
+/Users/draphael/PCL/include/pcl/StringList.h:
+
 /Users/draphael/PCL/include/pcl/ImageVariant.h:
+
+../ImageAcquisitionModule.h:
+
+/Users/draphael/PCL/include/pcl/MetaModule.h:
+
+../ImageAcquisitionSettingsInterface.h:
+
+/Users/draphael/PCL/include/pcl/ProcessInterface.h:
+
+/Users/draphael/PCL/include/pcl/Control.h:
+
+/Users/draphael/PCL/include/pcl/Sizer.h:
+
+/Users/draphael/PCL/include/pcl/KeyCodes.h:
+
+/Users/draphael/PCL/include/pcl/ButtonCodes.h:
+
+/Users/draphael/PCL/include/pcl/Cursor.h:
+
+/Users/draphael/PCL/include/pcl/Font.h:
 
 /Users/draphael/PCL/include/pcl/SectionBar.h:
 
@@ -288,12 +298,6 @@ CameraItem.o: ../CameraItem.cpp ../CameraItem.h \
 /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h:
 
 /Users/draphael/PCL/include/pcl/Settings.h:
-
-../IPixInsightCamera.h:
-
-/Users/draphael/PCL/include/pcl/Vector.h:
-
-/Users/draphael/PCL/include/pcl/Selection.h:
 
 ../ImageAcquisitionSettingsParameters.h:
 

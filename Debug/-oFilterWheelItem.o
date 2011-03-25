@@ -92,8 +92,8 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h \
-  ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
+  /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
+  ../ImageAcquisitionSettingsParameters.h ../CameraItem.h ../DeviceItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -295,9 +295,13 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
 
 /Users/draphael/PCL/include/pcl/Selection.h:
 
+../IPixInsightDevice.h:
+
 ../ImageAcquisitionSettingsParameters.h:
 
 ../CameraItem.h:
+
+../DeviceItem.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 
