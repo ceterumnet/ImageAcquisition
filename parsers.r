@@ -46,16 +46,6 @@ pcl::String GenerateOutputFileName(pcl::String &outputPattern, struct OutputData
 		outputFileName += outputData.EXP_NUM;
 	  }
 	  
-	  action STAR {
-		outputFileName += "*";
-	  }
-	  
-	  action STAR2 {
-		outputFileName += "+";
-	  }
-	  action OTHER2 {
-		outputFileName += "^";
-	  }
 	  START_CMD = '<';
 	  
 	  YYYY = 'YYYY';
