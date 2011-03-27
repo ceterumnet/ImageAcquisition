@@ -189,8 +189,13 @@ namespace pcl
                 throw("The specified output directory does not exist: " + fileOutputPath);
 
         }
+
 		OutputData __data;
-		String stmp("<YYYY>");
+		__data.YYYY = "2010";
+		__data.MM = "03";
+		__data.DD = "26";
+
+		String stmp("FOO<YYYY>-<MM>-<DD>-<M106>-<<FOO<<WHAT>>BAR");
 		String foo = GenerateOutputFileName(stmp, __data);
 		Console c;
 		c << "output: " << foo << "\n"; 

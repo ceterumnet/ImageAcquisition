@@ -4,7 +4,7 @@
 #include <pcl/Defs.h>
 #include <pcl/MetaParameter.h>
 #include "DeviceItem.h"
-#include "IPixInsightCamera.h";
+#include "IPixInsightCamera.h"
 namespace pcl
 {
    class CameraItem : public DeviceItem

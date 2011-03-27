@@ -34,7 +34,7 @@ namespace pcl
 #ifdef __PCL_WINDOWS
             libHandle = LoadLibrary(chars);
             InitializePtr = (MyFuncPtr) (// get the function pointer
-                    GetProcAddress( libHandle, "InitializeCamera" )
+                    GetProcAddress( (HMODULE)libHandle, "InitializeCamera" )
             );
 
 #endif
