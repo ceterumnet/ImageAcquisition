@@ -77,39 +77,22 @@ pcl::String GenerateOutputFileName(pcl::String &outputPattern, struct OutputData
 	  );
 	  
 	  CMD = (
-		START_CMD SPECIALS END_CMD
-	  );
-
-	  NON_CMD = (
-	    START_CMD 
-		( alnum @OTHER | '<' )* - ( alnum* 'YYYY' alnum*)
-		END_CMD 
+		START_CMD 
+		  ( SPECIALS | ( any* - ( SPECIALS | '<' | '>' ) )  )
+		END_CMD
 	  );
 	  
 	  USER = (
 		( alnum @OTHER | space @OTHER | '-' @OTHER | '>' ) 
 	  );
+	  
 	  main := (
-		CMD | ( NON_CMD - CMD ) | USER
+		CMD | USER
 	  )+;
 	  
 	  write init;
 	  write exec;
 	}%%
 	
-	//FOO<YYYY>-<MM>-<DD>-<M106>-<<FOO<<WHAT>>BAR
-	//FOO 2010 - 03 - 26 - M106 -  FOO  WHAT  BAR
-	//FOO 2010 - 03 - 26 -*^^^^+-*^^^^^^^^^^+
-	//FOO 2010   03   26 -*^^^^+-*
-	//FOO^2010 -*03 -*26 -*^
-	//FOO 2010 - 03 - 26 -
-	//FOO*^-^*^-^*^-^*^-^*^+>^B^A^R
-	//FOO*^^^2010^^+^^^^^+^^^^^+^^^^^^^+^^^^^^^^^^^^^+^+^^^
-	//FOO*^^^2010^^+^^^^^+^^^^^+^^^^^^^+^^^^^^^^^^^^^+^+^^^
-	//FOO*^2010-*^03-*^26-*^
-	//FOO*^2010-*^03-*^26-*^
-	//FOO*Y2010-*M03-*D26-*M
-	//FOO2010-03-26-
-	//_2010_03_26_____
 	return outputFileName;
 }
