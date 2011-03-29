@@ -21,7 +21,7 @@ FilterWheelData.o: ../FilterWheelData.cpp ../FilterWheelData.h \
   /Users/draphael/PCL/include/pcl/Indirect.h \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h \
-  /Users/draphael/PCL/include/pcl/Exception.h \
+  /Users/draphael/PCL/include/pcl/Exception.h ../IPixInsightDevice.h \
   /Users/draphael/PCL/include/pcl/Mutex.h
 
 ../FilterWheelData.h:
@@ -73,5 +73,7 @@ FilterWheelData.o: ../FilterWheelData.cpp ../FilterWheelData.h \
 /Users/draphael/PCL/include/pcl/Selection.h:
 
 /Users/draphael/PCL/include/pcl/Exception.h:
+
+../IPixInsightDevice.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:

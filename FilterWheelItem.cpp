@@ -5,19 +5,19 @@
 namespace pcl
 {
 
-    FilterWheelItem::FilterWheelItem( ) :
-        enabled( false ), driverPath( String() ), filterWheelName( String() ), fw( 0 ), libHandle( 0 )
+    FilterWheelItem::FilterWheelItem( ) : filterWheelName( String() )
     {
     }
 
-    FilterWheelItem::FilterWheelItem( const String& fn, const String& dp ) :
-        enabled( false ), driverPath( dp ), filterWheelName( fn ), fw( 0 ), libHandle( 0 )
+    FilterWheelItem::FilterWheelItem( const String& fn, const String& dp ) : DeviceItem( dp ), filterWheelName( fn )
     {
     }
-    FilterWheelItem::FilterWheelItem( const FilterWheelItem& x ) :
-        enabled( x.enabled ), driverPath( x.driverPath ), filterWheelName( x.filterWheelName ), fw( x.fw ), libHandle( x.libHandle )
+
+    FilterWheelItem::FilterWheelItem( const FilterWheelItem& x ) : DeviceItem( x ),
+        filterWheelName( x.filterWheelName )
     {
     }
+
     void FilterWheelItem::AddToRawData( ByteArray& b) const
     {
         pcl::AddToRawData( b, filterWheelName );
@@ -31,5 +31,11 @@ namespace pcl
                   pcl::GetFromRawData( driverPath,
                      pcl::GetFromRawData( filterWheelName, i ) ) );
 
+    }
+
+    IPixInsightFilterWheel* FilterWheelItem::GetDevice() const
+    {
+        IPixInsightFilterWheel* c = static_cast<IPixInsightFilterWheel *> ( device );
+        return c;
     }
 }

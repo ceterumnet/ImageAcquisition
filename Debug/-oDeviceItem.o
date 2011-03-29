@@ -93,10 +93,11 @@ DeviceItem.o: ../DeviceItem.cpp ../DeviceItem.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
   ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
-  ../FilterWheelItem.h ../ImageAcquisitionSettingsProcess.h \
-  ../ExposeImageProcess.h ../ExposeImageParameters.h \
-  ../ExposeImageInstance.h /Users/draphael/PCL/include/pcl/Mutex.h \
-  ../ExposeImageInterface.h /Users/draphael/PCL/include/pcl/TextBox.h \
+  ../FilterWheelItem.h ../IPixInsightFilterWheel.h \
+  ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
+  ../ExposeImageParameters.h ../ExposeImageInstance.h \
+  /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h \
   ../SerializableTraits.h
 
@@ -301,6 +302,8 @@ DeviceItem.o: ../DeviceItem.cpp ../DeviceItem.h \
 ../CameraItem.h:
 
 ../FilterWheelItem.h:
+
+../IPixInsightFilterWheel.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 

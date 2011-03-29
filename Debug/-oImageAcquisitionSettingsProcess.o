@@ -65,7 +65,7 @@ ImageAcquisitionSettingsProcess.o:  \
   /Users/draphael/PCL/include/pcl/Vector.h \
   /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../CameraItem.h ../DeviceItem.h ../FilterWheelItem.h \
-  ../ImageAcquisitionSettingsInterface.h \
+  ../IPixInsightFilterWheel.h ../ImageAcquisitionSettingsInterface.h \
   /Users/draphael/PCL/include/pcl/ProcessInterface.h \
   /Users/draphael/PCL/include/pcl/Control.h \
   /Users/draphael/PCL/include/pcl/Sizer.h \
@@ -234,6 +234,8 @@ ImageAcquisitionSettingsProcess.o:  \
 ../DeviceItem.h:
 
 ../FilterWheelItem.h:
+
+../IPixInsightFilterWheel.h:
 
 ../ImageAcquisitionSettingsInterface.h:
 

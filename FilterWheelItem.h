@@ -3,31 +3,27 @@
 #include <pcl/String.h>
 #include <pcl/Defs.h>
 #include <pcl/MetaParameter.h>
+#include "DeviceItem.h"
+#include "IPixInsightFilterWheel.h"
 
 namespace pcl
 {
-    class IPixInsightFilterWheel;
-   class FilterWheelItem
+   class FilterWheelItem : public DeviceItem
    {
    public:
+       String filterWheelName;
        pcl_bool enabled;
        String driverPath;
-       String filterWheelName;
-       mutable IPixInsightFilterWheel *fw;
-#ifdef __PCL_MACOSX
-       mutable void* libHandle;
-#endif
-#ifdef __PCL_WINDOWS
-
-       mutable HINSTANCE libHandle;
-#endif
 
        FilterWheelItem( );
-       FilterWheelItem( const String& cn, const String& dp);
+       FilterWheelItem( const String& fn, const String& dp);
        FilterWheelItem( const FilterWheelItem& x );
 
        void AddToRawData( ByteArray& ) const;
        ByteArray::const_iterator GetFromRawData( ByteArray::const_iterator );
+
+       virtual IPixInsightFilterWheel* GetDevice() const;
+
    };
 }
 

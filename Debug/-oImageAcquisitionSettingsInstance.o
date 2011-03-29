@@ -63,10 +63,9 @@ ImageAcquisitionSettingsInstance.o:  \
   /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../DeviceItem.h ../FilterWheelItem.h \
+  ../DeviceItem.h ../FilterWheelItem.h ../IPixInsightFilterWheel.h \
   /Users/draphael/PCL/include/pcl/Console.h ../CameraData.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../FilterWheelData.h \
-  ../IPixInsightFilterWheel.h \
   /Users/draphael/PCL/include/pcl/ErrorHandler.h
 
 ../ImageAcquisitionSettingsInstance.h:
@@ -205,6 +204,8 @@ ImageAcquisitionSettingsInstance.o:  \
 
 ../FilterWheelItem.h:
 
+../IPixInsightFilterWheel.h:
+
 /Users/draphael/PCL/include/pcl/Console.h:
 
 ../CameraData.h:
@@ -212,7 +213,5 @@ ImageAcquisitionSettingsInstance.o:  \
 /Users/draphael/PCL/include/pcl/Mutex.h:
 
 ../FilterWheelData.h:
-
-../IPixInsightFilterWheel.h:
 
 /Users/draphael/PCL/include/pcl/ErrorHandler.h:

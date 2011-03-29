@@ -20,7 +20,10 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   /Users/draphael/PCL/include/pcl/Sort.h \
   /Users/draphael/PCL/include/pcl/Indirect.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h \
-  /Users/draphael/PCL/include/pcl/MetaObject.h \
+  /Users/draphael/PCL/include/pcl/MetaObject.h ../DeviceItem.h \
+  ../IPixInsightDevice.h /Users/draphael/PCL/include/pcl/Vector.h \
+  /Users/draphael/PCL/include/pcl/Selection.h \
+  /Users/draphael/PCL/include/pcl/Exception.h ../IPixInsightFilterWheel.h \
   ../ImageAcquisitionModule.h \
   /Users/draphael/PCL/include/pcl/MetaModule.h \
   ../ImageAcquisitionSettingsInterface.h \
@@ -45,7 +48,6 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   /Users/draphael/PCL/include/pcl/ImageGeometry.h \
   /Users/draphael/PCL/include/pcl/List.h \
   /Users/draphael/PCL/include/pcl/StatusMonitor.h \
-  /Users/draphael/PCL/include/pcl/Exception.h \
   /Users/draphael/PCL/include/pcl/ImageColor.h \
   /Users/draphael/PCL/include/pcl/RGBColorSystem.h \
   /Users/draphael/PCL/include/pcl/Thread.h \
@@ -91,9 +93,7 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   /Users/draphael/PCL/include/pcl/ImageOptions.h \
   /Users/draphael/PCL/include/pcl/FITSHeaderKeyword.h \
   /Users/draphael/PCL/include/pcl/Settings.h ../IPixInsightCamera.h \
-  /Users/draphael/PCL/include/pcl/Vector.h \
-  /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
-  ../ImageAcquisitionSettingsParameters.h ../CameraItem.h ../DeviceItem.h \
+  ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -147,6 +147,18 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
 
 /Users/draphael/PCL/include/pcl/MetaObject.h:
 
+../DeviceItem.h:
+
+../IPixInsightDevice.h:
+
+/Users/draphael/PCL/include/pcl/Vector.h:
+
+/Users/draphael/PCL/include/pcl/Selection.h:
+
+/Users/draphael/PCL/include/pcl/Exception.h:
+
+../IPixInsightFilterWheel.h:
+
 ../ImageAcquisitionModule.h:
 
 /Users/draphael/PCL/include/pcl/MetaModule.h:
@@ -194,8 +206,6 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
 /Users/draphael/PCL/include/pcl/List.h:
 
 /Users/draphael/PCL/include/pcl/StatusMonitor.h:
-
-/Users/draphael/PCL/include/pcl/Exception.h:
 
 /Users/draphael/PCL/include/pcl/ImageColor.h:
 
@@ -291,17 +301,9 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
 
 ../IPixInsightCamera.h:
 
-/Users/draphael/PCL/include/pcl/Vector.h:
-
-/Users/draphael/PCL/include/pcl/Selection.h:
-
-../IPixInsightDevice.h:
-
 ../ImageAcquisitionSettingsParameters.h:
 
 ../CameraItem.h:
-
-../DeviceItem.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 

@@ -93,7 +93,7 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../DeviceItem.h ../FilterWheelItem.h \
+  ../DeviceItem.h ../FilterWheelItem.h ../IPixInsightFilterWheel.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageInterface.h \
   /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
@@ -303,6 +303,8 @@ ImageAcquisitionSettingsInterface.o:  \
 ../DeviceItem.h:
 
 ../FilterWheelItem.h:
+
+../IPixInsightFilterWheel.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 

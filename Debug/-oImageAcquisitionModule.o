@@ -94,7 +94,7 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
   /Users/draphael/PCL/include/pcl/Selection.h ../IPixInsightDevice.h \
   ../ImageAcquisitionSettingsParameters.h \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
-  ../DeviceItem.h ../FilterWheelItem.h \
+  ../DeviceItem.h ../FilterWheelItem.h ../IPixInsightFilterWheel.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
   /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
@@ -302,6 +302,8 @@ ImageAcquisitionModule.o: ../ImageAcquisitionModule.cpp \
 ../DeviceItem.h:
 
 ../FilterWheelItem.h:
+
+../IPixInsightFilterWheel.h:
 
 ../ImageAcquisitionSettingsProcess.h:
 
