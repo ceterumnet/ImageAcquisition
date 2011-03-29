@@ -43,7 +43,7 @@ pcl::String GenerateOutputFileName(pcl::String &outputPattern, struct OutputData
 	  }
 	  
 	  action EXP_NUM {
-		outputFileName += outputData.EXP_NUM;
+		outputFileName += pcl::String(outputData.EXP_NUM);
 	  }
 	  
 	  START_CMD = '<';

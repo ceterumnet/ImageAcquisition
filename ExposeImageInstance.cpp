@@ -1,6 +1,7 @@
 #include "ExposeImageInstance.h"
 #include "CameraData.h"
 #include "parsers.h"
+
 namespace pcl
 {
     struct ExposeImageData
@@ -33,7 +34,6 @@ namespace pcl
             exposureDuration = _exposureDuration;
             exposureCount = _exposureCount;
             exposing = true;
-
         }
 
         virtual ~ExposeImageThread()
@@ -64,12 +64,15 @@ namespace pcl
                     break;
 
                 cam->StartExposure( exposureDuration );
+
                 pcl::Sleep( exposureDuration );
+
                 while ( !cam->ImageReady() )
                 {
                     // Possibly set the state of the data to "reading" here later...
                     pcl::Sleep( .1 );
                 };
+
                 //now the image is ready ...
                 data->mutex.Lock();
                 data->imageReady = true;
@@ -92,6 +95,7 @@ namespace pcl
 
                 data->mutex.Lock();
                 cam->ImageArray( data->image );
+
                 data->paused = false;
                 // This is probably not needed...may create a bug?
                 data->waitingToBeRead = true;
@@ -216,9 +220,24 @@ namespace pcl
         exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, exposureCount );
         exposeThread->Start();
 
+        OutputData __data;
+        __data.YYYY = "2010";
+        __data.MM = "03";
+        __data.DD = "26";
+        __data.EXP_NUM = 0;
+
+        ImageWindow window( cam->NumX(), // width
+                cam->NumY(), // height
+                1, // numberOfChannels
+                16, // bitsPerSample
+                false, // floatSample
+                false, // color
+                true, // initialProcessing
+                String( "last_exposure" ) // id
+                );
+
         while ( exposeThread->IsExposing() )
         {
-            //console << "exposing .... \n";
             pcl::Sleep( .10 );
             ProcessInterface::ProcessEvents();
 
@@ -228,15 +247,23 @@ namespace pcl
 
             if ( myImageReady )
             {
-                ImageWindow window( cam->NumX(), // width
-                        cam->NumY(), // height
-                        1, // numberOfChannels
-                        16, // bitsPerSample
-                        false, // floatSample
-                        false, // color
-                        true, // initialProcessing
-                        String( "exposure" ) // id
-                        );
+                __data.EXP_NUM += 1;
+                String stmp( "Test-<YYYY>-<MM>-<EXP_NUM>.fit" );
+                String fileName = GenerateOutputFileName( stmp, __data );
+
+                FileFormat outputFormat( ".fit", false, true );
+                FileFormatInstance outputFile( outputFormat );
+
+                outputFile.Create( "/Users/draphael/" + fileName );
+
+                bool floatSample = false;
+                ImageOptions options;
+                options.bitsPerSample = 16;
+                options.ieeefpSampleFormat = floatSample;
+
+                outputFile.SetOptions( options );
+
+
                 View view = window.MainView();
                 ImageVariant v = view.Image();
                 UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
@@ -245,6 +272,7 @@ namespace pcl
                 data->image = image;
                 data->waitingToBeRead = false;
                 data->mutex.Unlock();
+
 
                 //wait for thread to read data from ImageArray
                 while( true )
@@ -255,6 +283,10 @@ namespace pcl
                     if( !isPaused )
                         break;
                 }
+
+                //Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
+                if ( !outputFile.WriteImage( *image ) )
+                    throw CatchedException();
 
                 window.Show();
                 window.ZoomToFit( false ); // don't allow zoom > 1

@@ -6,7 +6,8 @@
 #include "ImageAcquisitionSettingsInterface.h"
 #include "ExposeImageParameters.h"
 #include <pcl/Mutex.h>
-
+#include <pcl/FileFormat.h>
+#include <pcl/FileFormatInstance.h>
 namespace pcl
 {
 

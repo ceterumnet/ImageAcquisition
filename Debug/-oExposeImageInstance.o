@@ -95,7 +95,13 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
   /Users/draphael/PCL/include/pcl/MetaParameter.h ../CameraItem.h \
   ../DeviceItem.h ../FilterWheelItem.h ../IPixInsightFilterWheel.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
-  ../CameraData.h ../parsers.h
+  /Users/draphael/PCL/include/pcl/FileFormat.h \
+  /Users/draphael/PCL/include/pcl/FileFormatBase.h \
+  /Users/draphael/PCL/include/pcl/FileFormatInstance.h \
+  /Users/draphael/PCL/include/pcl/ImageDescription.h \
+  /Users/draphael/PCL/include/pcl/ImageInfo.h \
+  /Users/draphael/PCL/include/pcl/ICCProfile.h ../CameraData.h \
+  ../parsers.h
 
 ../ExposeImageInstance.h:
 
@@ -302,6 +308,18 @@ ExposeImageInstance.o: ../ExposeImageInstance.cpp \
 ../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
+
+/Users/draphael/PCL/include/pcl/FileFormat.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatBase.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatInstance.h:
+
+/Users/draphael/PCL/include/pcl/ImageDescription.h:
+
+/Users/draphael/PCL/include/pcl/ImageInfo.h:
+
+/Users/draphael/PCL/include/pcl/ICCProfile.h:
 
 ../CameraData.h:
 

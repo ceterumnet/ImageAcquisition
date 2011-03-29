@@ -96,7 +96,13 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
   ../ImageAcquisitionSettingsParameters.h ../CameraItem.h \
   ../ImageAcquisitionSettingsProcess.h ../ExposeImageProcess.h \
   ../ExposeImageParameters.h ../ExposeImageInstance.h \
-  /Users/draphael/PCL/include/pcl/Mutex.h ../ExposeImageInterface.h \
+  /Users/draphael/PCL/include/pcl/Mutex.h \
+  /Users/draphael/PCL/include/pcl/FileFormat.h \
+  /Users/draphael/PCL/include/pcl/FileFormatBase.h \
+  /Users/draphael/PCL/include/pcl/FileFormatInstance.h \
+  /Users/draphael/PCL/include/pcl/ImageDescription.h \
+  /Users/draphael/PCL/include/pcl/ImageInfo.h \
+  /Users/draphael/PCL/include/pcl/ICCProfile.h ../ExposeImageInterface.h \
   /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../CameraData.h \
   ../SerializableTraits.h
@@ -314,6 +320,18 @@ FilterWheelItem.o: ../FilterWheelItem.cpp ../FilterWheelItem.h \
 ../ExposeImageInstance.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
+
+/Users/draphael/PCL/include/pcl/FileFormat.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatBase.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatInstance.h:
+
+/Users/draphael/PCL/include/pcl/ImageDescription.h:
+
+/Users/draphael/PCL/include/pcl/ImageInfo.h:
+
+/Users/draphael/PCL/include/pcl/ICCProfile.h:
 
 ../ExposeImageInterface.h:
 

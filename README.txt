@@ -38,6 +38,7 @@ ImageAcquisitionModule
 		 	[ ] File save
 		 	[ ] Implement Set Temperature
 		 	[ ] Implement Frame and Focus
+		 	[ ] Implement Abort 
 		 	[ ] Binning
 		 	[ ] Filter selection
 		 	[/] Implement FileOutputPattern stuff (75%)

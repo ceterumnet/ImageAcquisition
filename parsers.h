@@ -11,7 +11,7 @@ struct OutputData
 	pcl::String DD;
 	pcl::String TARGET;
 	pcl::String SEQUENCE_ID;
-	pcl::String EXP_NUM;
+	pcl::uint8 EXP_NUM;
 	pcl::String FILTER;
 };
 

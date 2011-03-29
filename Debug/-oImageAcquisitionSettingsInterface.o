@@ -98,6 +98,12 @@ ImageAcquisitionSettingsInterface.o:  \
   /Users/draphael/PCL/include/pcl/TextBox.h \
   /Users/draphael/PCL/include/pcl/Timer.h ../ExposeImageInstance.h \
   ../ExposeImageParameters.h /Users/draphael/PCL/include/pcl/Mutex.h \
+  /Users/draphael/PCL/include/pcl/FileFormat.h \
+  /Users/draphael/PCL/include/pcl/FileFormatBase.h \
+  /Users/draphael/PCL/include/pcl/FileFormatInstance.h \
+  /Users/draphael/PCL/include/pcl/ImageDescription.h \
+  /Users/draphael/PCL/include/pcl/ImageInfo.h \
+  /Users/draphael/PCL/include/pcl/ICCProfile.h \
   /Users/draphael/PCL/include/pcl/ColorDialog.h \
   /Users/draphael/PCL/include/pcl/Graphics.h \
   /Users/draphael/PCL/include/pcl/Matrix.h \
@@ -319,6 +325,18 @@ ImageAcquisitionSettingsInterface.o:  \
 ../ExposeImageParameters.h:
 
 /Users/draphael/PCL/include/pcl/Mutex.h:
+
+/Users/draphael/PCL/include/pcl/FileFormat.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatBase.h:
+
+/Users/draphael/PCL/include/pcl/FileFormatInstance.h:
+
+/Users/draphael/PCL/include/pcl/ImageDescription.h:
+
+/Users/draphael/PCL/include/pcl/ImageInfo.h:
+
+/Users/draphael/PCL/include/pcl/ICCProfile.h:
 
 /Users/draphael/PCL/include/pcl/ColorDialog.h:
 

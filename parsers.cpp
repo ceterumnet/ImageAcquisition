@@ -3,7 +3,7 @@
 #include "parsers.h"
 #include <iostream>
 
-#line 2 "parsers.cpp"
+#line 7 "parsers.cpp"
 static const char _fileOutputFormat_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 6
@@ -99,12 +99,12 @@ pcl::String GenerateOutputFileName(pcl::String &outputPattern, struct OutputData
 	int cs;
 	
 	
-#line 80 "parsers.cpp"
+#line 103 "parsers.cpp"
 	{
 	cs = fileOutputFormat_start;
 	}
 
-#line 83 "parsers.cpp"
+#line 108 "parsers.cpp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -217,10 +217,10 @@ _match:
 	case 6:
 #line 45 "parsers.r"
 	{
-		outputFileName += outputData.EXP_NUM;
+		outputFileName += pcl::String(outputData.EXP_NUM);
 	  }
 	break;
-#line 191 "parsers.cpp"
+#line 224 "parsers.cpp"
 		}
 	}
 
