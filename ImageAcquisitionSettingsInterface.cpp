@@ -239,10 +239,7 @@ namespace pcl
                     //this is broken...need to rework this anyways...it is crappy.
     //                TheExposeImageInterface->UpdateCameraControls();
                 }
-
-
             }
-
             ERROR_HANDLER
         }
         else
@@ -251,11 +248,13 @@ namespace pcl
         }
     }
 
+    //TODO:  Prune this handler if we have no use for it...
     void ImageAcquisitionSettingsInterface::__CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent )
     {
 
     }
 
+    //TODO:  Prune this handler if we have no use for it...
     void ImageAcquisitionSettingsInterface::__CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col )
     {
 
@@ -404,6 +403,7 @@ namespace pcl
         if ( node == 0 )
             return;
         const CameraItem& item = instance.installedCameras[i];
+        //TODO:  This is not the correct icon.  We need an icon that indicates that our camera is either primary or not.
         node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
         node->SetAlignment( 0, TextAlign::Left );
         node->SetText( 1, item.cameraName );
@@ -417,8 +417,6 @@ namespace pcl
 
     void ImageAcquisitionSettingsInterface::UpdateCameraList()
     {
-        Console c = Console();
-        c << "UpdateCameraList() called\n";
         int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
 
         GUI->CameraList_TreeBox.DisableUpdates();

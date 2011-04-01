@@ -13,21 +13,6 @@
 
 namespace pcl
 {
-//    template <class T>
-//    void AddToRawData( ByteArray& b, const T& t );
-//    template <class T>
-//    ByteArray::const_iterator GetFromRawData( T& t, ByteArray::const_iterator i );
-//    template <class S>
-//    void AddStringToRawData( ByteArray& b, const S& s );
-//    template <class S>
-//    ByteArray::const_iterator GetStringFromRawData( S& s, ByteArray::const_iterator i );
-//    void AddToRawData( ByteArray& b, const String& s );
-//    ByteArray::const_iterator GetFromRawData( String& s, ByteArray::const_iterator i );
-//    void AddToRawData( ByteArray& b, const IsoString& s );
-//    ByteArray::const_iterator GetFromRawData( IsoString& s, ByteArray::const_iterator i );
-//    void AddToRawData( ByteArray& b, const pcl_bool& pb );
-//    ByteArray::const_iterator GetFromRawData( pcl_bool& pb, ByteArray::const_iterator i );
-
 // ----------------------------------------------------------------------------
 // ImageAcquisitionModule
 // ----------------------------------------------------------------------------

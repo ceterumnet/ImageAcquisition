@@ -57,11 +57,6 @@ namespace pcl
             }
             else
             {
-                // TODO: Add validation here that the cast was successful.  I think this
-                // could be a problem if someone tries to load another driver that also responds to
-                // this method...especially as we abstract the loading architecture of the drivers.
-                //InvokeInitializePtr( InitializePtr );
-                //device = dynamic_cast<IPixInsightCamera*>( InitializePtr() );
                 device = dynamic_cast<IPixInsightDevice*>( InitializePtr() );
                 if( device )
                 {

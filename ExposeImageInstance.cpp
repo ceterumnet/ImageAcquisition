@@ -1,6 +1,7 @@
 #include "ExposeImageInstance.h"
 #include "CameraData.h"
 #include "parsers.h"
+#include <time.h>
 
 namespace pcl
 {
@@ -122,11 +123,17 @@ namespace pcl
 
     ExposeImageInstance::ExposeImageInstance( const MetaProcess* m ) :
         ProcessImplementation( m ), exposureDuration( 1 ), exposureCount( 1 ), cameraName( "cam_name" ), setTemperature( -15 ), filter( "NONE" ),
-                binModeX( 1 ), binModeY( 1 ), subFrameX1( 0 ), subFrameY1( 0 ), subFrameX2( 0 ), subFrameY2( 0 ), delayBetweenExposures( 1 )
+                binModeX( 1 ), binModeY( 1 ), subFrameX1( 0 ), subFrameY1( 0 ), subFrameX2( 0 ), subFrameY2( 0 ), delayBetweenExposures( 1 ),
+                fileOutputPath(""), fileOutputPattern("")
     {
 
     }
 
+//    , exposureDuration( x.exposureDuration ), exposureCount( x.exposureCount ),
+//            cameraName( x.cameraName ), setTemperature( x.setTemperature ), filter( x.filter ),
+//            binModeX( x.binModeX ), binModeY( x.binModeY ), subFrameX1( x.subFrameX1 ), subFrameY1( x.subFrameX2 ),
+//            subFrameX2( x.subFrameX2 ), subFrameY2( x.subFrameY2 ), delayBetweenExposures( x.delayBetweenExposures ),
+//            fileOutputPath( x.fileOutputPath ), fileOutputPattern( x.fileOutputPattern )
     ExposeImageInstance::ExposeImageInstance( const ExposeImageInstance& x ) :
         ProcessImplementation( x )
     {
@@ -174,7 +181,27 @@ namespace pcl
 
     bool ExposeImageInstance::CanExecuteGlobal( String &whyNot ) const
     {
-        return true;
+        bool canExecute = true;
+
+        if( fileOutputPath == "" )
+        {
+            whyNot += "\nYou must define an output directory.";
+            canExecute = false;
+        }
+
+        if( !File::Exists( fileOutputPath ))
+        {
+            whyNot += "\n" + fileOutputPath + " Doesn't exist.  You must create this directory if you want to use it.";
+            canExecute = false;
+        }
+
+        if( fileOutputPattern == "" )
+        {
+            whyNot += "\nYou must define an output pattern.";
+            canExecute = false;
+        }
+
+        return canExecute;
     }
 
     void aLogger( String text )
@@ -194,15 +221,6 @@ namespace pcl
 
         }
 
-		OutputData __data;
-		__data.YYYY = "2010";
-		__data.MM = "03";
-		__data.DD = "26";
-
-		String stmp("FOO<YYYY>-<MM>-<DD>-<M106>-<<FOO<<WHAT>>BAR");
-		String foo = GenerateOutputFileName(stmp, __data);
-		Console c;
-		c << "output: " << foo << "\n"; 
         ExposeImages();
         return true;
     }
@@ -221,11 +239,19 @@ namespace pcl
         exposeThread->Start();
 
         OutputData __data;
-        __data.YYYY = "2010";
-        __data.MM = "03";
-        __data.DD = "26";
-        __data.EXP_NUM = 0;
+        time_t rawtime;
+        struct tm * timeinfo;
+        timeinfo = localtime ( &rawtime );
 
+        __data.YYYY        = String( timeinfo->tm_year + 1900 );
+        __data.MM          = String( timeinfo->tm_mon + 1 );
+        __data.DD          = String( timeinfo->tm_mday );
+        __data.TARGET      = String( "" );
+        __data.SEQUENCE_ID = String( "" );
+        __data.EXP_NUM     = 1;
+        __data.FILTER      = filter;
+
+        //TODO: We are reusing this window...maybe this should be an option?
         ImageWindow window( cam->NumX(), // width
                 cam->NumY(), // height
                 1, // numberOfChannels
@@ -236,6 +262,8 @@ namespace pcl
                 String( "last_exposure" ) // id
                 );
 
+        //TODO:  This code is messy.  Currently, there are 2 threads that keep running and waiting for eachother etc...
+        //       What I need to do here is create and destroy the thread for each exposure...
         while ( exposeThread->IsExposing() )
         {
             pcl::Sleep( .10 );
@@ -248,21 +276,18 @@ namespace pcl
             if ( myImageReady )
             {
                 __data.EXP_NUM += 1;
-                String stmp( "Test-<YYYY>-<MM>-<EXP_NUM>.fit" );
-                String fileName = GenerateOutputFileName( stmp, __data );
-
+                String fileName = GenerateOutputFileName( fileOutputPattern, __data );
                 FileFormat outputFormat( ".fit", false, true );
                 FileFormatInstance outputFile( outputFormat );
 
-                outputFile.Create( "/Users/draphael/" + fileName );
+                //TODO:  Ensure that there is a trailing slash on this path...
+                outputFile.Create( fileOutputPath + "/" + fileName );
 
                 bool floatSample = false;
                 ImageOptions options;
                 options.bitsPerSample = 16;
                 options.ieeefpSampleFormat = floatSample;
-
                 outputFile.SetOptions( options );
-
 
                 View view = window.MainView();
                 ImageVariant v = view.Image();
@@ -272,7 +297,6 @@ namespace pcl
                 data->image = image;
                 data->waitingToBeRead = false;
                 data->mutex.Unlock();
-
 
                 //wait for thread to read data from ImageArray
                 while( true )

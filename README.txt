@@ -20,6 +20,7 @@ ImageAcquisitionModule
        fileSavePath
        fileNamePrefix
        ... I am probably missing some, but you should get the general idea here...
+       
        TODOs:
 		 [x] Implement cross platform driver for devices
 		 	[x] Camera
@@ -35,9 +36,13 @@ ImageAcquisitionModule
 		 	[x] Qty
 		 	[x] Camera Connection Logic
 		 	[x] Threading for global execution
-		 	[ ] File save
+		 	[/] File save
+		 	   [x] FITS file output
+		       [x] File Path Validation
+		       [ ] Don't overwrite existing files
 		 	[ ] Implement Set Temperature
-		 	[ ] Implement Frame and Focus
+		 	[ ] Implement Frame and Focus ( maybe we can just reuse the existing code with a different window title? )
+		 	   [ ] Can I change the look of the window a bit?
 		 	[ ] Implement Abort 
 		 	[ ] Binning
 		 	[ ] Filter selection
@@ -51,7 +56,8 @@ ImageAcquisitionModule
 		 	[x] Implement Serialized Settings Persistance for Cameras
 		 	[ ] Filter Wheel Settings
 		 	[ ] Implement Serialized Settings Persistance for Filter Wheels
-		 	[ ] Implement Default Camera Driver ( maybe just in Windows? )
+		 	[ ] Implement Default Camera Driver
+		 	[ ] Implement Default Filter Wheel Driver
 		 [x] Add thread safety for Camera Data access 
 		 [ ] Implement error handling across the different user interactions
 		 [ ] Expose scripting interface (make sure that the std paradigms that PI offers are 
