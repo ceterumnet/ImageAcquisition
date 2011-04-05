@@ -30,6 +30,7 @@ ImageAcquisitionModule
 		 	[/] Filter Wheel (50%)
 		 [x] Unify Current Camera logic across processes (currently there is a direct
 		 		access to the pointer...not good)
+		 [ ] Setup CppUnit
 		 [ ] Wire up filterWheelData as a globally shared object (similar to cameraData)
 		 [ ] ExposeImage process / instance / interface
 		 	[x] Duration
