@@ -68,8 +68,7 @@ ImageAcquisitionModule
  		
  - ImagingSession
     I'm thinking this can drive multiple sets of ImageExposures.
-    Additionally, this would be a lot like a CCD Commander where we
-    can add actions as the rest of the processes are developed.
+    We can add actions as the rest of the processes are developed.
 
  - Autoguide
     This would be higher priority, but PHD guiding is good and
