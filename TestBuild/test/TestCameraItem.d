@@ -49,7 +49,7 @@ test/TestCameraItem.d test/TestCameraItem.o: ../test/TestCameraItem.cpp \
   /Users/draphael/PCL/include/pcl/ImageRenderingModes.h \
   /Users/draphael/PCL/include/pcl/File.h \
   /Users/draphael/PCL/include/pcl/StringList.h \
-  /Users/draphael/PCL/include/pcl/ImageVariant.h
+  /Users/draphael/PCL/include/pcl/ImageVariant.h ../test/../parsers.h
 
 ../test/TestCameraItem.h:
 
@@ -160,3 +160,5 @@ test/TestCameraItem.d test/TestCameraItem.o: ../test/TestCameraItem.cpp \
 /Users/draphael/PCL/include/pcl/StringList.h:
 
 /Users/draphael/PCL/include/pcl/ImageVariant.h:
+
+../test/../parsers.h:

@@ -183,17 +183,18 @@ namespace pcl
     {
         bool canExecute = true;
 
-        if( fileOutputPath == "" )
-        {
-            whyNot += "\nYou must define an output directory.";
-            canExecute = false;
-        }
+//        if( fileOutputPath == "" )
+//        {
+//            whyNot += "\nYou must define an output directory.";
+//            canExecute = false;
+//        }
 
-        if( !File::Exists( fileOutputPath ))
-        {
-            whyNot += "\n" + fileOutputPath + " Doesn't exist.  You must create this directory if you want to use it.";
-            canExecute = false;
-        }
+
+//        if( !File::Exists( fileOutputPath ))
+//        {
+//            whyNot += "\n" + fileOutputPath + " Doesn't exist.  You must create this directory if you want to use it.";
+//            canExecute = false;
+//        }
 
         if( fileOutputPattern == "" )
         {
@@ -215,9 +216,9 @@ namespace pcl
             String why;
             if ( !CanExecuteGlobal( why ) )
                 throw Error( why );
-
-            if ( !fileOutputPath.IsEmpty() && !File::DirectoryExists( fileOutputPath ) )
-                throw("The specified output directory does not exist: " + fileOutputPath);
+//
+//            if ( !fileOutputPath.IsEmpty() && !File::DirectoryExists( fileOutputPath ) )
+//                throw("The specified output directory does not exist: " + fileOutputPath);
 
         }
 
@@ -240,6 +241,7 @@ namespace pcl
 
         OutputData __data;
         time_t rawtime;
+        time( &rawtime );
         struct tm * timeinfo;
         timeinfo = localtime ( &rawtime );
 
@@ -248,7 +250,7 @@ namespace pcl
         __data.DD          = String( timeinfo->tm_mday );
         __data.TARGET      = String( "" );
         __data.SEQUENCE_ID = String( "" );
-        __data.EXP_NUM     = 1;
+        __data.EXP_NUM     = 0;
         __data.FILTER      = filter;
 
         //TODO: We are reusing this window...maybe this should be an option?
@@ -276,7 +278,8 @@ namespace pcl
             if ( myImageReady )
             {
                 __data.EXP_NUM += 1;
-                String fileName = GenerateOutputFileName( fileOutputPattern, __data );
+                String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
+                String fileName = GenerateOutputFileName( theFilename, __data );
                 FileFormat outputFormat( ".fit", false, true );
                 FileFormatInstance outputFile( outputFormat );
 

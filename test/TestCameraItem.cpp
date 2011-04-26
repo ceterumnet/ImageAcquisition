@@ -1,12 +1,21 @@
 #include "TestCameraItem.h"
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
+#include <cppunit/TestResult.h>
+#include <cppunit/TestCaller.h>
 
-int main( int argc, char **argv)
+int main( int argc, char **argv )
 {
-  CppUnit::TextUi::TestRunner runner;
-  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-  runner.addTest( registry.makeTest() );
-  bool wasSuccessful = runner.run( "", false );
-  return !wasSuccessful;
+    //CppUnit::TestSuite suite;
+    //CppUnit::TestResult result;
+    //suite.addTest( new CppUnit::TestCaller<CameraItemTest>( "testParser", &CameraItemTest::testParser ) );
+
+    CppUnit::TextUi::TestRunner runner;
+    runner.addTest( new CppUnit::TestCaller<CameraItemTest>( "testParser", &CameraItemTest::testParser ) );
+
+    runner.run();
+    return 0;
+
+    //    bool wasSuccessful = runner.run( "", false );
+    //    return !wasSuccessful;
 }

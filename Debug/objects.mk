@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lPCL-pxi
+LIBS := -lpthread -lPCL-pxi
 

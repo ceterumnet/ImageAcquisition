@@ -41,6 +41,7 @@ ImageAcquisitionModule
 		 	   [x] FITS file output
 		       [x] File Path Validation
 		       [ ] Don't overwrite existing files
+		    [ ] Delay for first exposure
 		 	[ ] Implement Set Temperature
 		 	[ ] Implement Frame and Focus ( maybe we can just reuse the existing code with a different window title? )
 		 	   [ ] Can I change the look of the window a bit?
