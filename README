@@ -30,9 +30,9 @@ ImageAcquisitionModule
 		 	[/] Filter Wheel (50%)
 		 [x] Unify Current Camera logic across processes (currently there is a direct
 		 		access to the pointer...not good)
-		 [ ] Setup CppUnit
+		 [x] Setup CppUnit
 		 [ ] Wire up filterWheelData as a globally shared object (similar to cameraData)
-		 [ ] ExposeImage process / instance / interface
+		 [/] ExposeImage process / instance / interface
 		 	[x] Duration
 		 	[x] Qty
 		 	[x] Camera Connection Logic
@@ -51,8 +51,8 @@ ImageAcquisitionModule
 		 	[/] Implement FileOutputPattern stuff (75%)
 		 	[ ] Fix range sliders.  Perhaps use a different UI paradigm.
 		 	[x] Implement Temperature Monitoring / UI updates
-		 	[ ] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
-		 	[ ] Add delay in between exposures
+		 	[/] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
+		 	[/] Add delay in between exposures
 		 [ ] ImageAcquisitionSettings process / instance / interface
 		 	[x] Camera Settings
 		 	[x] Implement Serialized Settings Persistance for Cameras
