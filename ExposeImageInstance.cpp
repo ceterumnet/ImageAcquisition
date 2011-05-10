@@ -374,63 +374,61 @@ namespace pcl
         if ( p == TheExposureDurationParameter )
         {
         }
-        if ( p == TheExposureCountParameter )
+        else if ( p == TheExposureCountParameter )
         {
         }
-        if ( p == TheCameraNameParameter )
-        {
-        }
+        else if ( p == TheCameraNameParameter )
         {
             cameraName.Clear();
             if ( sizeOrLength > 0 )
                 cameraName.Reserve( sizeOrLength );
         }
-        if ( p == TheDelayBetweenExposuresParameter )
+        else if ( p == TheDelayBetweenExposuresParameter )
         {
         }
-        if ( p == TheBinModeXParameter )
+        else if ( p == TheBinModeXParameter )
         {
         }
-        if ( p == TheBinModeYParameter )
+        else if ( p == TheBinModeYParameter )
         {
         }
-        if ( p == TheFileOutputPathParameter )
+        else if ( p == TheFileOutputPathParameter )
         {
             fileOutputPath.Clear();
             if ( sizeOrLength > 0 )
                 fileOutputPath.Reserve( sizeOrLength );
         }
-        if ( p == TheFileOutputPatternParameter )
+        else if ( p == TheFileOutputPatternParameter )
         {
             fileOutputPattern.Clear();
             if ( sizeOrLength > 0 )
                 fileOutputPattern.Reserve( sizeOrLength );
         }
-        if ( p == TheFilterParameter )
+        else if ( p == TheFilterParameter )
         {
             filter.Clear();
             if ( sizeOrLength > 0 )
                 filter.Reserve( sizeOrLength );
         }
-        if ( p == TheFilterWheelNameParameter )
+        else if ( p == TheFilterWheelNameParameter )
         {
             filterWheelName.Clear();
             if ( sizeOrLength > 0 )
                 filterWheelName.Reserve( sizeOrLength );
         }
-        if ( p == TheSetTemperatureParameter )
+        else if ( p == TheSetTemperatureParameter )
         {
         }
-        if ( p == TheSubFrameX1Parameter )
+        else if ( p == TheSubFrameX1Parameter )
         {
         }
-        if ( p == TheSubFrameY1Parameter )
+        else if ( p == TheSubFrameY1Parameter )
         {
         }
-        if ( p == TheSubFrameX2Parameter )
+        else if ( p == TheSubFrameX2Parameter )
         {
         }
-        if ( p == TheSubFrameY2Parameter )
+        else if ( p == TheSubFrameY2Parameter )
         {
         }
         else
