@@ -12,6 +12,7 @@
 #include "CameraData.h"
 #include "parsers.h"
 #include <time.h>
+#include <pcl/ImageTransformation.h>
 
 namespace pcl
 {
@@ -193,18 +194,16 @@ namespace pcl
     {
         bool canExecute = true;
 
-//        if( fileOutputPath == "" )
-//        {
-//            whyNot += "\nYou must define an output directory.";
-//            canExecute = false;
-//        }
-
-
-//        if( !File::Exists( fileOutputPath ))
-//        {
-//            whyNot += "\n" + fileOutputPath + " Doesn't exist.  You must create this directory if you want to use it.";
-//            canExecute = false;
-//        }
+        if( fileOutputPath.IsEmpty() )
+        {
+            whyNot += "\nYou must define an output directory.";
+            canExecute = false;
+        }
+        else if ( !File::DirectoryExists( fileOutputPath ) )
+        {
+            whyNot += "\n" + fileOutputPath + " Doesn't exist.  You must create this directory if you want to use it.";
+            canExecute = false;
+        }
 
         if( fileOutputPattern == "" )
         {
@@ -226,10 +225,6 @@ namespace pcl
             String why;
             if ( !CanExecuteGlobal( why ) )
                 throw Error( why );
-//
-//            if ( !fileOutputPath.IsEmpty() && !File::DirectoryExists( fileOutputPath ) )
-//                throw("The specified output directory does not exist: " + fileOutputPath);
-
         }
 
         ExposeImages();
@@ -287,14 +282,21 @@ namespace pcl
 
             if ( myImageReady )
             {
+
+                FILEPATH:
+
                 __data.EXP_NUM += 1;
                 String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
                 String fileName = GenerateOutputFileName( theFilename, __data );
                 FileFormat outputFormat( ".fit", false, true );
                 FileFormatInstance outputFile( outputFormat );
+                String filePath = fileOutputPath + "/" + fileName;
+
+                if(File::Exists( filePath + ".fit" ) )
+                    goto FILEPATH;
 
                 //TODO:  Ensure that there is a trailing slash on this path...
-                outputFile.Create( fileOutputPath + "/" + fileName );
+                outputFile.Create( filePath );
 
                 bool floatSample = false;
                 ImageOptions options;
@@ -327,6 +329,7 @@ namespace pcl
 
                 window.Show();
                 window.ZoomToFit( false ); // don't allow zoom > 1
+
             }
         }
 
