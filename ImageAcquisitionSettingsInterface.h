@@ -52,7 +52,7 @@ namespace pcl
 		virtual bool Launch( const MetaProcess&, const ProcessImplementation*, bool& dynamic, unsigned& /*flags*/ );
 		
 		virtual ProcessImplementation* NewProcess() const;
-
+		virtual MetaProcess* Process() const;
 		virtual bool ValidateProcess( const ProcessImplementation&, pcl::String& whyNot ) const;
 		virtual bool RequiresInstanceValidation() const;
 

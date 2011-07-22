@@ -59,6 +59,11 @@ namespace pcl
         return "ImageAcquisitionSettings";
     }
 
+    MetaProcess* ImageAcquisitionSettingsInterface::Process() const /***** new member function *****/
+    {
+        return TheImageAcquisitionSettingsProcess;
+    }
+
     uint32 ImageAcquisitionSettingsInterface::Version() const
     {
         return 0x100;

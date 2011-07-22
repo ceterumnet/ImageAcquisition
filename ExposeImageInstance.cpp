@@ -12,7 +12,6 @@
 #include "CameraData.h"
 #include "parsers.h"
 #include <time.h>
-#include <pcl/ImageTransformation.h>
 
 namespace pcl
 {

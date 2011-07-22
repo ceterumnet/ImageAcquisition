@@ -152,6 +152,11 @@ namespace pcl
     return "ExposeImage";
   }
 
+  MetaProcess* ExposeImageInterface::Process() const     /***** new member function *****/
+  {
+     return TheExposeImageProcess;
+  }
+
   uint32 ExposeImageInterface::Version() const
   {
     return 0x100;
