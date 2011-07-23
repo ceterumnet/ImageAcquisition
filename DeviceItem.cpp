@@ -44,6 +44,7 @@ namespace pcl
 #ifdef __PCL_WINDOWS
             libHandle = LoadLibrary(chars);
             InitializePtr = (MyFuncPtr) (// get the function pointer
+				//TODO: This should be IntializeDevice I think...
                     GetProcAddress( (HMODULE)libHandle, "InitializeCamera" )
             );
 
@@ -57,6 +58,7 @@ namespace pcl
             }
             else
             {
+				//TODO: This should be IntializeDevice I think...
                 InitializePtr = (MyFuncPtr) dlsym( libHandle, "InitializeCamera" );
             }
 #endif
@@ -80,7 +82,7 @@ namespace pcl
         }
         else
         {
-            Console().Write( "Camera Already Initialized: " );
+            Console().Write( "Device Already Initialized: " );
         }
     }
 

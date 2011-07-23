@@ -55,6 +55,37 @@ namespace pcl
 		void Button_Click( Button& sender, bool checked );
 		void Dialog_Return( Dialog& sender, int retVal );
 	};
+
+	class DeviceDriverDialog : public Dialog
+	{
+	public:
+		DeviceDriverDialog();
+
+		String GetDeviceName();
+		String GetDriverFile();
+
+	private:
+		String DriverFile;
+		String DeviceName;
+
+		VerticalSizer     Global_Sizer;
+			VerticalSizer   DeviceDriverSetting_Sizer;
+				HorizontalSizer DeviceDriverName_Sizer;
+					Label			DeviceDriverName_Label;
+					Edit			DeviceDriverName_Edit;
+				HorizontalSizer DeviceDriverDriver_Sizer;
+					Label			DeviceDriverDriver_Label;
+					Edit			DeviceDriverDriver_Edit;
+					ToolButton	    DeviceDriverDriver_ToolButton;
+				HorizontalSizer   BottomSection_Sizer;
+					PushButton      OK_PushButton;
+					PushButton      Cancel_PushButton;
+	
+
+		void Button_Click( Button& sender, bool checked );
+		void Dialog_Return( Dialog& sender, int retVal );
+	};
+
 }
 
 #endif

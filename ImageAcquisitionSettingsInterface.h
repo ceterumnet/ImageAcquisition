@@ -94,6 +94,7 @@ namespace pcl
                     PushButton LoadSettings_PushButton;
 
 			CameraDialog CamDlg;
+			DeviceDriverDialog DevDrvDlg;
 		};
 
 		GUIData* GUI;
@@ -101,17 +102,25 @@ namespace pcl
 		// Interface Updates
 
 		void UpdateControls();
+
+		void __ToggleSection( SectionBar& sender, Control& section, bool start );
+		void __LoadSaveSettingsButtons_Click( Button& sender, bool checked );
+        
+		//Camera stuff
 		void UpdateCameraList();
 		void UpdateCameraItem(size_type);
 		void AddCamera();
 
-		void __ToggleSection( SectionBar& sender, Control& section, bool start );
-		void __LoadSaveSettingsButtons_Click( Button& sender, bool checked );
-        void __CameraListButtons_Click( Button& sender, bool checked );
+		void __CameraListButtons_Click( Button& sender, bool checked );
 		void __CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
 		void __CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
 		void __CameraList_NodeSelectionUpdated( TreeBox& sender );
-        void __FilterWheelButtons_Click( Button& sender, bool checked );
+
+		// FW Stuff
+		void AddFW();
+		void UpdateFWList();
+		void UpdateFWItem(size_type);
+		void __FilterWheelButtons_Click( Button& sender, bool checked );
         void __FilterWheel_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
         void __FilterWheel_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
         void __FilterWheel_NodeSelectionUpdated( TreeBox& sender );

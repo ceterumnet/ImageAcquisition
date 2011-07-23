@@ -107,4 +107,99 @@ namespace pcl
 		return DriverFile;
 	}
 
+
+	DeviceDriverDialog::DeviceDriverDialog() :
+    Dialog()
+    {
+        pcl::Font fnt = Font();
+        String DeviceDriverDriverStr( "Driver:" );
+        int labelWidth = fnt.Width( DeviceDriverDriverStr + 'M' );
+        int editWidth = fnt.Width( String( "/usr/local/lib/some/fairly/long/path/that/might/be/seen.so" + 'T' ) );
+        DeviceDriverName_Label.SetText( "Name:" );
+        DeviceDriverName_Label.SetToolTip( "The name must be unique, but you can name it something like \"QHY11S - ASCOM\" or My QHY Filter Wheel" );
+        DeviceDriverName_Label.SetTextAlignment( TextAlign::Right | TextAlign::VertCenter );
+        DeviceDriverName_Label.SetFixedWidth( labelWidth );
+
+        //DeviceDriverDriver_ToolButton.SetText(DeviceDriverDriverStr);
+        DeviceDriverDriver_ToolButton.SetIcon( Bitmap( String( ":/images/icons/select.png" ) ) );
+        DeviceDriverDriver_ToolButton.SetCursor( StdCursor::Arrow );
+        DeviceDriverDriver_ToolButton.OnClick( (pcl::Button::click_event_handler) &DeviceDriverDialog::Button_Click, *this );
+
+        DeviceDriverName_Sizer.Add( DeviceDriverName_Label );
+        DeviceDriverName_Sizer.Add( DeviceDriverName_Edit );
+        DeviceDriverName_Sizer.SetSpacing( 4 );
+
+        DeviceDriverDriver_Label.SetText( DeviceDriverDriverStr );
+        DeviceDriverDriver_Label.SetTextAlignment( TextAlign::Right | TextAlign::VertCenter );
+        DeviceDriverDriver_Label.SetFixedWidth( labelWidth );
+        DeviceDriverDriver_Edit.SetFixedWidth( editWidth );
+        DeviceDriverDriver_ToolButton.OnClick( (pcl::Button::click_event_handler) &DeviceDriverDialog::Button_Click, *this );
+        DeviceDriverDriver_Sizer.Add( DeviceDriverDriver_Label );
+        DeviceDriverDriver_Sizer.Add( DeviceDriverDriver_Edit );
+        DeviceDriverDriver_Sizer.Add( DeviceDriverDriver_ToolButton );
+        DeviceDriverDriver_Sizer.SetSpacing( 4 );
+
+        DeviceDriverSetting_Sizer.Add( DeviceDriverName_Sizer );
+        DeviceDriverSetting_Sizer.Add( DeviceDriverDriver_Sizer );
+        DeviceDriverSetting_Sizer.SetSpacing( 4 );
+
+        OK_PushButton.SetText( "OK" );
+        OK_PushButton.SetDefault();
+        OK_PushButton.SetCursor( StdCursor::Checkmark );
+        OK_PushButton.OnClick( (pcl::Button::click_event_handler) &DeviceDriverDialog::Button_Click, *this );
+        Cancel_PushButton.SetText( "Cancel" );
+        Cancel_PushButton.SetCursor( StdCursor::Crossmark );
+        Cancel_PushButton.OnClick( (pcl::Button::click_event_handler) &DeviceDriverDialog::Button_Click, *this );
+
+        BottomSection_Sizer.Add( OK_PushButton );
+        BottomSection_Sizer.Add( Cancel_PushButton );
+        BottomSection_Sizer.SetSpacing( 4 );
+
+        Global_Sizer.Add( DeviceDriverSetting_Sizer );
+        Global_Sizer.Add( BottomSection_Sizer );
+
+        SetSizer( Global_Sizer );
+        AdjustToContents();
+
+        SetFixedSize();
+
+        OnReturn( (pcl::Dialog::return_event_handler) &DeviceDriverDialog::Dialog_Return, *this );
+    }
+
+    void DeviceDriverDialog::Button_Click( Button& sender, bool /*checked*/)
+    {
+        if ( sender == OK_PushButton )
+		{
+			DeviceName = DeviceDriverName_Edit.Text();
+			DriverFile = DeviceDriverDriver_Edit.Text();
+            Ok();
+		}
+        else if ( sender == Cancel_PushButton )
+            Cancel();
+        else if ( sender == DeviceDriverDriver_ToolButton )
+        {
+            OpenFileDialog ofDlg;
+            ofDlg.SetInitialPath( PixInsightSettings::GlobalString( "Application/CoreDirectory" ) );
+            ofDlg.SetSelectedFileExtension( ".dll" );
+            ofDlg.Execute();
+            DeviceDriverDriver_Edit.SetText( ofDlg.FileName() );
+        }
+    }
+
+    void DeviceDriverDialog::Dialog_Return( pcl::Dialog &sender, int retVal )
+    {
+        Console().WriteLn( "Dialog Returned\n" );
+        Console().WriteLn( String( "Selected Driver: " + DeviceDriverDriver_Edit.Text() ) );
+    }
+
+	String DeviceDriverDialog::GetDeviceName()
+	{
+		return DeviceName;
+	}
+
+	String DeviceDriverDialog::GetDriverFile()
+	{
+		return DriverFile;
+	}
+
 }

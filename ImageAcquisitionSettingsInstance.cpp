@@ -51,64 +51,61 @@ namespace pcl
 
     void ImageAcquisitionSettingsInstance::SaveCameras()
     {
-
-        Console c;
         ByteArray data;
         for ( camera_list::const_iterator i = installedCameras.Begin(); i != installedCameras.End(); ++i )
         {
             i->AddToRawData( data );
         }
 
-        if( data.Available() > 0)
+		Settings::Remove( "CameraData" );
+        if( data.Length() > 0)
         {
             // Don't know if this is really necessary...
-            Settings::Remove( "CameraData" );
             Settings::Write( "CameraData", data );
         }
     }
 
     void ImageAcquisitionSettingsInstance::LoadFilterWheels()
     {
-        //try {
-        //    filterWheelData->mutex.Lock();
-        //    if( filterWheelData->fw && filterWheelData->fw->Connected() )
-        //    {
-        //        filterWheelData->mutex.Unlock();
-        //        throw Error( "Cannot load settings while filterWheel is connected." );
-        //    }
-        //    filterWheelData->mutex.Unlock();
-        //}
-        //ERROR_HANDLER
+        try {
+            filterWheelData->mutex.Lock();
+            if( filterWheelData->fw && filterWheelData->fw->Connected() )
+            {
+                filterWheelData->mutex.Unlock();
+                throw Error( "Cannot load settings while filterWheel is connected." );
+            }
+            filterWheelData->mutex.Unlock();
+        }
+        ERROR_HANDLER
 
-        //installedFilterWheels.Clear();
-        //ByteArray data;
-        //if ( Settings::Read( "FilterWheelData", data ) )
-        //{
-        //    FilterWheelItem fw;
-        //    ByteArray::const_iterator i = data.Begin();
-        //    while ( i < data.End() )
-        //    {
-        //        i = fw.GetFromRawData( i );
-        //        installedFilterWheels.Add( fw );
-        //    }
-        //}
+        installedFilterWheels.Clear();
+        ByteArray data;
+        if ( Settings::Read( "FilterWheelData", data ) )
+        {
+            FilterWheelItem fw;
+            ByteArray::const_iterator i = data.Begin();
+            while ( i < data.End() )
+            {
+                i = fw.GetFromRawData( i );
+                installedFilterWheels.Add( fw );
+            }
+        }
     }
+
     void ImageAcquisitionSettingsInstance::SaveFilterWheels()
     {
+        ByteArray data;
+        for ( filter_wheel_list::const_iterator i = installedFilterWheels.Begin(); i != installedFilterWheels.End(); ++i )
+        {
+            i->AddToRawData( data );
+        }
 
-        //Console c;
-        //ByteArray data;
-        //for ( filter_wheel_list::const_iterator i = installedFilterWheels.Begin(); i != installedFilterWheels.End(); ++i )
-        //{
-        //    i->AddToRawData( data );
-        //}
-
-        //if( data.Available() > 0)
-        //{
-        //    // Don't know if this is really necessary...
-        //    Settings::Remove( "FilterWheelData" );
-        //    Settings::Write( "FilterWheelData", data );
-        //}
+		Settings::Remove( "FilterWheelData" );
+        if( data.Length() > 0)
+        {
+            // Don't know if this is really necessary...
+            Settings::Write( "FilterWheelData", data );
+        }
     }
 
     ImageAcquisitionSettingsInstance::ImageAcquisitionSettingsInstance( const ImageAcquisitionSettingsInstance& x ) :
@@ -123,6 +120,7 @@ namespace pcl
         if ( x != 0 )
         {
             installedCameras = x->installedCameras;
+			installedFilterWheels = x->installedFilterWheels;
         }
     }
 
@@ -155,6 +153,14 @@ namespace pcl
             return installedCameras[tableRow].driverPath.c_str();
         if ( p == TheIAInstalledCameraNameParameter )
             return installedCameras[tableRow].cameraName.c_str();
+
+		if ( p == TheIAInstalledFilterWheelEnabledParameter )
+			return &installedFilterWheels[tableRow].enabled;
+		if ( p == TheIAInstalledFilterWheelDriverPathParameter )
+            return installedFilterWheels[tableRow].driverPath.c_str();
+		if ( p == TheIAInstalledFilterWheelNameParameter )
+            return installedFilterWheels[tableRow].filterWheelName.c_str();
+
         return 0;
     }
 
@@ -178,11 +184,31 @@ namespace pcl
             if ( sizeOrLength > 0 )
                 installedCameras[tableRow].cameraName.Reserve( sizeOrLength );
         }
+
+		else if ( p == TheIAInstalledFilterWheelsParameter )
+        {
+            installedFilterWheels.Clear();
+            if ( sizeOrLength > 0 )
+                installedFilterWheels.Add( FilterWheelItem(), sizeOrLength );
+        }
+        else if ( p == TheIAInstalledFilterWheelDriverPathParameter )
+        {
+            installedFilterWheels[tableRow].driverPath.Clear();
+            if ( sizeOrLength > 0 )
+                installedFilterWheels[tableRow].driverPath.Reserve( sizeOrLength );
+        }
+        else if ( p == TheIAInstalledFilterWheelNameParameter )
+        {
+            installedFilterWheels[tableRow].filterWheelName.Clear();
+            if ( sizeOrLength > 0 )
+                installedFilterWheels[tableRow].filterWheelName.Reserve( sizeOrLength );
+        }
         else
             return false;
 
         return true;
     }
+
     size_type ImageAcquisitionSettingsInstance::ParameterLength( const MetaParameter* p, size_type tableRow ) const
     {
         if ( p == TheIAInstalledCamerasParameter )
@@ -191,7 +217,14 @@ namespace pcl
             return installedCameras[tableRow].driverPath.Length();
         if ( p == TheIAInstalledCameraNameParameter )
             return installedCameras[tableRow].cameraName.Length();
-        return 0;
+		
+		if ( p == TheIAInstalledFilterWheelsParameter )
+            return installedFilterWheels.Length();
+        if ( p == TheIAInstalledFilterWheelDriverPathParameter )
+            return installedFilterWheels[tableRow].driverPath.Length();
+        if ( p == TheIAInstalledFilterWheelNameParameter )
+            return installedFilterWheels[tableRow].filterWheelName.Length();
+		return 0;
     }
 
 }

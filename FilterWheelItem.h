@@ -22,8 +22,6 @@ namespace pcl
    {
    public:
        String filterWheelName;
-       pcl_bool enabled;
-       String driverPath;
 
        FilterWheelItem( );
        FilterWheelItem( const String& fn, const String& dp);

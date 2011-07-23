@@ -12,10 +12,13 @@
 #include "ImageAcquisitionModule.h"
 #include "SerializableTraits.h"
 #include <pcl/Console.h>
+#ifdef __PCL_MACOSX
+#include <dlfcn.h>
+#endif
 namespace pcl
 {
 
-    FilterWheelItem::FilterWheelItem( ) : filterWheelName( String() )
+    FilterWheelItem::FilterWheelItem( ) : DeviceItem(), filterWheelName( String() )
     {
     }
 

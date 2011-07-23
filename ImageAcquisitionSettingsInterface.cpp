@@ -28,6 +28,7 @@
 #include <pcl/Console.h>
 #include <pcl/Settings.h>
 #include "CameraData.h"
+#include "FilterWheelData.h"
 
 #ifdef __PCL_MACOSX
 #include <dlfcn.h>
@@ -88,6 +89,7 @@ namespace pcl
     void ImageAcquisitionSettingsInterface::UpdateControls()
     {
         UpdateCameraList();
+		UpdateFWList();
     }
 
     void ImageAcquisitionSettingsInterface::ResetInstance()
@@ -109,6 +111,8 @@ namespace pcl
 
         if( cameraData == 0 )
             cameraData = new CameraData;
+		if( filterWheelData == 0 )
+			filterWheelData = new FilterWheelData;
         dynamic = false;
         return &P == TheImageAcquisitionSettingsProcess;
     }
@@ -123,7 +127,7 @@ namespace pcl
         const ImageAcquisitionSettingsInstance* r = dynamic_cast<const ImageAcquisitionSettingsInstance*> ( &p );
         if ( r == 0 )
         {
-            whyNot = "Not a ImageAcquisitionSettings instance.";
+            whyNot = "Not an ImageAcquisitionSettings instance.";
             return false;
         }
 
@@ -188,6 +192,57 @@ namespace pcl
             instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), CameraItem( GUI->CamDlg.GetCameraName(),
                     GUI->CamDlg.GetDriverFile() ) );
         }
+    }
+
+	
+	void ImageAcquisitionSettingsInterface::UpdateCameraItem( size_type i )
+    {
+        TreeBox::Node* node = GUI->CameraList_TreeBox[i];
+        if ( node == 0 )
+            return;
+        const CameraItem& item = instance.installedCameras[i];
+        //TODO:  This is not the correct icon.  We need an icon that indicates that our camera is either primary or not.
+        node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
+        node->SetAlignment( 0, TextAlign::Left );
+        node->SetText( 1, item.cameraName );
+        node->SetAlignment( 1, TextAlign::Right );
+        node->SetIcon( 2, Bitmap( String( ":/images/icons/file.png" ) ) );
+        String fileName = File::ExtractName( item.driverPath ) + File::ExtractExtension( item.driverPath );
+        node->SetText( 2, fileName );
+        node->SetToolTip( 2, item.driverPath );
+        node->SetAlignment( 2, TextAlign::Left );
+    }
+
+    void ImageAcquisitionSettingsInterface::UpdateCameraList()
+    {
+        int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+
+        GUI->CameraList_TreeBox.DisableUpdates();
+        GUI->CameraList_TreeBox.Clear();
+
+        for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
+        {
+            new TreeBox::Node( GUI->CameraList_TreeBox );
+            UpdateCameraItem( i );
+        }
+
+        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 0 );
+        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 1 );
+        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 2 );
+
+        if ( !instance.installedCameras.IsEmpty() )
+            if ( currentIdx >= 0 && currentIdx < GUI->CameraList_TreeBox.NumberOfChildren() )
+                GUI->CameraList_TreeBox.SetCurrentNode( GUI->CameraList_TreeBox[currentIdx] );
+
+        GUI->CameraList_TreeBox.EnableUpdates();
+    }
+
+    CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
+    {
+        for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
+            if ( instance.installedCameras[i].enabled )
+                return &instance.installedCameras[i];
+        return NULL;
     }
 
     void ImageAcquisitionSettingsInterface::__CameraListButtons_Click( Button& sender, bool checked )
@@ -296,9 +351,82 @@ namespace pcl
      *   FW STUFF START
      */
 
+	void ImageAcquisitionSettingsInterface::AddFW()
+    {
+        // Not sure if this should be a new instance...or just reuse...I think reuse is better.
+        if ( GUI->DevDrvDlg.Execute() )
+        {
+            size_type i0 = TreeInsertionIndex( GUI->FWList_TreeBox );
+			for ( size_type i = 0, n = instance.installedFilterWheels.Length(); i < n; ++i )
+            {
+                String theFWName = GUI->DevDrvDlg.GetDeviceName();
+                if ( theFWName.Compare( instance.installedFilterWheels[i].filterWheelName ) == 0 )
+                    throw Error( "Please use a unique filter wheel name for each filter wheel." );
+            }
+			instance.installedFilterWheels.Insert( instance.installedFilterWheels.At( i0++ ), FilterWheelItem( GUI->DevDrvDlg.GetDeviceName(),
+                    GUI->DevDrvDlg.GetDriverFile() ) );
+        }
+    }
 
-    //TODO:  Prune this handler if we have no use for it...
-    void ImageAcquisitionSettingsInterface::__FilterWheel_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent )
+	void ImageAcquisitionSettingsInterface::UpdateFWList()
+	{
+	    int currentIdx = GUI->FWList_TreeBox.ChildIndex( GUI->FWList_TreeBox.CurrentNode() );
+
+        GUI->FWList_TreeBox.DisableUpdates();
+        GUI->FWList_TreeBox.Clear();
+
+        for ( size_type i = 0; i < instance.installedFilterWheels.Length(); ++i )
+        {
+			new TreeBox::Node( GUI->FWList_TreeBox );
+			UpdateFWItem( i );
+        }
+
+        GUI->FWList_TreeBox.AdjustColumnWidthToContents( 0 );
+        GUI->FWList_TreeBox.AdjustColumnWidthToContents( 1 );
+        GUI->FWList_TreeBox.AdjustColumnWidthToContents( 2 );
+
+        if ( !instance.installedFilterWheels.IsEmpty() )
+            if ( currentIdx >= 0 && currentIdx < GUI->FWList_TreeBox.NumberOfChildren() )
+                GUI->FWList_TreeBox.SetCurrentNode( GUI->FWList_TreeBox[currentIdx] );
+
+        GUI->FWList_TreeBox.EnableUpdates();
+	}
+
+	void ImageAcquisitionSettingsInterface::UpdateFWItem( pcl::size_type i )
+	{
+        TreeBox::Node* node = GUI->FWList_TreeBox[i];
+        if ( node == 0 )
+            return;
+        const FilterWheelItem& item = instance.installedFilterWheels[i];
+        //TODO:  This is not the correct icon.  We need an icon that indicates that our filter wheel is either primary or not.
+        node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
+        node->SetAlignment( 0, TextAlign::Left );
+        node->SetText( 1, item.filterWheelName );
+        node->SetAlignment( 1, TextAlign::Right );
+        node->SetIcon( 2, Bitmap( String( ":/images/icons/file.png" ) ) );
+        String fileName = File::ExtractName( item.driverPath ) + File::ExtractExtension( item.driverPath );
+        node->SetText( 2, fileName );
+        node->SetToolTip( 2, item.driverPath );
+        node->SetAlignment( 2, TextAlign::Left );
+	}
+	
+    void ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click( Button& sender, bool checked )
+    {
+        Console console;
+        if ( sender == GUI->AddFW_PushButton )
+        {
+            try
+            {
+                AddFW();
+                UpdateFWList();
+            }
+            ERROR_HANDLER
+        }
+
+    }
+
+	//TODO:  Prune this handler if we have no use for it...
+	void ImageAcquisitionSettingsInterface::__FilterWheel_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent )
     {
 
     }
@@ -315,21 +443,6 @@ namespace pcl
         GUI->MakeFW_PushButton.Enable( isOne );
         bool isOneOrMore = sender.SelectedNodes().Length() > 0;
         GUI->DeleteFW_PushButton.Enable( isOneOrMore );
-    }
-
-    void ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click( Button& sender, bool checked )
-    {
-        Console console;
-        if ( sender == GUI->AddFW_PushButton )
-        {
-            try
-            {
-//                AddFW();
-//                UpdateFWList();
-            }
-            ERROR_HANDLER
-        }
-
     }
 
 
@@ -460,54 +573,6 @@ namespace pcl
         w.AdjustToContents();
     }
 
-    void ImageAcquisitionSettingsInterface::UpdateCameraItem( size_type i )
-    {
-        TreeBox::Node* node = GUI->CameraList_TreeBox[i];
-        if ( node == 0 )
-            return;
-        const CameraItem& item = instance.installedCameras[i];
-        //TODO:  This is not the correct icon.  We need an icon that indicates that our camera is either primary or not.
-        node->SetIcon( 0, Bitmap( String( item.enabled ? ":/images/icons/enabled.png" : ":/images/icons/disabled.png" ) ) );
-        node->SetAlignment( 0, TextAlign::Left );
-        node->SetText( 1, item.cameraName );
-        node->SetAlignment( 1, TextAlign::Right );
-        node->SetIcon( 2, Bitmap( String( ":/images/icons/file.png" ) ) );
-        String fileName = File::ExtractName( item.driverPath ) + File::ExtractExtension( item.driverPath );
-        node->SetText( 2, fileName );
-        node->SetToolTip( 2, item.driverPath );
-        node->SetAlignment( 2, TextAlign::Left );
-    }
 
-    void ImageAcquisitionSettingsInterface::UpdateCameraList()
-    {
-        int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
-
-        GUI->CameraList_TreeBox.DisableUpdates();
-        GUI->CameraList_TreeBox.Clear();
-
-        for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
-        {
-            new TreeBox::Node( GUI->CameraList_TreeBox );
-            UpdateCameraItem( i );
-        }
-
-        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 0 );
-        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 1 );
-        GUI->CameraList_TreeBox.AdjustColumnWidthToContents( 2 );
-
-        if ( !instance.installedCameras.IsEmpty() )
-            if ( currentIdx >= 0 && currentIdx < GUI->CameraList_TreeBox.NumberOfChildren() )
-                GUI->CameraList_TreeBox.SetCurrentNode( GUI->CameraList_TreeBox[currentIdx] );
-
-        GUI->CameraList_TreeBox.EnableUpdates();
-    }
-
-    CameraItem *ImageAcquisitionSettingsInterface::GetPrimaryImager()
-    {
-        for ( size_type i = 0; i < instance.installedCameras.Length(); ++i )
-            if ( instance.installedCameras[i].enabled )
-                return &instance.installedCameras[i];
-        return NULL;
-    }
 
 } // pcl
