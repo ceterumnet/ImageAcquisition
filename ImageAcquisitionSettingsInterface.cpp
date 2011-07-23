@@ -324,8 +324,8 @@ namespace pcl
         {
             try
             {
-                AddFW();
-                UpdateFWList();
+//                AddFW();
+//                UpdateFWList();
             }
             ERROR_HANDLER
         }

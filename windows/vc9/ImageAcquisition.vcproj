@@ -248,7 +248,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="PCL-pxi.lib"
 				OutputFile="$(PCLBINDIR32)\ImageAcquisition-pxm.dll"
-				AdditionalLibraryDirectories="$(PCLLIBDIR32);&quot;\Users\draphael\PCL\lib\macosx\x86_64\x86&quot;"
+				AdditionalLibraryDirectories="$(PCLLIBDIR32)/vc9;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
