@@ -106,11 +106,16 @@ namespace pcl
 		void AddCamera();
 
 		void __ToggleSection( SectionBar& sender, Control& section, bool start );
-		void __CameraListButtons_Click( Button& sender, bool checked );
 		void __LoadSaveSettingsButtons_Click( Button& sender, bool checked );
+        void __CameraListButtons_Click( Button& sender, bool checked );
 		void __CameraList_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
 		void __CameraList_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
 		void __CameraList_NodeSelectionUpdated( TreeBox& sender );
+        void __FilterWheelButtons_Click( Button& sender, bool checked );
+        void __FilterWheel_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent );
+        void __FilterWheel_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col );
+        void __FilterWheel_NodeSelectionUpdated( TreeBox& sender );
+
 		friend struct GUIData;
 		friend class ExposeImageInterface;
 		friend class ExposeImageInstance;

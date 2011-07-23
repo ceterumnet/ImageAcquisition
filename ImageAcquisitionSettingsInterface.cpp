@@ -154,6 +154,24 @@ namespace pcl
         Console().Write( text );
     }
 
+    void ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click( Button& sender, bool checked )
+    {
+        if( sender == GUI->LoadSettings_PushButton )
+        {
+            instance.LoadCameras();
+            instance.LoadFilterWheels();
+            UpdateControls();
+        }
+        else if ( sender == GUI->SaveSettings_PushButton )
+        {
+            instance.SaveCameras( );
+            instance.SaveFilterWheels( );
+        }
+    }
+
+    /*
+     *   CAMERA STUFF START
+     */
     void ImageAcquisitionSettingsInterface::AddCamera()
     {
         // Not sure if this should be a new instance...or just reuse...I think reuse is better.
@@ -169,21 +187,6 @@ namespace pcl
             }
             instance.installedCameras.Insert( instance.installedCameras.At( i0++ ), CameraItem( GUI->CamDlg.GetCameraName(),
                     GUI->CamDlg.GetDriverFile() ) );
-        }
-    }
-
-    void ImageAcquisitionSettingsInterface::__LoadSaveSettingsButtons_Click( Button& sender, bool checked )
-    {
-        if( sender == GUI->LoadSettings_PushButton )
-        {
-            instance.LoadCameras();
-            instance.LoadFilterWheels();
-            UpdateControls();
-        }
-        else if ( sender == GUI->SaveSettings_PushButton )
-        {
-            instance.SaveCameras( );
-            instance.SaveFilterWheels( );
         }
     }
 
@@ -285,6 +288,51 @@ namespace pcl
         GUI->DeleteCamera_PushButton.Enable( isOneOrMore );
     }
 
+    /*
+     *   CAMERA STUFF END
+     */
+
+    /*
+     *   FW STUFF START
+     */
+
+
+    //TODO:  Prune this handler if we have no use for it...
+    void ImageAcquisitionSettingsInterface::__FilterWheel_CurrentNodeUpdated( TreeBox& sender, TreeBox::Node& current, TreeBox::Node& oldCurrent )
+    {
+
+    }
+
+    //TODO:  Prune this handler if we have no use for it...
+    void ImageAcquisitionSettingsInterface::__FilterWheel_NodeActivated( TreeBox& sender, TreeBox::Node& node, int col )
+    {
+
+    }
+
+    void ImageAcquisitionSettingsInterface::__FilterWheel_NodeSelectionUpdated( TreeBox& sender )
+    {
+        bool isOne = sender.SelectedNodes().Length() == 1;
+        GUI->MakeFW_PushButton.Enable( isOne );
+        bool isOneOrMore = sender.SelectedNodes().Length() > 0;
+        GUI->DeleteFW_PushButton.Enable( isOneOrMore );
+    }
+
+    void ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click( Button& sender, bool checked )
+    {
+        Console console;
+        if ( sender == GUI->AddFW_PushButton )
+        {
+            try
+            {
+                AddFW();
+                UpdateFWList();
+            }
+            ERROR_HANDLER
+        }
+
+    }
+
+
     ImageAcquisitionSettingsInterface::GUIData::GUIData( ImageAcquisitionSettingsInterface& w )
     {
         pcl::Font fnt = w.Font();
@@ -357,19 +405,19 @@ namespace pcl
         FWList_TreeBox.DisableRootDecoration();
         FWList_TreeBox.EnableAlternateRowColor();
 
-        FWList_TreeBox.OnCurrentNodeUpdated( (TreeBox::node_navigation_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_CurrentNodeUpdated,
+        FWList_TreeBox.OnCurrentNodeUpdated( (TreeBox::node_navigation_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheel_CurrentNodeUpdated,
                 w );
-        FWList_TreeBox.OnNodeActivated( (TreeBox::node_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_NodeActivated, w );
-        FWList_TreeBox.OnNodeSelectionUpdated( (TreeBox::tree_event_handler) &ImageAcquisitionSettingsInterface::__CameraList_NodeSelectionUpdated, w );
+        FWList_TreeBox.OnNodeActivated( (TreeBox::node_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheel_NodeActivated, w );
+        FWList_TreeBox.OnNodeSelectionUpdated( (TreeBox::tree_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheel_NodeSelectionUpdated, w );
 
         AddFW_PushButton.SetText( "Add Filter Wheel" );
         AddFW_PushButton.SetFixedWidth( buttonWidth );
-        AddFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        AddFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click, w );
         DeleteFW_PushButton.SetText( "Delete Filter Wheel" );
-        DeleteFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        DeleteFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click, w );
         DeleteFW_PushButton.Enable( false );
         MakeFW_PushButton.SetText( "Set as Primary Filter Wheel" );
-        MakeFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__CameraListButtons_Click, w );
+        MakeFW_PushButton.OnClick( (Button::click_event_handler) &ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click, w );
         MakeFW_PushButton.Enable( false );
 
         FWSelection_Control.SetSizer( FWSelection_Sizer );
