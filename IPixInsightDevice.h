@@ -19,6 +19,7 @@ namespace pcl
     class IPixInsightDevice
     {
     public:
+		virtual void Dispose() = 0;
         virtual bool Connected() = 0;
         virtual int SetConnected(bool) = 0;
         virtual String Description() = 0;

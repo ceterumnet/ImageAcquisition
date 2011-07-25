@@ -77,7 +77,7 @@ namespace pcl
             filterWheelData->mutex.Unlock();
         }
         ERROR_HANDLER
-
+		
         installedFilterWheels.Clear();
         ByteArray data;
         if ( Settings::Read( "FilterWheelData", data ) )

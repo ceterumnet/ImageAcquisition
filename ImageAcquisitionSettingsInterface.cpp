@@ -94,8 +94,33 @@ namespace pcl
 
     void ImageAcquisitionSettingsInterface::ResetInstance()
     {
-        ImageAcquisitionSettingsInstance defaultInstance( TheImageAcquisitionSettingsProcess );
-        ImportProcess( defaultInstance );
+		try {
+			if( filterWheelData->fw && filterWheelData->fw->Connected() )
+				throw Error( "Cannot reset settings while Filter Wheel is connected." );
+			if ( cameraData->cam && cameraData->cam->Connected() )
+				throw Error( "Cannot reset settings while camera is connected." );
+			
+			if( filterWheelData )
+			{
+				if(GetPrimaryFilterWheel())
+					GetPrimaryFilterWheel()->DisposeDevice();
+				
+				delete filterWheelData;
+				filterWheelData = new FilterWheelData();
+			}
+			if( cameraData )
+			{
+				if(GetPrimaryImager())
+					GetPrimaryImager()->DisposeDevice();
+
+				delete cameraData;
+				cameraData = new CameraData();
+			}
+		
+			ImageAcquisitionSettingsInstance defaultInstance( TheImageAcquisitionSettingsProcess );
+			ImportProcess( defaultInstance );
+		}
+		ERROR_HANDLER
     }
 
     bool ImageAcquisitionSettingsInterface::Launch( const MetaProcess& P, const ProcessImplementation*, bool& dynamic, unsigned& /*flags*/)
@@ -392,6 +417,14 @@ namespace pcl
         GUI->FWList_TreeBox.EnableUpdates();
 	}
 
+	FilterWheelItem *ImageAcquisitionSettingsInterface::GetPrimaryFilterWheel()
+    {
+        for ( size_type i = 0; i < instance.installedFilterWheels.Length(); ++i )
+            if ( instance.installedFilterWheels[i].enabled )
+                return &instance.installedFilterWheels[i];
+        return NULL;
+    }
+
 	void ImageAcquisitionSettingsInterface::UpdateFWItem( pcl::size_type i )
 	{
         TreeBox::Node* node = GUI->FWList_TreeBox[i];
@@ -422,6 +455,59 @@ namespace pcl
             }
             ERROR_HANDLER
         }
+
+		if ( sender == GUI->DeleteFW_PushButton )
+		{
+			try
+            {
+				int currentIdx = GUI->FWList_TreeBox.ChildIndex( GUI->FWList_TreeBox.CurrentNode() );
+                if( instance.installedFilterWheels[currentIdx].GetDevice() && instance.installedFilterWheels[currentIdx].GetDevice()->Connected() )
+                    throw Error( "Can't delete an Filter Wheel while it is connected.");
+                ImageAcquisitionSettingsInstance::filter_wheel_list newFWList;
+                for ( int i = 0, n = GUI->FWList_TreeBox.NumberOfChildren(); i < n; ++i )
+                    if ( !GUI->FWList_TreeBox[i]->IsSelected() )
+						newFWList.Add( instance.installedFilterWheels[i] );
+				instance.installedFilterWheels = newFWList;
+				UpdateFWList();
+            }
+
+            ERROR_HANDLER
+		}
+
+		if ( sender == GUI->MakeFW_PushButton )
+		{
+			 try {
+                int currentIdx = GUI->FWList_TreeBox.ChildIndex( GUI->FWList_TreeBox.CurrentNode() );
+                for ( int i = 0, n = GUI->FWList_TreeBox.NumberOfChildren(); i < n; ++i )
+                    if ( GUI->FWList_TreeBox[i]->IsEnabled() )
+						if ( filterWheelData->fw && filterWheelData->fw->Connected() )
+                            throw Error( "Cannot change primary fw while fw is connected." );
+                        else
+                            instance.installedFilterWheels[i].enabled = false;
+				FilterWheelItem *theItem = &instance.installedFilterWheels[currentIdx];
+                theItem->enabled = true;
+                if( theItem->GetDevice() == NULL)
+                    theItem->InitializeDevice();
+                cameraData->mutex.Lock();
+                if( theItem->GetDevice() == NULL)
+                    throw Error("Device not properly initialized...");
+                IPixInsightFilterWheel* f = instance.installedFilterWheels[currentIdx].GetDevice();
+				filterWheelData->fw = f;
+                filterWheelData->mutex.Unlock();
+                UpdateFWList();
+
+                //TODO:  Deal with a non active window...
+                if ( TheExposeImageInterface && TheExposeImageInterface->IsVisible() )
+					//TODO - need to add method here to activate the fw controls on the expose image interface
+                    TheExposeImageInterface->UpdateFWControls();
+                else
+                {
+                    //this is broken...need to rework this anyways...it is crappy.
+    //                TheExposeImageInterface->UpdateFWControls();
+                }
+            }
+            ERROR_HANDLER
+		}
 
     }
 

@@ -38,11 +38,6 @@ namespace pcl
 	        GuideWest
 	    };
 
-	    //virtual String Description() = 0;
-        //virtual bool Connected() = 0;
-        //virtual int SetConnected(bool) = 0;
-
-
 		virtual void SetLogger(void(*)(String)) = 0;
 	    virtual short BinX() = 0;
 	    virtual short BinY() = 0;

@@ -23,6 +23,12 @@ namespace pcl
 		virtual int SetPosition(uint8) = 0;
 		virtual uint8 MaxPosition() = 0;
 		virtual uint8 MinPosition() = 0;
+		virtual void SetLogger(void(*)(String)) = 0;
+	    virtual String Description() = 0;
+		virtual bool Connected() = 0;
+	    virtual int SetConnected(bool) = 0;
+		virtual void SetupDialog() = 0;
+		virtual bool IsMoving() = 0;
 	};
 }
 

@@ -155,6 +155,10 @@ namespace pcl
 	void UpdateExposureControls();
 	void UpdateOutputControls();
 	void UpdateControlsForCameraFeatures();
+
+	void UpdateFWControls();
+	void UpdateControlsForFWFeatures();
+	
     void __ToggleSection( SectionBar& sender, Control& section, bool start );
     void __CameraConnectionButton_Click( Button& sender, bool checked );
 	void __Exposure_SpinValueUpdated( SpinBox& sender, int value );

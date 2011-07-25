@@ -33,6 +33,7 @@ namespace pcl
        virtual IPixInsightDevice* GetDevice() const = 0;
 
        void InitializeDevice( );
+	   void DisposeDevice();
 
    protected:
        void *libHandle;

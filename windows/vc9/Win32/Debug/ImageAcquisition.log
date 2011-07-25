@@ -1,10 +1,10 @@
-﻿Build started 7/23/2011 4:25:00 PM.
+﻿Build started 7/24/2011 3:50:51 PM.
      1>Project "C:\ImageAcquisition\windows\vc9\ImageAcquisition.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Win32\Debug\ImageAcquisition.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"G:\PCL-SDK/include" /I..\.. /I\Users\draphael\PCL\include\pcl /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D __PCL_WINDOWS /D _DEBUG /D _ITERATOR_DEBUG_LEVEL=0 /D _WINDLL /D _MBCS /Gm /EHa /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\ImageAcquisitionSettingsInstance.cpp
-         ImageAcquisitionSettingsInstance.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"G:\PCL-SDK/include" /I..\.. /I\Users\draphael\PCL\include\pcl /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D __PCL_WINDOWS /D _DEBUG /D _ITERATOR_DEBUG_LEVEL=0 /D _WINDLL /D _MBCS /Gm /EHa /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /TP /analyze- /errorReport:prompt ..\..\ExposeImageInterface.cpp
+         ExposeImageInterface.cpp
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(C:\ImageAcquisition\windows\vc9\Win32\Debug\ImageAcquisition.dll) does not match the Linker's OutputFile property value (G:\PixInsight32\bin\ImageAcquisition-pxm.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(ImageAcquisition) does not match the Linker's OutputFile property value (ImageAcquisition-pxm). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
        Link:
@@ -42,4 +42,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.73
+Time Elapsed 00:00:01.66

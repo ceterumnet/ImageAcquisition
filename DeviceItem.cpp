@@ -45,7 +45,7 @@ namespace pcl
             libHandle = LoadLibrary(chars);
             InitializePtr = (MyFuncPtr) (// get the function pointer
 				//TODO: This should be IntializeDevice I think...
-                    GetProcAddress( (HMODULE)libHandle, "InitializeCamera" )
+                    GetProcAddress( (HMODULE)libHandle, "InitializeDevice" )
             );
 
 #endif
@@ -59,7 +59,7 @@ namespace pcl
             else
             {
 				//TODO: This should be IntializeDevice I think...
-                InitializePtr = (MyFuncPtr) dlsym( libHandle, "InitializeCamera" );
+                InitializePtr = (MyFuncPtr) dlsym( libHandle, "InitializeDevice" );
             }
 #endif
 
@@ -84,6 +84,16 @@ namespace pcl
         {
             Console().Write( "Device Already Initialized: " );
         }
+    }
+
+	void DeviceItem::DisposeDevice( )
+    {
+
+#ifdef __PCL_WINDOWS
+		if( libHandle )
+			FreeLibrary( (HMODULE)libHandle );
+#endif
+
     }
 
 }

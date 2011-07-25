@@ -61,6 +61,7 @@ namespace pcl
 		// -------------------------------------------------------------------------
 		
 		CameraItem *GetPrimaryImager();
+		FilterWheelItem *GetPrimaryFilterWheel();
 	private:
         ImageAcquisitionSettingsInstance instance;
 		

@@ -13,6 +13,7 @@
 #include "ExposeImageProcess.h"
 #include "CameraDialog.h"
 #include "CameraData.h"
+#include "FilterWheelData.h"
 
 #include <pcl/Dialog.h>
 #include <pcl/FileDialog.h>
@@ -247,6 +248,7 @@ namespace pcl
     UpdateCameraControls();
     UpdateExposureControls();
 	UpdateOutputControls();
+	UpdateFWControls();
   }
 
   //I don't know if this should be an update call or something else...
@@ -256,6 +258,18 @@ namespace pcl
 
 	  if(cItem)
 		  GUI->ActiveCamera_Edit.SetText(cItem->cameraName);
+		
+  }
+
+  //I don't know if this should be an update call or something else...
+  void ExposeImageInterface::UpdateFWControls()
+  {
+	  FilterWheelItem *fItem = TheImageAcquisitionSettingsInterface->GetPrimaryFilterWheel();
+
+	  if(fItem)
+	  {
+		  GUI->FilterWheel_Edit.SetText(fItem->filterWheelName);
+	  }
 		
   }
 
@@ -333,7 +347,18 @@ namespace pcl
   {
       if ( sender == GUI->FilterWheelConnection_PushButton )
       {
-          instance.ExposeImages();
+		  if( GUI->FilterWheelConnection_PushButton.Text().Compare( "Connect Filter Wheel" ) == 0 )
+		  {
+			  filterWheelData->mutex.Lock();
+			  filterWheelData->fw->SetConnected( true );
+              filterWheelData->mutex.Unlock();
+			  //UpdateControlsForFWFeatures();
+              //EnableExposureButtons( true );
+			  //UpdateControls();
+
+		  } else {
+
+		  }
       }
       if ( sender == GUI->CameraConnection_PushButton && cameraData->cam )
         {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
@@ -396,6 +421,16 @@ namespace pcl
 			  GUI->FileOutputPattern_Edit.SetText( fileOutputPatternDialog->GetFileOutputPattern() );
 		  }
       }
+  }
+
+  //set the dropdowns for the appropriate filters etc...
+  void ExposeImageInterface::UpdateControlsForFWFeatures()
+  {
+	  GUI->Filter_ComboBox.Clear();
+	  for( size_type i = 1, n = filterWheelData->fw->MaxPosition() + 1; i < n; ++i )
+	  {
+		  GUI->Filter_ComboBox.AddItem( String(i) );
+	  }
   }
 
   //set the dropdowns for the appropriate bin levels etc...
@@ -468,7 +503,7 @@ namespace pcl
 	FilterWheel_Label.SetText("Active Filter Wheel:");
 	FilterWheel_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	FilterWheel_Label.SetFixedWidth(labelWidth1);
-	FilterWheelConnection_PushButton.SetText("Select Filter Wheel");
+	FilterWheelConnection_PushButton.SetText("Connect Filter Wheel");
 	FilterWheelConnection_PushButton.SetFixedWidth(labelWidth3);
 	FilterWheelConnection_PushButton.OnClick( (Button::click_event_handler)&ExposeImageInterface::__CameraConnectionButton_Click, w );
 	FilterWheel_Edit.SetReadOnly();
@@ -655,3 +690,4 @@ namespace pcl
 
 // ****************************************************************************
 // EOF ExposeImageInterface.cpp - Released 2010/12/14 09:34:27 UTC
+	
