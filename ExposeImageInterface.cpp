@@ -370,13 +370,13 @@ namespace pcl
 				cameraData->mutex.Unlock();
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
-				if( canReadTemp )
-					GUI->UpdateCameraData_Timer.Start();
+				//if( canReadTemp )
+					//GUI->UpdateCameraData_Timer.Start();
 				UpdateControls();
             } else {
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( false );
-				GUI->UpdateCameraData_Timer.Stop();
+				//GUI->UpdateCameraData_Timer.Stop();
 				cameraData->mutex.Unlock();
 				EnableExposureButtons( false );
             }
