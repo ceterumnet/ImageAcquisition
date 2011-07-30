@@ -1,4 +1,4 @@
-﻿Build started 7/27/2011 11:14:59 AM.
+﻿Build started 7/29/2011 7:20:23 PM.
 Project "C:\ImageAcquisition\windows\vc9\ImageAcquisition.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Creating "Win32\Debug\ImageAcquisition.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -42,4 +42,4 @@ Done Building Project "C:\ImageAcquisition\windows\vc9\ImageAcquisition.vcxproj"
 
 Build succeeded.
 
-Time Elapsed 00:00:04.21
+Time Elapsed 00:00:03.82
