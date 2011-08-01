@@ -138,17 +138,17 @@ namespace pcl
     {
 
     }
-
-//    , exposureDuration( x.exposureDuration ), exposureCount( x.exposureCount ),
-//            cameraName( x.cameraName ), setTemperature( x.setTemperature ), filter( x.filter ),
-//            binModeX( x.binModeX ), binModeY( x.binModeY ), subFrameX1( x.subFrameX1 ), subFrameY1( x.subFrameX2 ),
-//            subFrameX2( x.subFrameX2 ), subFrameY2( x.subFrameY2 ), delayBetweenExposures( x.delayBetweenExposures ),
-//            fileOutputPath( x.fileOutputPath ), fileOutputPattern( x.fileOutputPattern )
     ExposeImageInstance::ExposeImageInstance( const ExposeImageInstance& x ) :
         ProcessImplementation( x )
     {
         Assign( x );
     }
+
+		/*, exposureDuration( x.exposureDuration ), exposureCount( x.exposureCount ),
+            cameraName( x.cameraName ), setTemperature( x.setTemperature ), filter( x.filter ),
+            binModeX( x.binModeX ), binModeY( x.binModeY ), subFrameX1( x.subFrameX1 ), subFrameY1( x.subFrameX2 ),
+            subFrameX2( x.subFrameX2 ), subFrameY2( x.subFrameY2 ), delayBetweenExposures( x.delayBetweenExposures ),
+            fileOutputPath( x.fileOutputPath ), fileOutputPattern( x.fileOutputPattern )*/
 
     void ExposeImageInstance::SerializeParameters( ByteArray &bArray )
     {
