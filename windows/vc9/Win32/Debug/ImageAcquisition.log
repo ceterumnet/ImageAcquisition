@@ -1,40 +1,14 @@
-﻿Build started 7/31/2011 12:05:54 PM.
+﻿Build started 8/4/2011 10:13:50 AM.
 Project "C:\ImageAcquisition\windows\vc9\ImageAcquisition.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Creating "Win32\Debug\ImageAcquisition.unsuccessfulbuild" because "AlwaysCreate" was specified.
 ClCompile:
-  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"c:\PCL-SDK\include" /I..\.. /I\Users\draphael\PCL\include\pcl /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D __PCL_WINDOWS /D _DEBUG /D _ITERATOR_DEBUG_LEVEL=0 /D _WINDLL /D _MBCS /Gm /EHa /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /TP /analyze- /errorReport:prompt ..\..\ExposeImageInstance.cpp
-  ExposeImageInstance.cpp
+  All outputs are up-to-date.
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(C:\ImageAcquisition\windows\vc9\Win32\Debug\ImageAcquisition.dll) does not match the Linker's OutputFile property value (c:\PixInsight32\bin\ImageAcquisition-pxm.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(ImageAcquisition) does not match the Linker's OutputFile property value (ImageAcquisition-pxm). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
 Link:
-  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\PixInsight32\bin\ImageAcquisition-pxm.dll" /NOLOGO /LIBPATH:"c:\PCL-SDK\lib\windows\x86\vc10" "PCL-pxi.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Win32\Debug\ImageAcquisition.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\ImageAcquisition\windows\vc9\Win32\Debug\ImageAcquisition.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Win32\Debug\ImageAcquisition.lib" /MACHINE:X86 /DLL Win32\Debug\CameraData.obj
-  Win32\Debug\CameraDialog.obj
-  Win32\Debug\CameraItem.obj
-  Win32\Debug\DeviceItem.obj
-  Win32\Debug\ExposeImageInstance.obj
-  Win32\Debug\ExposeImageInterface.obj
-  Win32\Debug\ExposeImageParameters.obj
-  Win32\Debug\ExposeImageProcess.obj
-  Win32\Debug\FilterWheelData.obj
-  Win32\Debug\FilterWheelItem.obj
-  Win32\Debug\ImageAcquisisitionSettingsParameters.obj
-  Win32\Debug\ImageAcquisitionModule.obj
-  Win32\Debug\ImageAcquisitionSession.obj
-  Win32\Debug\ImageAcquisitionSessionInstance.obj
-  Win32\Debug\ImageAcquisitionSessionInterface.obj
-  Win32\Debug\ImageAcquisitionSessionParameters.obj
-  Win32\Debug\ImageAcquisitionSessionProcess.obj
-  Win32\Debug\ImageAcquisitionSettingsInstance.obj
-  Win32\Debug\ImageAcquisitionSettingsInterface.obj
-  Win32\Debug\ImageAcquisitionSettingsProcess.obj
-  Win32\Debug\parsers.obj
-  LINK : c:\PixInsight32\bin\ImageAcquisition-pxm.dll not found or not built by the last incremental link; performing full link
-     Creating library Win32\Debug\ImageAcquisition.lib and object Win32\Debug\ImageAcquisition.exp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  All outputs are up-to-date.
   ImageAcquisition.vcxproj -> C:\ImageAcquisition\windows\vc9\Win32\Debug\ImageAcquisition.dll
-Manifest:
-  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"c:\PixInsight32\bin\ImageAcquisition-pxm.dll;#2" /manifest Win32\Debug\ImageAcquisition.dll.intermediate.manifest
 FinalizeBuildStatus:
   Deleting file "Win32\Debug\ImageAcquisition.unsuccessfulbuild".
   Touching "Win32\Debug\ImageAcquisition.lastbuildstate".
@@ -42,4 +16,4 @@ Done Building Project "C:\ImageAcquisition\windows\vc9\ImageAcquisition.vcxproj"
 
 Build succeeded.
 
-Time Elapsed 00:00:07.37
+Time Elapsed 00:00:00.87

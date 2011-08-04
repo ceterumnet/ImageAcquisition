@@ -12,6 +12,8 @@
 #include "CameraData.h"
 #include "parsers.h"
 #include <time.h>
+#include <pcl/Histogram.h>
+#include <pcl/HistogramTransformation.h>
 
 namespace pcl
 {
@@ -325,7 +327,30 @@ namespace pcl
                 //Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
                 if ( !outputFile.WriteImage( *image ) )
                     throw CatchedException();
+				if ( !view.AreHistogramsAvailable() )
+					view.CalculateHistograms();
+				if ( !view.AreStatisticsAvailable() )
+					view.CalculateStatistics();
 
+				View::statistics_container S;
+				View::stf_container F;
+
+				view.GetStatistics( S );
+				double c0 = 0, m = 0;
+				
+				c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
+				m  += S[0]->Median();
+				
+				c0 = Range( c0, 0.0, 1.0 );
+				m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
+
+				F.Add( new HistogramTransformation( m, c0 ) );
+
+				view.SetScreenTransferFunctions(F);
+				view.EnableScreenTransferFunctions();
+
+				F.Destroy();
+				S.Destroy();
                 window.Show();
                 window.ZoomToFit( false ); // don't allow zoom > 1
 
