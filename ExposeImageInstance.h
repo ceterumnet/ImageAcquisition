@@ -46,7 +46,7 @@ public:
    void SerializeParameters( ByteArray &bArray );
 private:
 	//do I need to use a safer type?
-	uint32 exposureDuration; //milliseconds
+	double exposureDuration; //seconds
 	int16 exposureCount;
 	String cameraName;
 	String filterWheelName;

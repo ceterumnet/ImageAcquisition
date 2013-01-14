@@ -281,7 +281,7 @@ namespace pcl
 		  GUI->BinModeY_ComboBox.SetCurrentItem( cameraData->cam->BinY() - 1 );
 		  //GUI->Filter_ComboBox.SetCurrentItem( 0 );
 		  GUI->NumberOfExposures_SpinBox.SetValue( instance.exposureCount );
-		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration );
+		  GUI->ExposureDuration_NumericControl.SetValue( instance.exposureDuration);
 		  GUI->X1_Edit.SetRange(0, cameraData->cam->NumX() );
 		  GUI->Y1_Edit.SetRange(0, cameraData->cam->NumY() );
 		  GUI->X2_Edit.SetRange(0, cameraData->cam->NumX() );
@@ -555,7 +555,8 @@ namespace pcl
 	ExposureDuration_NumericControl.label.SetText("Exposure Duration (seconds):");
 	ExposureDuration_NumericControl.label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
 	ExposureDuration_NumericControl.label.SetFixedWidth(labelWidth1);
-	ExposureDuration_NumericControl.SetRange(0.001, uint16_max);
+	//TODO: This should be set from the driver...
+	ExposureDuration_NumericControl.SetRange(0.001, 3600);
 	ExposureDuration_NumericControl.SetPrecision(3);
 	ExposureDuration_NumericControl.OnValueUpdated( (NumericEdit::value_event_handler)&ExposeImageInterface::__Exposure_NumericValueUpdated, w );
 	ExposureDuration_Sizer.Add(ExposureDuration_NumericControl);

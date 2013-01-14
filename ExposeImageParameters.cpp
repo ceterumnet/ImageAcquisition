@@ -30,7 +30,7 @@ namespace pcl
     EIFileOutputPattern* TheFileOutputPatternParameter = 0;
 	//EIOnError* TheEIOnErrorParameter = 0;
 
-	EIExposureDuration::EIExposureDuration( MetaProcess* P) : MetaUInt32( P )
+	EIExposureDuration::EIExposureDuration( MetaProcess* P) : MetaDouble( P )
 	{
 	    TheExposureDurationParameter = this;
 	}

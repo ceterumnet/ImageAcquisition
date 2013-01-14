@@ -75,17 +75,14 @@ namespace pcl
 
                 if( d_abort )
                     break;
-
                 cam->StartExposure( exposureDuration );
 
                 pcl::Sleep( exposureDuration );
-
                 while ( !cam->ImageReady() )
                 {
                     // Possibly set the state of the data to "reading" here later...
                     pcl::Sleep( .1 );
                 };
-
                 //now the image is ready ...
                 data->mutex.Lock();
                 data->imageReady = true;
@@ -222,6 +219,8 @@ namespace pcl
 
     bool ExposeImageInstance::ExecuteGlobal()
     {
+		Console console;
+		console << "executing global: \n";
         {
             String why;
             if ( !CanExecuteGlobal( why ) )
@@ -234,17 +233,22 @@ namespace pcl
 
     bool ExposeImageInstance::ExposeImages()
     {
-        if( data == 0)
+        if( data == 0 )
             data = new ExposeImageData;
+		else {
+			delete data;
+			data = new ExposeImageData;
+		}
 
         Console console;
 
         console << "Starting ExposeImage Process: \n";
         IPixInsightCamera *cam = cameraData->cam;
-
+		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
         exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, exposureCount );
-        exposeThread->Start();
-
+        console << "exposeThread->Start()\n";
+		exposeThread->Start();
+		
         OutputData __data;
         time_t rawtime;
         time( &rawtime );
@@ -259,6 +263,7 @@ namespace pcl
         __data.EXP_NUM     = 0;
         __data.FILTER      = filter;
 
+		console << "creating ImageWindow(...)\n";
         //TODO: We are reusing this window...maybe this should be an option?
         ImageWindow window( cam->NumX(), // width
                 cam->NumY(), // height
@@ -274,16 +279,16 @@ namespace pcl
         //       What I need to do here is create and destroy the thread for each exposure...
         while ( exposeThread->IsExposing() )
         {
+			// These 2 lines allow PixInsight to stay responsive while it is exposing
             pcl::Sleep( .10 );
             ProcessInterface::ProcessEvents();
 
-            data->mutex.Lock();
+            data->mutex.Lock();			
             bool myImageReady = data->imageReady;
             data->mutex.Unlock();
 
             if ( myImageReady )
             {
-
                 FILEPATH:
 
                 __data.EXP_NUM += 1;
@@ -356,7 +361,7 @@ namespace pcl
 
             }
         }
-
+		delete exposeThread;
         return true;
     }
 
