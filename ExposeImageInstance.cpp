@@ -41,11 +41,10 @@ namespace pcl
     {
 
     public:
-        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration, uint32 _exposureCount )
+        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration )
         {
             cam = _cam;
             exposureDuration = _exposureDuration;
-            exposureCount = _exposureCount;
             exposing = true;
         }
 
@@ -66,68 +65,33 @@ namespace pcl
 
         virtual void Run()
         {
-            for ( size_type i = 0, n = exposureCount; i < n; ++i )
-            {
-                data->mutex.Lock();
-                data->imageReady = false;
-                bool d_abort = data->abort;
-                data->mutex.Unlock();
-
-                if( d_abort )
-                    break;
-                cam->StartExposure( exposureDuration );
-
-                pcl::Sleep( exposureDuration );
-                while ( !cam->ImageReady() )
-                {
-                    // Possibly set the state of the data to "reading" here later...
-                    pcl::Sleep( .1 );
-                };
-                //now the image is ready ...
-                data->mutex.Lock();
-                data->imageReady = true;
-                data->paused = true;
-                data->mutex.Unlock();
-
-                //wait for image var to be set...
-                while( true )
-                {
-                    data->mutex.Lock();
-                    bool wToBeRead = data->waitingToBeRead;
-                    data->mutex.Unlock();
-                    if( !wToBeRead )
-                    {
-                        break;
-                    }
-
-                    pcl::Sleep( .1 );
-                }
-
-                data->mutex.Lock();
-                cam->ImageArray( data->image );
-
-                data->paused = false;
-                // This is probably not needed...may create a bug?
-                data->waitingToBeRead = true;
-                data->imageReady = false;
-                data->mutex.Unlock();
-            }
-
-            // Exposures are finished...
             data->mutex.Lock();
-            data->paused = false;
-            exposing = false;
             data->imageReady = false;
-            data->image = 0;
-            data->waitingToBeRead = true;
+            bool d_abort = data->abort;
+            data->mutex.Unlock();
+
+            cam->StartExposure( exposureDuration );
+
+            pcl::Sleep( exposureDuration );
+
+            while ( !cam->ImageReady() )
+            {
+                // Possibly set the state of the data to "reading" here later...
+                pcl::Sleep( .1 );
+
+				// Also, we need to handle aborting images here.
+            };
+
+            //now the image is ready ...
+            data->mutex.Lock();
+			exposing = false;
+			data->imageReady = true;
             data->mutex.Unlock();
         }
     private:
-        ImageWindow *window;
         bool exposing;
         IPixInsightCamera *cam;
         double exposureDuration;
-        uint32 exposureCount;
     };
 
     ExposeImageInstance::ExposeImageInstance( const MetaProcess* m ) :
@@ -142,12 +106,6 @@ namespace pcl
     {
         Assign( x );
     }
-
-		/*, exposureDuration( x.exposureDuration ), exposureCount( x.exposureCount ),
-            cameraName( x.cameraName ), setTemperature( x.setTemperature ), filter( x.filter ),
-            binModeX( x.binModeX ), binModeY( x.binModeY ), subFrameX1( x.subFrameX1 ), subFrameY1( x.subFrameX2 ),
-            subFrameX2( x.subFrameX2 ), subFrameY2( x.subFrameY2 ), delayBetweenExposures( x.delayBetweenExposures ),
-            fileOutputPath( x.fileOutputPath ), fileOutputPattern( x.fileOutputPattern )*/
 
     void ExposeImageInstance::SerializeParameters( ByteArray &bArray )
     {
@@ -235,133 +193,122 @@ namespace pcl
     {
         if( data == 0 )
             data = new ExposeImageData;
-		else {
-			delete data;
-			data = new ExposeImageData;
-		}
-
+		
         Console console;
 
         console << "Starting ExposeImage Process: \n";
-        IPixInsightCamera *cam = cameraData->cam;
-		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
-        exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, exposureCount );
-        console << "exposeThread->Start()\n";
-		exposeThread->Start();
-		
-        OutputData __data;
-        time_t rawtime;
-        time( &rawtime );
-        struct tm * timeinfo;
-        timeinfo = localtime ( &rawtime );
 
-        __data.YYYY        = String( timeinfo->tm_year + 1900 );
-        __data.MM          = String( timeinfo->tm_mon + 1 );
-        __data.DD          = String( timeinfo->tm_mday );
-        __data.TARGET      = String( "" );
-        __data.SEQUENCE_ID = String( "" );
-        __data.EXP_NUM     = 0;
-        __data.FILTER      = filter;
+		IPixInsightCamera *cam = cameraData->cam;
+		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
 
 		console << "creating ImageWindow(...)\n";
-        //TODO: We are reusing this window...maybe this should be an option?
-        ImageWindow window( cam->NumX(), // width
-                cam->NumY(), // height
-                1, // numberOfChannels
-                16, // bitsPerSample
-                false, // floatSample
-                false, // color
-                true, // initialProcessing
-                String( "last_exposure" ) // id
-                );
+		//TODO: We are reusing this window...maybe this should be an option?
+		ImageWindow window( cam->NumX(), // width
+			cam->NumY(), // height
+			1, // numberOfChannels
+			16, // bitsPerSample
+			false, // floatSample
+			false, // color
+			true, // initialProcessing
+			String( "last_exposure" ) // id
+		);
 
-        //TODO:  This code is messy.  Currently, there are 2 threads that keep running and waiting for eachother etc...
-        //       What I need to do here is create and destroy the thread for each exposure...
-        while ( exposeThread->IsExposing() )
-        {
-			// These 2 lines allow PixInsight to stay responsive while it is exposing
-            pcl::Sleep( .10 );
-            ProcessInterface::ProcessEvents();
+		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration );
+			console << "exposeThread->Start()\n";
+			exposeThread->Start();
+		
+			OutputData __data;
+			time_t rawtime;
+			time( &rawtime );
+			struct tm * timeinfo;
+			timeinfo = localtime ( &rawtime );
 
-            data->mutex.Lock();			
-            bool myImageReady = data->imageReady;
-            data->mutex.Unlock();
+			__data.YYYY        = String( timeinfo->tm_year + 1900 );
+			__data.MM          = String( timeinfo->tm_mon + 1 );
+			__data.DD          = String( timeinfo->tm_mday );
+			__data.TARGET      = String( "" );
+			__data.SEQUENCE_ID = String( "" );
+			__data.EXP_NUM     = 0;
+			__data.FILTER      = filter;
 
-            if ( myImageReady )
-            {
-                FILEPATH:
+			bool myImageReady = false;
+			// Wait for thread to finish exposure
+			while ( !myImageReady )
+			{
+				// These 2 lines allow PixInsight to stay responsive while it is exposing
+				pcl::Sleep( .10 );
+				ProcessInterface::ProcessEvents();
+				data->mutex.Lock();
+				myImageReady = data->imageReady;
+				data->mutex.Unlock();
+			}
+			
+			FILEPATH:
 
-                __data.EXP_NUM += 1;
-                String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
-                String fileName = GenerateOutputFileName( theFilename, __data );
-                FileFormat outputFormat( ".fit", false, true );
-                FileFormatInstance outputFile( outputFormat );
-                String filePath = fileOutputPath + "/" + fileName;
+			__data.EXP_NUM += 1;
+			String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
+			String fileName = GenerateOutputFileName( theFilename, __data );
+			FileFormat outputFormat( ".fit", false, true );
+			FileFormatInstance outputFile( outputFormat );
+			String filePath = fileOutputPath + "/" + fileName;
 
-                if(File::Exists( filePath + ".fit" ) )
-                    goto FILEPATH;
+			if(File::Exists( filePath + ".fit" ) )
+				goto FILEPATH;
 
-                //TODO:  Ensure that there is a trailing slash on this path...
-                outputFile.Create( filePath );
+			//TODO:  Ensure that there is a trailing slash on this path...
+			outputFile.Create( filePath );
 
-                bool floatSample = false;
-                ImageOptions options;
-                options.bitsPerSample = 16;
-                options.ieeefpSampleFormat = floatSample;
-                outputFile.SetOptions( options );
+			bool floatSample = false;
+			ImageOptions options;
+			options.bitsPerSample = 16;
+			options.ieeefpSampleFormat = floatSample;
+			outputFile.SetOptions( options );
 
-                View view = window.MainView();
-                ImageVariant v = view.Image();
-                UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
+			View view = window.MainView();
+			ImageVariant v = view.Image();
+			UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
 
-                data->mutex.Lock();
-                data->image = image;
-                data->waitingToBeRead = false;
-                data->mutex.Unlock();
+			data->mutex.Lock();
+			cam->ImageArray( image );
+			data->mutex.Unlock();
 
-                //wait for thread to read data from ImageArray
-                while( true )
-                {
-                    data->mutex.Lock();
-                    bool isPaused = data->paused;
-                    data->mutex.Unlock();
-                    if( !isPaused )
-                        break;
-                }
 
-                //Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
-                if ( !outputFile.WriteImage( *image ) )
-                    throw CatchedException();
-				if ( !view.AreHistogramsAvailable() )
-					view.CalculateHistograms();
-				if ( !view.AreStatisticsAvailable() )
-					view.CalculateStatistics();
+			//Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
+			if ( !outputFile.WriteImage( *image ) )
+				throw CatchedException();
+			if ( !view.AreHistogramsAvailable() )
+				view.CalculateHistograms();
+			if ( !view.AreStatisticsAvailable() )
+				view.CalculateStatistics();
 
-				View::statistics_container S;
-				View::stf_container F;
+			View::statistics_container S;
+			View::stf_container F;
 
-				view.GetStatistics( S );
-				double c0 = 0, m = 0;
+			view.GetStatistics( S );
+			double c0 = 0, m = 0;
 				
-				c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
-				m  += S[0]->Median();
+			c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
+			m  += S[0]->Median();
 				
-				c0 = Range( c0, 0.0, 1.0 );
-				m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
+			c0 = Range( c0, 0.0, 1.0 );
+			m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
 
-				F.Add( new HistogramTransformation( m, c0 ) );
+			F.Add( new HistogramTransformation( m, c0 ) );
 
-				view.SetScreenTransferFunctions(F);
-				view.EnableScreenTransferFunctions();
+			view.SetScreenTransferFunctions(F);
+			view.EnableScreenTransferFunctions();
 
-				F.Destroy();
-				S.Destroy();
-                window.Show();
-                window.ZoomToFit( false ); // don't allow zoom > 1
+			F.Destroy();
+			S.Destroy();
+			
+			window.ZoomToFit( false ); // don't allow zoom > 1
+			window.Show();
 
-            }
-        }
-		delete exposeThread;
+			delete exposeThread;
+			delete data;
+			data = new ExposeImageData;
+		}
         return true;
     }
 

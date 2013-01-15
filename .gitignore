@@ -1,1 +1,4 @@
-**/ipch
+**/*/ipch
+**.obj
+**.tlog
+windows/vc9/Debug
