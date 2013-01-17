@@ -2,3 +2,5 @@
 **.obj
 **.tlog
 windows/vc9/Debug
+**.sdf
+**.suo

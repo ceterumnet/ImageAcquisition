@@ -41,9 +41,11 @@ namespace pcl
     {
 
     public:
-        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration )
+        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration, short _binX, short _binY )
         {
             cam = _cam;
+			binX = _binX;
+			binY = _binY;
             exposureDuration = _exposureDuration;
             exposing = true;
         }
@@ -69,10 +71,11 @@ namespace pcl
             data->imageReady = false;
             bool d_abort = data->abort;
             data->mutex.Unlock();
-
+            
+			cam->SetBinX(binX);
+			cam->SetBinY(binY);
             cam->StartExposure( exposureDuration );
-
-            pcl::Sleep( exposureDuration );
+			pcl::Sleep( exposureDuration );
 
             while ( !cam->ImageReady() )
             {
@@ -89,6 +92,8 @@ namespace pcl
             data->mutex.Unlock();
         }
     private:
+		short binX;
+		short binY;
         bool exposing;
         IPixInsightCamera *cam;
         double exposureDuration;
@@ -214,7 +219,7 @@ namespace pcl
 		);
 
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration );
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
 			console << "exposeThread->Start()\n";
 			exposeThread->Start();
 		

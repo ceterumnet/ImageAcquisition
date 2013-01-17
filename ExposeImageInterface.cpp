@@ -536,6 +536,7 @@ namespace pcl
 	Binning_Sizer.Add(BinModeY_ComboBox);
 	Binning_Sizer.SetSpacing( 4 );
 	BinModeX_ComboBox.OnItemHighlighted( (ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
+	BinModeY_ComboBox.OnItemHighlighted( (ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
 
 	Filter_Label.SetText("Filter:");
 	Filter_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
