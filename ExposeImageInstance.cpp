@@ -67,6 +67,7 @@ namespace pcl
 
         virtual void Run()
         {
+			
             data->mutex.Lock();
             data->imageReady = false;
             bool d_abort = data->abort;
@@ -90,6 +91,7 @@ namespace pcl
 			exposing = false;
 			data->imageReady = true;
             data->mutex.Unlock();
+			
         }
     private:
 		short binX;
@@ -194,14 +196,14 @@ namespace pcl
         return true;
     }
 
-    bool ExposeImageInstance::ExposeImages()
-    {
-        if( data == 0 )
-            data = new ExposeImageData;
-		
-        Console console;
+	bool ExposeImageInstance::ExposeImagesWithCCD()
+	{
+		if( data == 0 )
+			data = new ExposeImageData;
 
-        console << "Starting ExposeImage Process: \n";
+		Console console;
+
+		console << "Starting ExposeImage Process: \n";
 
 		IPixInsightCamera *cam = cameraData->cam;
 		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
@@ -216,13 +218,13 @@ namespace pcl
 			false, // color
 			true, // initialProcessing
 			String( "last_exposure" ) // id
-		);
+			);
 
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
 			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
 			console << "exposeThread->Start()\n";
 			exposeThread->Start();
-		
+
 			OutputData __data;
 			time_t rawtime;
 			time( &rawtime );
@@ -248,8 +250,8 @@ namespace pcl
 				myImageReady = data->imageReady;
 				data->mutex.Unlock();
 			}
-			
-			FILEPATH:
+
+FILEPATH:
 
 			__data.EXP_NUM += 1;
 			String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
@@ -269,6 +271,9 @@ namespace pcl
 			options.bitsPerSample = 16;
 			options.ieeefpSampleFormat = floatSample;
 			outputFile.SetOptions( options );
+
+
+			
 
 			View view = window.MainView();
 			ImageVariant v = view.Image();
@@ -292,10 +297,10 @@ namespace pcl
 
 			view.GetStatistics( S );
 			double c0 = 0, m = 0;
-				
+
 			c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
 			m  += S[0]->Median();
-				
+
 			c0 = Range( c0, 0.0, 1.0 );
 			m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
 
@@ -306,7 +311,7 @@ namespace pcl
 
 			F.Destroy();
 			S.Destroy();
-			
+
 			window.ZoomToFit( false ); // don't allow zoom > 1
 			window.Show();
 
@@ -314,7 +319,99 @@ namespace pcl
 			delete data;
 			data = new ExposeImageData;
 		}
-        return true;
+		return true;
+	}
+
+	bool ExposeImageInstance::ExposeImagesWithDSLR()
+	{
+		if( data == 0 )
+			data = new ExposeImageData;
+
+		Console console;
+
+		console << "Starting ExposeImage Process: \n";
+
+		IPixInsightCamera *cam = cameraData->cam;
+		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
+
+
+
+		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
+			console << "exposeThread->Start()\n";
+			exposeThread->Start();
+
+			bool myImageReady = false;
+			// Wait for thread to finish exposure
+			while ( !myImageReady )
+			{
+				// These 2 lines allow PixInsight to stay responsive while it is exposing
+				pcl::Sleep( .10 );
+				ProcessInterface::ProcessEvents();
+				data->mutex.Lock();
+				myImageReady = data->imageReady;
+				data->mutex.Unlock();
+			}
+
+			//image exposure finished - downloading image from DSLR camera
+			cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern).c_str());
+
+			// Load ImageWindow from file
+			console << "creating ImageWindow(...)\n";
+			//pcl::String fileName(cam->getImageFileName());
+			Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern);
+
+
+			View view = imgArray[0].MainView();
+
+			if ( !view.AreHistogramsAvailable() )
+				view.CalculateHistograms();
+			if ( !view.AreStatisticsAvailable() )
+				view.CalculateStatistics();
+
+			View::statistics_container S;
+			View::stf_container F;
+
+			view.GetStatistics( S );
+			double c0 = 0, m = 0;
+
+			c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
+			m  += S[0]->Median();
+
+			c0 = Range( c0, 0.0, 1.0 );
+			m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
+
+			F.Add( new HistogramTransformation( m, c0 ) );
+
+			view.SetScreenTransferFunctions(F);
+			view.EnableScreenTransferFunctions();
+
+			F.Destroy();
+			S.Destroy();
+
+			imgArray[0].ZoomToFit( false ); // don't allow zoom > 1
+			imgArray[0].Show();
+
+			delete exposeThread;
+			delete data;
+			data = new ExposeImageData;
+		}
+		return true;
+
+	}
+
+    bool ExposeImageInstance::ExposeImages()
+    {
+		//FIXME Requires refactoring: Too much code dupliction
+		switch (cameraData->cam->getCameraType()){
+			case IPixInsightCamera::TypeCCD:
+				return ExposeImagesWithCCD();
+			case IPixInsightCamera::TypeDSLR:
+				return ExposeImagesWithDSLR();
+			default:
+				return false;
+				//unkwon cameratype exception 
+		}
     }
 
     void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tableRow )

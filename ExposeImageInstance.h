@@ -25,6 +25,8 @@ class FileFormatInstance;
 
 class ExposeImageThread;
 
+
+
 class ExposeImageInstance : public ProcessImplementation
 {
 public:
@@ -40,6 +42,8 @@ public:
    virtual bool CanExecuteGlobal( String& whyNot ) const;
    virtual bool ExecuteGlobal();
    bool ExposeImages();
+   bool ExposeImagesWithCCD();
+   bool ExposeImagesWithDSLR();
    virtual void* LockParameter( const MetaParameter*, size_type /*tableRow*/ );
    virtual bool AllocateParameter( size_type sizeOrLength, const MetaParameter* p, size_type tableRow );
    virtual size_type ParameterLength( const MetaParameter* p, size_type tableRow ) const;
