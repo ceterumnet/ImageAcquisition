@@ -78,7 +78,7 @@ namespace pcl
             cam->StartExposure( exposureDuration );
 			pcl::Sleep( exposureDuration );
 
-            while ( !cam->ImageReady() )
+			while ( !cam->ImageReady() && cam->Connected())
             {
                 // Possibly set the state of the data to "reading" here later...
                 pcl::Sleep( .1 );
@@ -271,9 +271,6 @@ FILEPATH:
 			options.bitsPerSample = 16;
 			options.ieeefpSampleFormat = floatSample;
 			outputFile.SetOptions( options );
-
-
-			
 
 			View view = window.MainView();
 			ImageVariant v = view.Image();
