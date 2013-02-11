@@ -14,7 +14,7 @@
 #include <time.h>
 #include <pcl/Histogram.h>
 #include <pcl/HistogramTransformation.h>
-
+#include <pcl/ErrorHandler.h>
 namespace pcl
 {
     struct ExposeImageData
@@ -76,13 +76,14 @@ namespace pcl
 			cam->SetBinX(binX);
 			cam->SetBinY(binY);
             cam->StartExposure( exposureDuration );
+
 			if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
 				pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
 			}
 			else
 				pcl::Sleep(exposureDuration);
 
-			while ( !cam->ImageReady() && cam->Connected())
+			while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
 			{
 				// Possibly set the state of the data to "reading" here later...
 				pcl::Sleep( .1 );
@@ -338,7 +339,10 @@ FILEPATH:
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
 			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
 			console << "exposeThread->Start()\n";
+			
 			exposeThread->Start();
+			
+			
 
 			bool myImageReady = false;
 			// Wait for thread to finish exposure
@@ -357,6 +361,10 @@ FILEPATH:
 				data->mutex.Unlock();
 			}
 			console <<"\n";
+
+			if (cam->CameraState()==cam->CameraError)
+				throw Error(String("A camera error occured! -- ") + cam->LastError());
+
 			//pcl::String fileName(cam->getImageFileName());
 			pcl::IsoString fileFormatExtension=pcl::IsoString(".CR2");
 			//image exposure finished - downloading image from DSLR camera
