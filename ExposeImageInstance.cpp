@@ -76,15 +76,19 @@ namespace pcl
 			cam->SetBinX(binX);
 			cam->SetBinY(binY);
             cam->StartExposure( exposureDuration );
-			pcl::Sleep( exposureDuration );
+			if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
+				pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
+			}
+			else
+				pcl::Sleep(exposureDuration);
 
 			while ( !cam->ImageReady() && cam->Connected())
-            {
-                // Possibly set the state of the data to "reading" here later...
-                pcl::Sleep( .1 );
-
+			{
+				// Possibly set the state of the data to "reading" here later...
+				pcl::Sleep( .1 );
 				// Also, we need to handle aborting images here.
-            };
+			}; 
+
 
             //now the image is ready ...
             data->mutex.Lock();
@@ -331,8 +335,6 @@ FILEPATH:
 		IPixInsightCamera *cam = cameraData->cam;
 		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
 
-
-
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
 			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
 			console << "exposeThread->Start()\n";
@@ -340,58 +342,47 @@ FILEPATH:
 
 			bool myImageReady = false;
 			// Wait for thread to finish exposure
-			while ( !myImageReady )
+			console <<"Exposure duration:   0 s.";
+			while ( !myImageReady  )
 			{
-				// These 2 lines allow PixInsight to stay responsive while it is exposing
+				// These 2 lines allow PixInsight to stay responsive while it is exposing#
+				int expTime=(int) cam->LastExposureDuration();
+				pcl::IsoString expTime_str = pcl::IsoString(expTime);
+				
+				console <<"\b\b\b\b\b\b\b"<<String().Format("%4d s.",(int) cam->LastExposureDuration());
 				pcl::Sleep( .10 );
 				ProcessInterface::ProcessEvents();
 				data->mutex.Lock();
 				myImageReady = data->imageReady;
 				data->mutex.Unlock();
 			}
-
+			console <<"\n";
+			//pcl::String fileName(cam->getImageFileName());
+			pcl::IsoString fileFormatExtension=pcl::IsoString(".CR2");
 			//image exposure finished - downloading image from DSLR camera
-			cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern).c_str());
+			console <<"Start downloading image...";
+			if (!cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension).c_str()))
+				throw Error(pcl::String("Download failed!"));	
+			console <<"done.\n";
+
 
 			// Load ImageWindow from file
+
 			console << "creating ImageWindow(...)\n";
-			//pcl::String fileName(cam->getImageFileName());
-			Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern);
-
-
-			View view = imgArray[0].MainView();
-
-			if ( !view.AreHistogramsAvailable() )
-				view.CalculateHistograms();
-			if ( !view.AreStatisticsAvailable() )
-				view.CalculateStatistics();
-
-			View::statistics_container S;
-			View::stf_container F;
-
-			view.GetStatistics( S );
-			double c0 = 0, m = 0;
-
-			c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
-			m  += S[0]->Median();
-
-			c0 = Range( c0, 0.0, 1.0 );
-			m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
-
-			F.Add( new HistogramTransformation( m, c0 ) );
-
-			view.SetScreenTransferFunctions(F);
-			view.EnableScreenTransferFunctions();
-
-			F.Destroy();
-			S.Destroy();
-
+			
+			Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension, IsoString("iw")+IsoString(exp_i));
+			
 			imgArray[0].ZoomToFit( false ); // don't allow zoom > 1
 			imgArray[0].Show();
 
 			delete exposeThread;
 			delete data;
 			data = new ExposeImageData;
+			if (exp_i>=1){
+				ImageWindow windowToClose = ImageWindow::WindowById(IsoString("iw")+IsoString(exp_i-1));
+				windowToClose.Close();
+			}
+			
 		}
 		return true;
 
@@ -407,7 +398,6 @@ FILEPATH:
 				return ExposeImagesWithDSLR();
 			default:
 				return false;
-				//unkwon cameratype exception 
 		}
     }
 
