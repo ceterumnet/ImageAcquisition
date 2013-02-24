@@ -331,6 +331,9 @@ FILEPATH:
 
 		Console console;
 
+		// Enable abort button
+		console.EnableAbort();
+
 		console << "Starting ExposeImage Process: \n";
 
 		IPixInsightCamera *cam = cameraData->cam;
@@ -345,9 +348,10 @@ FILEPATH:
 			
 
 			bool myImageReady = false;
+			bool doAbort     = false;
 			// Wait for thread to finish exposure
 			console <<"Exposure duration:   0 s.";
-			while ( !myImageReady  )
+			while ( !myImageReady && !doAbort )
 			{
 				// These 2 lines allow PixInsight to stay responsive while it is exposing#
 				int expTime=(int) cam->LastExposureDuration();
@@ -359,8 +363,17 @@ FILEPATH:
 				data->mutex.Lock();
 				myImageReady = data->imageReady;
 				data->mutex.Unlock();
+				doAbort = console.AbortRequested();
 			}
 			console <<"\n";
+
+			if (doAbort){
+				console <<"Received abort request. Stopping exposure and killing thread ...";console.Flush();
+				cam->StopExposure();
+				exposeThread->Kill();
+				console <<"done.\n";
+				return false;
+			}
 
 			if (cam->CameraState()==cam->CameraError)
 				throw Error(String("A camera error occured! -- ") + cam->LastError());
