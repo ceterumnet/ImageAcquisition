@@ -361,24 +361,57 @@ namespace pcl
 		  }
       }
       if ( sender == GUI->CameraConnection_PushButton && cameraData->cam )
-        {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
+        {	
+
+			pcl::IPixInsightCamera::CameraType camType;
+			cameraData->mutex.Lock();
+			camType=cameraData->cam->getCameraType();
+			cameraData->mutex.Unlock();
+
+			//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
             {
-				cameraData->mutex.Lock();
-				cameraData->cam->SetConnected( true );
-				bool canReadTemp = cameraData->cam->CanSetCCDTemperature();
-				cameraData->mutex.Unlock();
-				UpdateControlsForCameraFeatures();
-                EnableExposureButtons( true );
-				//if( canReadTemp )
+				if (camType==pcl::IPixInsightCamera::CameraType::TypeDSLR)
+				{
+					int rc=0;
+					cameraData->mutex.Lock();
+					rc=cameraData->cam->SetConnected( true );			
+					cameraData->mutex.Unlock();
+					if (rc!=-1){
+						UpdateControlsForCameraFeatures();
+						EnableExposureButtons( true );
+						UpdateControls();
+					}
+				}
+				else {
+					cameraData->mutex.Lock();
+					cameraData->cam->SetConnected( true );				
+					bool canReadTemp = cameraData->cam->CanSetCCDTemperature();
+					cameraData->mutex.Unlock();
+					UpdateControlsForCameraFeatures();
+					EnableExposureButtons( true );
+					//if( canReadTemp )
 					//GUI->UpdateCameraData_Timer.Start();
-				UpdateControls();
+					UpdateControls();
+				}
             } else {
-				cameraData->mutex.Lock();
-				cameraData->cam->SetConnected( false );
-				//GUI->UpdateCameraData_Timer.Stop();
-				cameraData->mutex.Unlock();
-				EnableExposureButtons( false );
+				if (camType==pcl::IPixInsightCamera::CameraType::TypeDSLR)
+				{
+					int rc=0;
+					cameraData->mutex.Lock();
+					rc=cameraData->cam->SetConnected( false );			
+					cameraData->mutex.Unlock();
+					if (rc!=-1){
+						EnableExposureButtons( false );
+					}
+				}
+				else {
+					cameraData->mutex.Lock();
+					cameraData->cam->SetConnected( false );
+					//GUI->UpdateCameraData_Timer.Stop();
+					cameraData->mutex.Unlock();
+					EnableExposureButtons( false );
+				}
             }
         }
   }
