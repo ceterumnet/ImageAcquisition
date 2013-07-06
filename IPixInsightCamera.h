@@ -20,6 +20,11 @@ namespace pcl
 	class IPixInsightCamera : public IPixInsightDevice
 	{
 	public:
+		enum CameraType
+		{
+			TypeCCD,
+			TypeDSLR
+		};
 	    enum CameraStateEnum
 	    {
 	        CameraIdle,
@@ -90,6 +95,9 @@ namespace pcl
         virtual void SetupDialog() = 0;
         virtual void StartExposure(double) = 0;
         virtual void StopExposure() = 0;
+		virtual bool downloadImageFromCamera(const char*  filePath)=0;
+		virtual const char* getImageFileName()=0;
+		virtual CameraType getCameraType()=0;
 	};
 }
 

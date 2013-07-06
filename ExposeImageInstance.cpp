@@ -14,7 +14,7 @@
 #include <time.h>
 #include <pcl/Histogram.h>
 #include <pcl/HistogramTransformation.h>
-
+#include <pcl/ErrorHandler.h>
 namespace pcl
 {
     struct ExposeImageData
@@ -67,6 +67,7 @@ namespace pcl
 
         virtual void Run()
         {
+			
             data->mutex.Lock();
             data->imageReady = false;
             bool d_abort = data->abort;
@@ -76,21 +77,27 @@ namespace pcl
 			cam->SetBinY(binY);
 			
             cam->StartExposure( exposureDuration );
-			pcl::Sleep( exposureDuration );
 
-            while ( !cam->ImageReady() )
+			if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
+				pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
+			}
+			else
+				pcl::Sleep(exposureDuration);
+
+			while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
             {
                 // Possibly set the state of the data to "reading" here later...
                 pcl::Sleep( .1 );
-
 				// Also, we need to handle aborting images here.
             };
+
 
             //now the image is ready ...
             data->mutex.Lock();
 			exposing = false;
 			data->imageReady = true;
             data->mutex.Unlock();
+			
         }
     private:
 		short binX;
@@ -195,7 +202,7 @@ namespace pcl
         return true;
     }
 
-    bool ExposeImageInstance::ExposeImages()
+	bool ExposeImageInstance::ExposeImagesWithCCD()
     {
         if( data == 0 )
             data = new ExposeImageData;
@@ -319,6 +326,104 @@ namespace pcl
 			data = new ExposeImageData;
 		}
         return true;
+    }
+
+	bool ExposeImageInstance::ExposeImagesWithDSLR()
+	{
+		if( data == 0 )
+			data = new ExposeImageData;
+
+		Console console;
+
+		// Enable abort button
+		console.EnableAbort();
+
+		console << "Starting ExposeImage Process: \n";
+
+		IPixInsightCamera *cam = cameraData->cam;
+		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
+
+		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
+			console << "exposeThread->Start()\n";
+			
+			exposeThread->Start();
+			
+			
+
+			bool myImageReady = false;
+			bool doAbort     = false;
+			// Wait for thread to finish exposure
+			console <<"Exposure duration:   0 s.";
+			while ( !myImageReady && !doAbort )
+			{
+				// These 2 lines allow PixInsight to stay responsive while it is exposing#
+				int expTime=(int) cam->LastExposureDuration();
+				pcl::IsoString expTime_str = pcl::IsoString(expTime);
+				
+				console <<"\b\b\b\b\b\b\b"<<String().Format("%4d s.",(int) cam->LastExposureDuration());
+				pcl::Sleep( .10 );
+				ProcessInterface::ProcessEvents();
+				data->mutex.Lock();
+				myImageReady = data->imageReady;
+				data->mutex.Unlock();
+				doAbort = console.AbortRequested();
+			}
+			console <<"\n";
+
+			if (doAbort){
+				console <<"Received abort request. Stopping exposure and killing thread ...";console.Flush();
+				cam->StopExposure();
+				exposeThread->Kill();
+				console <<"done.\n";
+				return false;
+			}
+
+			if (cam->CameraState()==cam->CameraError)
+				throw Error(String("A camera error occured! -- ") + cam->LastError());
+
+			//pcl::String fileName(cam->getImageFileName());
+			pcl::IsoString fileFormatExtension=pcl::IsoString(".CR2");
+			//image exposure finished - downloading image from DSLR camera
+			console <<"Start downloading image...";
+			if (!cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension).c_str()))
+				throw Error(pcl::String("Download failed!"));	
+			console <<"done.\n";
+
+
+			// Load ImageWindow from file
+
+			console << "creating ImageWindow(...)\n";
+			
+			Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension, IsoString("iw")+IsoString(exp_i));
+			
+			imgArray[0].ZoomToFit( false ); // don't allow zoom > 1
+			imgArray[0].Show();
+
+			delete exposeThread;
+			delete data;
+			data = new ExposeImageData;
+			if (exp_i>=1){
+				ImageWindow windowToClose = ImageWindow::WindowById(IsoString("iw")+IsoString(exp_i-1));
+				windowToClose.Close();
+			}
+			
+		}
+		return true;
+
+	}
+
+    bool ExposeImageInstance::ExposeImages()
+    {
+		//FIXME Requires refactoring: Too much code dupliction
+		switch (cameraData->cam->getCameraType()){
+			case IPixInsightCamera::TypeCCD:
+				return ExposeImagesWithCCD();
+			case IPixInsightCamera::TypeDSLR:
+				return ExposeImagesWithDSLR();
+			default:
+				return false;
+		}
     }
 
     void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tableRow )
