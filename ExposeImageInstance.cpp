@@ -52,7 +52,7 @@ namespace pcl
 
         virtual ~ExposeImageThread()
         {
-            Console().WriteLn( "Deleted Camera Connection Thread" );
+            Console().WriteLn( "Deleted ExposeImageThread" );
         }
 
         IPixInsightCamera::CameraStateEnum CameraState()
@@ -74,6 +74,7 @@ namespace pcl
             
 			cam->SetBinX(binX);
 			cam->SetBinY(binY);
+			
             cam->StartExposure( exposureDuration );
 			pcl::Sleep( exposureDuration );
 
@@ -198,6 +199,7 @@ namespace pcl
     {
         if( data == 0 )
             data = new ExposeImageData;
+
 		
         Console console;
 
@@ -206,23 +208,12 @@ namespace pcl
 		IPixInsightCamera *cam = cameraData->cam;
 		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
 
-		console << "creating ImageWindow(...)\n";
-		//TODO: We are reusing this window...maybe this should be an option?
-		ImageWindow window( cam->NumX(), // width
-			cam->NumY(), // height
-			1, // numberOfChannels
-			16, // bitsPerSample
-			false, // floatSample
-			false, // color
-			true, // initialProcessing
-			String( "last_exposure" ) // id
-		);
-
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
 			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
+
 			console << "exposeThread->Start()\n";
 			exposeThread->Start();
-		
+			
 			OutputData __data;
 			time_t rawtime;
 			time( &rawtime );
@@ -249,6 +240,19 @@ namespace pcl
 				data->mutex.Unlock();
 			}
 			
+			console << "creating ImageWindow(...)\n";
+			console << cam->NumX() << " x " << cam->NumY() << "\n";
+			//TODO: We are reusing this window...maybe this should be an option?
+			ImageWindow window( cam->NumX(), // width
+				cam->NumY(), // height
+				1, // numberOfChannels
+				16, // bitsPerSample
+				false, // floatSample
+				false, // color
+				true, // initialProcessing
+				String( "last_exposure" ) // id
+			);
+
 			FILEPATH:
 
 			__data.EXP_NUM += 1;

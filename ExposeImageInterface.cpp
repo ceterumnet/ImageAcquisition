@@ -362,22 +362,26 @@ namespace pcl
       }
       if ( sender == GUI->CameraConnection_PushButton && cameraData->cam )
         {	//TODO:  This is a crappy way to check if the camera is connected...but it will do for now.
+			bool canReadTemp = cameraData->cam->CanSetCCDTemperature();
             if ( GUI->CameraConnection_PushButton.Text().Compare( "Connect Camera" ) == 0 )
             {
 				cameraData->mutex.Lock();
-				cameraData->cam->SetConnected( true );
-				bool canReadTemp = cameraData->cam->CanSetCCDTemperature();
+				cameraData->cam->SetConnected( true );				
 				cameraData->mutex.Unlock();
 				UpdateControlsForCameraFeatures();
                 EnableExposureButtons( true );
-				//if( canReadTemp )
-					//GUI->UpdateCameraData_Timer.Start();
+				if( canReadTemp )
+					GUI->UpdateCameraData_Timer.Start();
 				UpdateControls();
             } else {
 				cameraData->mutex.Lock();
 				cameraData->cam->SetConnected( false );
-				//GUI->UpdateCameraData_Timer.Stop();
+				if( canReadTemp )
+					GUI->UpdateCameraData_Timer.Stop();
 				cameraData->mutex.Unlock();
+				//cameraData->cam->Dispose();
+				//cameraData->cam = NULL;
+
 				EnableExposureButtons( false );
             }
         }
