@@ -26,7 +26,7 @@ ImageAcquisitionModule
 		 	[x] Camera
 		 	[x] Filter Wheel
 		 [ ] Implement Device Simulators
-		 	[x] Camera
+		 	[x] Camera (haven't used since 2012 though...it may not work too well.)
 		 	[/] Filter Wheel (50%)
 		 [x] Unify Current Camera logic across processes (currently there is a direct
 		 		access to the pointer...not good)
@@ -40,19 +40,19 @@ ImageAcquisitionModule
 		 	[/] File save
 		 	   [x] FITS file output
 		       [x] File Path Validation
-		       [ ] Don't overwrite existing files
+		       [x] Don't overwrite existing files
 		    [ ] Delay for first exposure
 		 	[ ] Implement Set Temperature
 		 	[ ] Implement Frame and Focus ( maybe we can just reuse the existing code with a different window title? )
 		 	   [ ] Can I change the look of the window a bit?
 		 	[ ] Implement Abort 
-		 	[ ] Binning
+		 	[x] Binning
 		 	[ ] Filter selection
 		 	[/] Implement FileOutputPattern stuff (75%)
 		 	[ ] Fix range sliders.  Perhaps use a different UI paradigm.
 		 	[x] Implement Temperature Monitoring / UI updates
 		 	[/] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
-		 	[/] Add delay in between exposures
+		 	[x] Add delay in between exposures
 		 [ ] ImageAcquisitionSettings process / instance / interface
 		 	[x] Camera Settings
 		 	[x] Implement Serialized Settings Persistance for Cameras
@@ -65,6 +65,10 @@ ImageAcquisitionModule
 		 [ ] Expose scripting interface (make sure that the std paradigms that PI offers are 
 		 		adhered to)
 		 [ ] Documentation!
+		 [ ] PixInsight 1.8 support
+		 [ ] Rework camera settings to only support 1 primary camera and 1 secondary camera for
+		     now - this will make the UI a lot easier to work with.
+		 [ ] 
  		
  - ImagingSession
     I'm thinking this can drive multiple sets of ImageExposures.

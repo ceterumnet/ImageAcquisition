@@ -219,7 +219,6 @@ namespace pcl
         }
     }
 
-	
 	void ImageAcquisitionSettingsInterface::UpdateCameraItem( size_type i )
     {
         TreeBox::Node* node = GUI->CameraList_TreeBox[i];
@@ -287,8 +286,11 @@ namespace pcl
         // I'm not sure we need to have edit functionality here...it is pretty easy to add/delete...
         else if ( sender == GUI->EditCamera_PushButton )
         {
-            //int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
-            //instance.installedCameras[currentIdx]
+            int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
+			CameraItem *theItem = &instance.installedCameras[currentIdx];
+			// Get a pointer to the selected camera
+			IPixInsightCamera *c = instance.installedCameras[currentIdx].GetDevice();
+			c->SetupDialog();
         }
         else if ( sender == GUI->DeleteCamera_PushButton )
         {
@@ -297,6 +299,19 @@ namespace pcl
                 int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
                 if( instance.installedCameras[currentIdx].GetDevice() && instance.installedCameras[currentIdx].GetDevice()->Connected() )
                     throw Error( "Can't delete an imager while it is connected.");
+				cameraData->mutex.Lock();                
+                IPixInsightCamera *c = instance.installedCameras[currentIdx].GetDevice();
+				if(c == cameraData->cam) {
+					cameraData->cam = NULL;										
+				}
+				
+				if(c)
+					c->Dispose();		
+
+                cameraData->mutex.Unlock();
+				//delete instance.installedCameras[currentIdx].GetDevice();
+				//instance.installedCameras[currentIdx].GetDevice()->Dispose();
+
                 ImageAcquisitionSettingsInstance::camera_list newCameraList;
                 for ( int i = 0, n = GUI->CameraList_TreeBox.NumberOfChildren(); i < n; ++i )
                     if ( !GUI->CameraList_TreeBox[i]->IsSelected() )
