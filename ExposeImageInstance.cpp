@@ -41,11 +41,15 @@ namespace pcl
     {
 
     public:
-        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration, short _binX, short _binY )
+        ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration, short _binX, short _binY, long _startX, long _startY, long _numX, long _numY)
         {
             cam = _cam;
 			binX = _binX;
 			binY = _binY;
+			startX = _startX;
+			startY = _startY;
+			numX = _numX;
+			numY = _numY;
             exposureDuration = _exposureDuration;
             exposing = true;
         }
@@ -76,6 +80,20 @@ namespace pcl
 			cam->SetBinX(binX);
 			cam->SetBinY(binY);
 			
+			// This might create bugs...
+			if(numX > 0)
+				cam->SetNumX(numX - startX);
+			else
+				cam->SetNumX(cam->CameraXSize()/binX);
+			if(numY > 0)
+				cam->SetNumY(numY - startY);
+			else
+				cam->SetNumY(cam->CameraYSize()/binY);
+			
+			cam->SetStartX(startX);
+			cam->SetStartY(startY);
+
+			
             cam->StartExposure( exposureDuration );
 
 			if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
@@ -91,7 +109,6 @@ namespace pcl
 				// Also, we need to handle aborting images here.
             };
 
-
             //now the image is ready ...
             data->mutex.Lock();
 			exposing = false;
@@ -102,6 +119,10 @@ namespace pcl
     private:
 		short binX;
 		short binY;
+		long startX;
+		long startY;
+		long numX;
+		long numY;
         bool exposing;
         IPixInsightCamera *cam;
         double exposureDuration;
@@ -214,9 +235,10 @@ namespace pcl
 
 		IPixInsightCamera *cam = cameraData->cam;
 		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
+		console << "startX: " << subFrameX1 << "\n";
 
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, subFrameX1, subFrameY1, subFrameX2, subFrameY2);
 
 			console << "exposeThread->Start()\n";
 			exposeThread->Start();
@@ -344,7 +366,7 @@ namespace pcl
 		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
 
 		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY );
+			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, 0, 0, 0, 0);
 			console << "exposeThread->Start()\n";
 			
 			exposeThread->Start();
