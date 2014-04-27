@@ -319,9 +319,10 @@ namespace pcl
 				view.CalculateHistograms();
 			if ( !view.AreStatisticsAvailable() )
 				view.CalculateStatistics();
-
-			View::statistics_container S;
-			View::stf_container F;
+			View::statistics_list S;
+			//View::statistics_container S;
+			View::stf_list F;
+			//View::stf_container F;
 
 			view.GetStatistics( S );
 			double c0 = 0, m = 0;
@@ -330,9 +331,9 @@ namespace pcl
 			m  += S[0]->Median();
 				
 			c0 = Range( c0, 0.0, 1.0 );
-			m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
+			//m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
 
-			F.Add( new HistogramTransformation( m, c0 ) );
+			//F.Add( new HistogramTransformation( m, c0 ) );
 
 			view.SetScreenTransferFunctions(F);
 			view.EnableScreenTransferFunctions();
