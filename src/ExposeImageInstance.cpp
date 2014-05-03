@@ -1,10 +1,10 @@
 // ImageAcquisition Copyright (C) 2011  David Raphael
 // This program comes with ABSOLUTELY NO WARRANTY.
 // This is free software, and you are welcome to redistribute it
-// under certain conditions; 
+// under certain conditions;
 //
-// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 
@@ -19,20 +19,20 @@ namespace pcl
 {
     struct ExposeImageData
     {
-       ExposeImageData() :
-       mutex(), image(), imageProgress( 0 ), imageReady( false ),
-       abort( false ), error( false ), paused( false ), waitingToBeRead( true ), errorMessage()
-       {
-       }
-       Mutex       mutex;         // To protect data from concurrent accesses
-       UInt16Image *image;         // The image being acquired
-       int         imageProgress; // Progress indicator, e.g. from 0 to 100
-       bool        imageReady;    // Flag true if a new image is now ready
-       bool        abort;         // Flag true if the user wants to abort
-       bool        error;         // Flag true if an error occurs
-       bool        paused;
-       bool        waitingToBeRead;
-       String      errorMessage;  // Error information
+        ExposeImageData() :
+            mutex(), image(), imageProgress( 0 ), imageReady( false ),
+            abort( false ), error( false ), paused( false ), waitingToBeRead( true ), errorMessage()
+        {
+        }
+        Mutex       mutex;         // To protect data from concurrent accesses
+        UInt16Image *image;         // The image being acquired
+        int         imageProgress; // Progress indicator, e.g. from 0 to 100
+        bool        imageReady;    // Flag true if a new image is now ready
+        bool        abort;         // Flag true if the user wants to abort
+        bool        error;         // Flag true if an error occurs
+        bool        paused;
+        bool        waitingToBeRead;
+        String      errorMessage;  // Error information
     };
 
     ExposeImageData *data = 0;
@@ -44,12 +44,12 @@ namespace pcl
         ExposeImageThread( IPixInsightCamera *_cam, double _exposureDuration, short _binX, short _binY, long _startX, long _startY, long _numX, long _numY)
         {
             cam = _cam;
-			binX = _binX;
-			binY = _binY;
-			startX = _startX;
-			startY = _startY;
-			numX = _numX;
-			numY = _numY;
+            binX = _binX;
+            binY = _binY;
+            startX = _startX;
+            startY = _startY;
+            numX = _numX;
+            numY = _numY;
             exposureDuration = _exposureDuration;
             exposing = true;
         }
@@ -71,58 +71,52 @@ namespace pcl
 
         virtual void Run()
         {
-			
             data->mutex.Lock();
             data->imageReady = false;
             bool d_abort = data->abort;
             data->mutex.Unlock();
-            
-			cam->SetBinX(binX);
-			cam->SetBinY(binY);
-			
-			// This might create bugs...
-			if(numX > 0)
-				cam->SetNumX(numX - startX);
-			else
-				cam->SetNumX(cam->CameraXSize()/binX);
-			if(numY > 0)
-				cam->SetNumY(numY - startY);
-			else
-				cam->SetNumY(cam->CameraYSize()/binY);
-			
-			cam->SetStartX(startX);
-			cam->SetStartY(startY);
+            cam->SetBinX(binX);
+            cam->SetBinY(binY);
+            // This might create bugs...
+            if(numX > 0)
+                cam->SetNumX(numX - startX);
+            else
+                cam->SetNumX(cam->CameraXSize()/binX);
+            if(numY > 0)
+                cam->SetNumY(numY - startY);
+            else
+                cam->SetNumY(cam->CameraYSize()/binY);
+            cam->SetStartX(startX);
+            cam->SetStartY(startY);
 
-			
             cam->StartExposure( exposureDuration );
 
-			if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
-				pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
-			}
-			else
-				pcl::Sleep(exposureDuration);
+            if (cam->getCameraType()==IPixInsightCamera::TypeDSLR){
+                pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
+            }
+            else
+                pcl::Sleep(exposureDuration);
 
-			while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
+            while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
             {
                 // Possibly set the state of the data to "reading" here later...
                 pcl::Sleep( .1 );
-				// Also, we need to handle aborting images here.
+                // Also, we need to handle aborting images here.
             };
 
             //now the image is ready ...
             data->mutex.Lock();
-			exposing = false;
-			data->imageReady = true;
+            exposing = false;
+            data->imageReady = true;
             data->mutex.Unlock();
-			
         }
     private:
-		short binX;
-		short binY;
-		long startX;
-		long startY;
-		long numX;
-		long numY;
+        short binX;
+        short binY;
+        long startX;
+        long startY;
+        long numX;
+        long numY;
         bool exposing;
         IPixInsightCamera *cam;
         double exposureDuration;
@@ -130,8 +124,8 @@ namespace pcl
 
     ExposeImageInstance::ExposeImageInstance( const MetaProcess* m ) :
         ProcessImplementation( m ), exposureDuration( 1 ), exposureCount( 1 ), cameraName( "cam_name" ), setTemperature( -15 ), filter( "NONE" ),
-                binModeX( 1 ), binModeY( 1 ), subFrameX1( 0 ), subFrameY1( 0 ), subFrameX2( 0 ), subFrameY2( 0 ), delayBetweenExposures( 1 ),
-                fileOutputPath(""), fileOutputPattern("")
+        binModeX( 1 ), binModeY( 1 ), subFrameX1( 0 ), subFrameY1( 0 ), subFrameX2( 0 ), subFrameY2( 0 ), delayBetweenExposures( 1 ),
+        fileOutputPath(""), fileOutputPattern("")
     {
 
     }
@@ -211,8 +205,8 @@ namespace pcl
 
     bool ExposeImageInstance::ExecuteGlobal()
     {
-		Console console;
-		console << "executing global: \n";
+        Console console;
+        console << "executing global: \n";
         {
             String why;
             if ( !CanExecuteGlobal( why ) )
@@ -223,230 +217,232 @@ namespace pcl
         return true;
     }
 
-	bool ExposeImageInstance::ExposeImagesWithCCD()
+    bool ExposeImageInstance::ExposeImagesWithCCD()
     {
         if( data == 0 )
             data = new ExposeImageData;
 
-		
+
         Console console;
 
         console << "Starting ExposeImage Process: \n";
 
-		IPixInsightCamera *cam = cameraData->cam;
-		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
-		console << "startX: " << subFrameX1 << "\n";
+        IPixInsightCamera *cam = cameraData->cam;
+        console << "Camera state: " << cameraData->cam->CameraState() << "\n";
+        console << "startX: " << subFrameX1 << "\n";
 
-		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, subFrameX1, subFrameY1, subFrameX2, subFrameY2);
+        for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
+            exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, subFrameX1, subFrameY1, subFrameX2, subFrameY2);
 
-			console << "exposeThread->Start()\n";
-			exposeThread->Start();
-			
-			OutputData __data;
-			time_t rawtime;
-			time( &rawtime );
-			struct tm * timeinfo;
-			timeinfo = localtime ( &rawtime );
+            console << "exposeThread->Start()\n";
+            exposeThread->Start();
 
-			__data.YYYY        = String( timeinfo->tm_year + 1900 );
-			__data.MM          = String( timeinfo->tm_mon + 1 );
-			__data.DD          = String( timeinfo->tm_mday );
-			__data.TARGET      = String( "" );
-			__data.SEQUENCE_ID = String( "" );
-			__data.EXP_NUM     = 0;
-			__data.FILTER      = filter;
+            OutputData __data;
+            time_t rawtime;
+            time( &rawtime );
+            struct tm * timeinfo;
+            timeinfo = localtime ( &rawtime );
 
-			bool myImageReady = false;
-			// Wait for thread to finish exposure
-			while ( !myImageReady )
-			{
-				// These 2 lines allow PixInsight to stay responsive while it is exposing
-				pcl::Sleep( .10 );
-				ProcessInterface::ProcessEvents();
-				data->mutex.Lock();
-				myImageReady = data->imageReady;
-				data->mutex.Unlock();
-			}
-			
-			console << "creating ImageWindow(...)\n";
-			console << cam->NumX() << " x " << cam->NumY() << "\n";
-			//TODO: We are reusing this window...maybe this should be an option?
-			ImageWindow window( cam->NumX(), // width
-				cam->NumY(), // height
-				1, // numberOfChannels
-				16, // bitsPerSample
-				false, // floatSample
-				false, // color
-				true, // initialProcessing
-				String( "last_exposure" ) // id
-			);
+            __data.YYYY        = String( timeinfo->tm_year + 1900 );
+            __data.MM          = String( timeinfo->tm_mon + 1 );
+            __data.DD          = String( timeinfo->tm_mday );
+            __data.TARGET      = String( "" );
+            __data.SEQUENCE_ID = String( "" );
+            __data.EXP_NUM     = 0;
+            __data.FILTER      = filter;
 
-			FILEPATH:
+            bool myImageReady = false;
+            // Wait for thread to finish exposure
+            while ( !myImageReady )
+            {
+                // These 2 lines allow PixInsight to stay responsive while it is exposing
+                pcl::Sleep( .10 );
+                ProcessInterface::ProcessEvents();
+                data->mutex.Lock();
+                myImageReady = data->imageReady;
+                data->mutex.Unlock();
+            }
 
-			__data.EXP_NUM += 1;
-			String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
-			String fileName = GenerateOutputFileName( theFilename, __data );
-			FileFormat outputFormat( ".fit", false, true );
-			FileFormatInstance outputFile( outputFormat );
-			String filePath = fileOutputPath + "/" + fileName;
+            console << "creating ImageWindow(...)\n";
+            console << cam->NumX() << " x " << cam->NumY() << "\n";
+            //TODO: We are reusing this window...maybe this should be an option?
+            ImageWindow window( cam->NumX(), // width
+                                cam->NumY(), // height
+                                1, // numberOfChannels
+                                16, // bitsPerSample
+                                false, // floatSample
+                                false, // color
+                                true, // initialProcessing
+                                String( "last_exposure" ) // id
+                                );
 
-			if(File::Exists( filePath + ".fit" ) )
-				goto FILEPATH;
+        FILEPATH:
 
-			//TODO:  Ensure that there is a trailing slash on this path...
-			outputFile.Create( filePath );
+            __data.EXP_NUM += 1;
+            String theFilename = fileOutputPattern + "-" + String(__data.EXP_NUM);
+            String fileName = GenerateOutputFileName( theFilename, __data );
+            FileFormat outputFormat( ".fit", false, true );
+            FileFormatInstance outputFile( outputFormat );
+            String filePath = fileOutputPath + "/" + fileName;
 
-			bool floatSample = false;
-			ImageOptions options;
-			options.bitsPerSample = 16;
-			options.ieeefpSampleFormat = floatSample;
-			outputFile.SetOptions( options );
+            if(File::Exists( filePath + ".fit" ) )
+                goto FILEPATH;
 
-			View view = window.MainView();
-			ImageVariant v = view.Image();
-			UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
+            //TODO:  Ensure that there is a trailing slash on this path...
+            outputFile.Create( filePath );
 
-			data->mutex.Lock();
-			cam->ImageArray( image );
-			data->mutex.Unlock();
+            bool floatSample = false;
+            ImageOptions options;
+            options.bitsPerSample = 16;
+            options.ieeefpSampleFormat = floatSample;
+            outputFile.SetOptions( options );
+
+            View view = window.MainView();
+            ImageVariant v = view.Image();
+            UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
+
+            data->mutex.Lock();
+            cam->ImageArray( image );
+            data->mutex.Unlock();
 
 
-			//Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
-			if ( !outputFile.WriteImage( *image ) )
-				throw CatchedException();
-			if ( !view.AreHistogramsAvailable() )
-				view.CalculateHistograms();
-			if ( !view.AreStatisticsAvailable() )
-				view.CalculateStatistics();
-			View::statistics_list S;
-			//View::statistics_container S;
-			View::stf_list F;
-			//View::stf_container F;
+            //Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
+            if ( !outputFile.WriteImage( *image ) )
+                throw CatchedException();
+            if ( !view.AreHistogramsAvailable() )
+                view.CalculateHistograms();
+            if ( !view.AreStatisticsAvailable() )
+                view.CalculateStatistics();
+            View::statistics_list S;
+            //View::statistics_container S;
+            View::stf_list F;
+            //View::stf_container F;
 
-			view.GetStatistics( S );
-			double c0 = 0, m = 0;
-				
-			c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
-			m  += S[0]->Median();
-				
-			c0 = Range( c0, 0.0, 1.0 );
-			//m = HistogramTransformation::FindMidtonesBalance( .25, m - c0 );
+            view.GetStatistics( S );
+            double c0 = 0, m = 0;
 
-			//F.Add( new HistogramTransformation( m, c0 ) );
+            c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
+            m  += S[0]->Median();
 
-			view.SetScreenTransferFunctions(F);
-			view.EnableScreenTransferFunctions();
+            c0 = Range( c0, 0.0, 1.0 );
 
-			F.Destroy();
-			S.Destroy();
-			
-			window.ZoomToFit( false ); // don't allow zoom > 1
-			window.Show();
+            m = HistogramTransformation::MTF(.25, m - c0);
 
-			delete exposeThread;
-			delete data;
-			data = new ExposeImageData;
-		}
+
+            F.Add( new HistogramTransformation( m, c0 ) );
+
+            view.SetScreenTransferFunctions(F);
+            view.EnableScreenTransferFunctions();
+
+            F.Destroy();
+            S.Destroy();
+
+            window.ZoomToFit( false ); // don't allow zoom > 1
+            window.Show();
+
+            delete exposeThread;
+            delete data;
+            data = new ExposeImageData;
+        }
         return true;
     }
 
-	bool ExposeImageInstance::ExposeImagesWithDSLR()
-	{
-		if( data == 0 )
-			data = new ExposeImageData;
+    bool ExposeImageInstance::ExposeImagesWithDSLR()
+    {
+        if( data == 0 )
+            data = new ExposeImageData;
 
-		Console console;
+        Console console;
 
-		// Enable abort button
-		console.EnableAbort();
+        // Enable abort button
+        console.EnableAbort();
 
-		console << "Starting ExposeImage Process: \n";
+        console << "Starting ExposeImage Process: \n";
 
-		IPixInsightCamera *cam = cameraData->cam;
-		console << "Camera state: " << cameraData->cam->CameraState() << "\n";
+        IPixInsightCamera *cam = cameraData->cam;
+        console << "Camera state: " << cameraData->cam->CameraState() << "\n";
 
-		for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-			exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, 0, 0, 0, 0);
-			console << "exposeThread->Start()\n";
-			
-			exposeThread->Start();
-			
-			
+        for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
+            exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, 0, 0, 0, 0);
+            console << "exposeThread->Start()\n";
 
-			bool myImageReady = false;
-			bool doAbort     = false;
-			// Wait for thread to finish exposure
-			console <<"Exposure duration:   0 s.";
-			while ( !myImageReady && !doAbort )
-			{
-				// These 2 lines allow PixInsight to stay responsive while it is exposing#
-				int expTime=(int) cam->LastExposureDuration();
-				pcl::IsoString expTime_str = pcl::IsoString(expTime);
-				
-				console <<"\b\b\b\b\b\b\b"<<String().Format("%4d s.",(int) cam->LastExposureDuration());
-				pcl::Sleep( .10 );
-				ProcessInterface::ProcessEvents();
-				data->mutex.Lock();
-				myImageReady = data->imageReady;
-				data->mutex.Unlock();
-				doAbort = console.AbortRequested();
-			}
-			console <<"\n";
-
-			if (doAbort){
-				console <<"Received abort request. Stopping exposure and killing thread ...";console.Flush();
-				cam->StopExposure();
-				exposeThread->Kill();
-				console <<"done.\n";
-				return false;
-			}
-
-			if (cam->CameraState()==cam->CameraError)
-				throw Error(String("A camera error occured! -- ") + cam->LastError());
-
-			//pcl::String fileName(cam->getImageFileName());
-			pcl::IsoString fileFormatExtension=pcl::IsoString(".CR2");
-			//image exposure finished - downloading image from DSLR camera
-			console <<"Start downloading image...";
-			if (!cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension).c_str()))
-				throw Error(pcl::String("Download failed!"));	
-			console <<"done.\n";
+            exposeThread->Start();
 
 
-			// Load ImageWindow from file
 
-			console << "creating ImageWindow(...)\n";
-			
-			Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension, IsoString("iw")+IsoString(exp_i));
-			
-			imgArray[0].ZoomToFit( false ); // don't allow zoom > 1
-			imgArray[0].Show();
+            bool myImageReady = false;
+            bool doAbort     = false;
+            // Wait for thread to finish exposure
+            console <<"Exposure duration:   0 s.";
+            while ( !myImageReady && !doAbort )
+            {
+                // These 2 lines allow PixInsight to stay responsive while it is exposing#
+                int expTime=(int) cam->LastExposureDuration();
+                pcl::IsoString expTime_str = pcl::IsoString(expTime);
 
-			delete exposeThread;
-			delete data;
-			data = new ExposeImageData;
-			if (exp_i>=1){
-				ImageWindow windowToClose = ImageWindow::WindowById(IsoString("iw")+IsoString(exp_i-1));
-				windowToClose.Close();
-			}
-			
-		}
-		return true;
+                console <<"\b\b\b\b\b\b\b"<<String().Format("%4d s.",(int) cam->LastExposureDuration());
+                pcl::Sleep( .10 );
+                ProcessInterface::ProcessEvents();
+                data->mutex.Lock();
+                myImageReady = data->imageReady;
+                data->mutex.Unlock();
+                doAbort = console.AbortRequested();
+            }
+            console <<"\n";
 
-	}
+            if (doAbort){
+                console <<"Received abort request. Stopping exposure and killing thread ...";console.Flush();
+                cam->StopExposure();
+                exposeThread->Kill();
+                console <<"done.\n";
+                return false;
+            }
+
+            if (cam->CameraState()==cam->CameraError)
+                throw Error(String("A camera error occured! -- ") + cam->LastError());
+
+            //pcl::String fileName(cam->getImageFileName());
+            pcl::IsoString fileFormatExtension=pcl::IsoString(".CR2");
+            //image exposure finished - downloading image from DSLR camera
+            console <<"Start downloading image...";
+            if (!cam->downloadImageFromCamera(pcl::IsoString(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension).c_str()))
+                throw Error(pcl::String("Download failed!"));
+            console <<"done.\n";
+
+
+            // Load ImageWindow from file
+
+            console << "creating ImageWindow(...)\n";
+
+            Array<ImageWindow> imgArray = ImageWindow::Open(fileOutputPath+fileOutputPattern+IsoString(exp_i)+fileFormatExtension, IsoString("iw")+IsoString(exp_i));
+
+            imgArray[0].ZoomToFit( false ); // don't allow zoom > 1
+            imgArray[0].Show();
+
+            delete exposeThread;
+            delete data;
+            data = new ExposeImageData;
+            if (exp_i>=1){
+                ImageWindow windowToClose = ImageWindow::WindowById(IsoString("iw")+IsoString(exp_i-1));
+                windowToClose.Close();
+            }
+
+        }
+        return true;
+
+    }
 
     bool ExposeImageInstance::ExposeImages()
     {
-		//FIXME Requires refactoring: Too much code dupliction
-		switch (cameraData->cam->getCameraType()){
-			case IPixInsightCamera::TypeCCD:
-				return ExposeImagesWithCCD();
-			case IPixInsightCamera::TypeDSLR:
-				return ExposeImagesWithDSLR();
-			default:
-				return false;
-		}
+        //FIXME Requires refactoring: Too much code dupliction
+        switch (cameraData->cam->getCameraType()){
+        case IPixInsightCamera::TypeCCD:
+            return ExposeImagesWithCCD();
+        case IPixInsightCamera::TypeDSLR:
+            return ExposeImagesWithDSLR();
+        default:
+            return false;
+        }
     }
 
     void* ExposeImageInstance::LockParameter( const MetaParameter* p, size_type tableRow )
