@@ -1,10 +1,10 @@
 // ImageAcquisition Copyright (C) 2011  David Raphael
 // This program comes with ABSOLUTELY NO WARRANTY.
 // This is free software, and you are welcome to redistribute it
-// under certain conditions; 
+// under certain conditions;
 //
-// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 
@@ -16,9 +16,9 @@
 namespace pcl
 {
 
-	PCL_BEGIN_LOCAL
+    PCL_BEGIN_LOCAL
 
-	class EIExposureDuration : public MetaDouble
+        class EIExposureDuration : public MetaDouble
     {
     public:
         EIExposureDuration ( MetaProcess* );
@@ -27,31 +27,31 @@ namespace pcl
         virtual double DefaultValue() const;
     };
 
-	class EIExposureCount : public MetaInt16
-	{
-	public:
-		EIExposureCount ( MetaProcess* );
+    class EIExposureCount : public MetaInt16
+    {
+    public:
+        EIExposureCount ( MetaProcess* );
 
-		virtual IsoString Id() const;
-		virtual double DefaultValue() const;
-	};
+        virtual IsoString Id() const;
+        virtual double DefaultValue() const;
+    };
 
-	class EICameraName : public MetaString
-	{
-	public:
-	    EICameraName( MetaProcess *);
+    class EICameraName : public MetaString
+    {
+    public:
+        EICameraName( MetaProcess *);
 
-	    virtual IsoString Id() const;
-	};
+        virtual IsoString Id() const;
+    };
 
-	class EISetTemperature : public MetaDouble
-	{
-	public:
-	    EISetTemperature( MetaProcess* );
+    class EISetTemperature : public MetaDouble
+    {
+    public:
+        EISetTemperature( MetaProcess* );
 
-	    virtual IsoString Id() const;
-	    virtual double DefaultValue() const;
-	};
+        virtual IsoString Id() const;
+        virtual double DefaultValue() const;
+    };
 
     class EIFilterWheelName : public MetaString
     {
@@ -142,7 +142,6 @@ namespace pcl
         EIFileOutputPath( MetaProcess *);
 
         virtual IsoString Id() const;
-        //virtual String DefaultValue();
     };
 
     class EIFileOutputPattern : public MetaString
@@ -151,28 +150,9 @@ namespace pcl
         EIFileOutputPattern( MetaProcess *);
 
         virtual IsoString Id() const;
-        //virtual String DefaultValue();
     };
 
-	//class EIOnError : public MetaEnumeration
-	//{
-	//public:
-
-	//	enum { Continue,
-	//		Abort,
-	//		AskUser,
-	//		NumberOfErrorPolicies,
-	//		Default = Continue };
-
-	//	EIOnError( MetaProcess* );
-
-	//	virtual IsoString Id() const;
-	//	virtual size_type NumberOfElements() const;
-	//	virtual IsoString ElementId( size_type ) const;
-	//	virtual int ElementValue( size_type ) const;
-	//	virtual size_type DefaultValueIndex() const;
-	//};
-	extern EIExposureDuration* TheExposureDurationParameter;
+    extern EIExposureDuration* TheExposureDurationParameter;
     extern EIExposureCount* TheExposureCountParameter;
     extern EICameraName* TheCameraNameParameter;
     extern EIFilterWheelName* TheFilterWheelNameParameter;
@@ -187,12 +167,12 @@ namespace pcl
     extern EIDelayBetweenExposures* TheDelayBetweenExposuresParameter;
     extern EIFileOutputPath* TheFileOutputPathParameter;
     extern EIFileOutputPattern* TheFileOutputPatternParameter;
-//    extern EIOnError* TheEIOnErrorParameter;
+    //    extern EIOnError* TheEIOnErrorParameter;
 
-	// ----------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
 
-	PCL_END_LOCAL
+    PCL_END_LOCAL
 
-} // pcl
+        } // pcl
 
 #endif   // __ExposeImageParameters_h

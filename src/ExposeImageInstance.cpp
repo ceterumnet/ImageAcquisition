@@ -207,6 +207,7 @@ namespace pcl
     {
         Console console;
         console << "executing global: \n";
+        console.EnableAbort();
         {
             String why;
             if ( !CanExecuteGlobal( why ) )

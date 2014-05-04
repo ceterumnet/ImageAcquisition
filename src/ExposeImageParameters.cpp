@@ -1,10 +1,10 @@
 // ImageAcquisition Copyright (C) 2011  David Raphael
 // This program comes with ABSOLUTELY NO WARRANTY.
 // This is free software, and you are welcome to redistribute it
-// under certain conditions; 
+// under certain conditions;
 //
-// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 
@@ -13,7 +13,7 @@
 
 namespace pcl
 {
-	EIExposureDuration* TheExposureDurationParameter = 0;
+    EIExposureDuration* TheExposureDurationParameter = 0;
     EIExposureCount* TheExposureCountParameter = 0;
     EICameraName* TheCameraNameParameter = 0;
     EIFilterWheelName* TheFilterWheelNameParameter = 0;
@@ -28,57 +28,57 @@ namespace pcl
     EIDelayBetweenExposures* TheDelayBetweenExposuresParameter = 0;
     EIFileOutputPath* TheFileOutputPathParameter = 0;
     EIFileOutputPattern* TheFileOutputPatternParameter = 0;
-	//EIOnError* TheEIOnErrorParameter = 0;
+    //EIOnError* TheEIOnErrorParameter = 0;
 
-	EIExposureDuration::EIExposureDuration( MetaProcess* P) : MetaDouble( P )
-	{
-	    TheExposureDurationParameter = this;
-	}
+    EIExposureDuration::EIExposureDuration( MetaProcess* P) : MetaDouble( P )
+    {
+        TheExposureDurationParameter = this;
+    }
 
-	IsoString EIExposureDuration::Id() const
-	{
-	    return "exposureDuration";
-	}
+    IsoString EIExposureDuration::Id() const
+    {
+        return "exposureDuration";
+    }
 
-	double EIExposureDuration::DefaultValue() const
+    double EIExposureDuration::DefaultValue() const
     {
         return 1000;
     }
 
-	EIExposureCount::EIExposureCount( MetaProcess* P) : MetaInt16( P )
-	{
-		TheExposureCountParameter = this;
-	}
+    EIExposureCount::EIExposureCount( MetaProcess* P) : MetaInt16( P )
+    {
+        TheExposureCountParameter = this;
+    }
 
-	IsoString EIExposureCount::Id() const
-	{
-		return "exposureCount";
-	}
+    IsoString EIExposureCount::Id() const
+    {
+        return "exposureCount";
+    }
 
-	double EIExposureCount::DefaultValue() const
-	{
-		return 1;
-	}
+    double EIExposureCount::DefaultValue() const
+    {
+        return 1;
+    }
 
-	EICameraName::EICameraName( MetaProcess* P) : MetaString( P )
-	{
-	    TheCameraNameParameter = this;
-	}
+    EICameraName::EICameraName( MetaProcess* P) : MetaString( P )
+    {
+        TheCameraNameParameter = this;
+    }
 
-	IsoString EICameraName::Id() const
-	{
-	    return "cameraName";
-	}
+    IsoString EICameraName::Id() const
+    {
+        return "cameraName";
+    }
 
-	EIFilterWheelName::EIFilterWheelName( MetaProcess *P ) : MetaString( P )
-	{
-	    TheFilterWheelNameParameter = this;
-	}
+    EIFilterWheelName::EIFilterWheelName( MetaProcess *P ) : MetaString( P )
+    {
+        TheFilterWheelNameParameter = this;
+    }
 
-	IsoString EIFilterWheelName::Id() const
-	{
-	    return "filterWheelName";
-	}
+    IsoString EIFilterWheelName::Id() const
+    {
+        return "filterWheelName";
+    }
 
     EIFilter::EIFilter( MetaProcess *P ) : MetaString( P )
     {
@@ -90,35 +90,35 @@ namespace pcl
         return "filter";
     }
 
-	EISetTemperature::EISetTemperature( MetaProcess* P ) : MetaDouble( P )
-	{
-	    TheSetTemperatureParameter = this;
-	}
+    EISetTemperature::EISetTemperature( MetaProcess* P ) : MetaDouble( P )
+    {
+        TheSetTemperatureParameter = this;
+    }
 
-	IsoString EISetTemperature::Id() const
-	{
-	    return "setTemperature";
-	}
+    IsoString EISetTemperature::Id() const
+    {
+        return "setTemperature";
+    }
 
-	double EISetTemperature::DefaultValue() const
-	{
-	    return -15;
-	}
+    double EISetTemperature::DefaultValue() const
+    {
+        return -15;
+    }
 
-	EIBinModeX::EIBinModeX( MetaProcess *P ) : MetaInt8( P )
-	{
-	    TheBinModeXParameter = this;
-	}
+    EIBinModeX::EIBinModeX( MetaProcess *P ) : MetaInt8( P )
+    {
+        TheBinModeXParameter = this;
+    }
 
-	IsoString EIBinModeX::Id() const
-	{
-	    return "binModeX";
-	}
+    IsoString EIBinModeX::Id() const
+    {
+        return "binModeX";
+    }
 
-	int8 EIBinModeX::DefaultValue()
-	{
-	    return 1;
-	}
+    int8 EIBinModeX::DefaultValue()
+    {
+        return 1;
+    }
 
     EIBinModeY::EIBinModeY( MetaProcess *P ) : MetaInt8( P )
     {
@@ -232,43 +232,5 @@ namespace pcl
     {
         return "fileOutputPattern";
     }
-
-	//EIOnError::EIOnError( MetaProcess* P) : MetaEnumeration( P )
-	//{
-	//	TheEIOnErrorParameter = this;
-	//}
-
-	//IsoString EIOnError::Id() const
-	//{
-	//	return "onError";
-	//}
-
-	//size_type EIOnError::NumberOfElements() const
-	//{
-	//	return NumberOfErrorPolicies;
-	//}
-
-	//IsoString EIOnError::ElementId( size_type i ) const
-	//{
-	//	switch ( i )
-	//	{
-	//	default:
-	//	case Continue: return "Continue";
-	//	case Abort:    return "Abort";
-	//	case AskUser:  return "AskUser";
-	//	}
-	//}
-
-	//int EIOnError::ElementValue( size_type i ) const
-	//{
-	//	return int( i );
-	//}
-
-	//size_type EIOnError::DefaultValueIndex() const
-	//{
-	//	return size_type( Default );
-	//}
-
-
 
 }
