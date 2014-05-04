@@ -16,6 +16,8 @@
 #include "FilterWheelData.h"
 
 #include <pcl/Dialog.h>
+#include <pcl/BitmapBox.h>
+
 #include <pcl/FileDialog.h>
 #include <pcl/ViewList.h>
 #include <pcl/GlobalSettings.h>
@@ -84,7 +86,6 @@ namespace pcl
             Pattern_Edit.SetText( _fileOutputPattern );
         }
 
-
         void Button_Click( Button& sender, bool checked )
         {
             if ( sender == OK_PushButton )
@@ -111,6 +112,106 @@ namespace pcl
         PushButton Cancel_PushButton;
 
     };
+
+    class FrameAndFocusDialog : public Dialog
+    {
+    public:
+        FrameAndFocusDialog() : Dialog()
+        {
+
+            isRunning = false;
+
+            IPixInsightCamera *cam = cameraData->cam;
+
+            ImageWindow window( cam->NumX(), // width
+                                cam->NumY(), // height
+                                1, // numberOfChannels
+                                16, // bitsPerSample
+                                false, // floatSample
+                                false, // color
+                                true, // initialProcessing
+                                String( "last_exposure" ) // id
+                                );
+
+            Preview_BitmapBox.SetBitmap(Bitmap::Render(window.MainView().Image()));
+
+            Global_Sizer.Add(Preview_BitmapBox);
+
+            StartStop_PushButton.SetText( "Start" );
+            StartStop_PushButton.OnClick( (pcl::Button::click_event_handler) &FrameAndFocusDialog::Button_Click, *this );
+            StartStop_Sizer.Add(StartStop_PushButton);
+
+            OK_PushButton.SetText( "Close" );
+            OK_PushButton.SetDefault();
+            OK_PushButton.SetCursor( StdCursor::Checkmark );
+            OK_PushButton.OnClick( (pcl::Button::click_event_handler) &FrameAndFocusDialog::Button_Click, *this );
+
+            BottomSection_Sizer.Add( OK_PushButton );
+            BottomSection_Sizer.SetSpacing( 4 );
+
+            Global_Sizer.Add( StartStop_Sizer );
+            Global_Sizer.Add( BottomSection_Sizer );
+            Global_Sizer.SetSpacing( 4 );
+
+            SetWindowTitle("Frame and Focus");
+            SetSizer( Global_Sizer );
+            AdjustToContents();
+            OnReturn( (pcl::Dialog::return_event_handler) &FrameAndFocusDialog::Dialog_Return, *this );
+        }
+
+        void Button_Click( Button& sender, bool checked )
+        {
+            if ( sender == OK_PushButton )
+            {
+                Ok();
+            }
+
+            if ( sender == StartStop_PushButton )
+            {
+                if(isRunning)
+                    StopFrameAndFocus();
+                else
+                    StartFrameAndFocus();
+            }
+
+        }
+
+        void StartFrameAndFocus()
+        {
+            isRunning = true;
+            StartStop_PushButton.SetText("Stop");
+        }
+
+        void StopFrameAndFocus()
+        {
+            isRunning = false;
+            StartStop_PushButton.SetText("Start");
+        }
+
+        void Dialog_Return( pcl::Dialog &sender, int retVal )
+        {
+        }
+
+        String GetFF_Data(  )
+        {
+            return FF_Edit.Text();
+        }
+
+    private:
+        bool isRunning;
+        VerticalSizer Global_Sizer;
+
+        Edit FF_Edit;
+
+        HorizontalSizer StartStop_Sizer;
+        PushButton StartStop_PushButton;
+
+        HorizontalSizer BottomSection_Sizer;
+        PushButton OK_PushButton;
+        BitmapBox Preview_BitmapBox;
+        //ExposeImageThread *imageThread;
+    };
+
 
     class ExposeImageDialog : public Dialog
     {
@@ -139,6 +240,7 @@ namespace pcl
         TheExposeImageInterface = this;
         cameraConnected = false;
         fileOutputPatternDialog = 0;
+        frameAndFocusDialog = 0;
     }
 
     ExposeImageInterface::~ExposeImageInterface()
@@ -431,6 +533,38 @@ namespace pcl
         }
     }
 
+    void ExposeImageInterface::__FrameAndFocusButton_Click( Button& sender, bool checked )
+    {
+        Console console;
+        console.WriteLn( "frameAndFocusDialog clicked\n" );
+
+        // IPixInsightCamera *cam = cameraData->cam;
+
+        // ImageWindow window( cam->NumX(), // width
+        //                     cam->NumY(), // height
+        //                     1, // numberOfChannels
+        //                     16, // bitsPerSample
+        //                     false, // floatSample
+        //                     false, // color
+        //                     true, // initialProcessing
+        //                     String( "last_exposure" ) // id
+        //                     );
+
+        // window.Show();
+
+        if ( sender == GUI->FrameAndFocus_PushButton )
+        {
+            //lazy init
+            if( frameAndFocusDialog == 0 )
+                frameAndFocusDialog = new FrameAndFocusDialog;
+
+            if( frameAndFocusDialog->Execute() )
+            {
+
+            }
+        }
+    }
+
     //set the dropdowns for the appropriate filters etc...
     void ExposeImageInterface::UpdateControlsForFWFeatures()
     {
@@ -543,7 +677,7 @@ namespace pcl
         Binning_Sizer.Add(BinModeY_Label);
         Binning_Sizer.Add(BinModeY_ComboBox);
         Binning_Sizer.SetSpacing( 4 );
-        BinModeX_ComboBox.OnItemHighlighted( (ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
+        BinModeX_ComboBox.OnItemHighlighted((ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
         BinModeY_ComboBox.OnItemHighlighted( (ComboBox::item_event_handler)&ExposeImageInterface::__BinMode_ComboBoxItem_Highlighted, w);
 
         Filter_Label.SetText("Filter:");
@@ -618,7 +752,7 @@ namespace pcl
         SubFrame_Sizer.SetSpacing( 4 );
 
         DelayBetweenExposures_Label.SetText("Delay Between Exposures (seconds):");
-        DelayBetweenExposures_Label.SetTextAlignment( TextAlign::Right|TextAlign::VertCenter );
+        DelayBetweenExposures_Label.SetTextAlignment( TextAlign::Left|TextAlign::VertCenter );
         DelayBetweenExposures_Label.SetFixedWidth(labelWidth1);
         Delay_Sizer.Add(DelayBetweenExposures_Label);
         Delay_Sizer.Add(DelayBetweenExposures_NumericEdit);
@@ -632,6 +766,10 @@ namespace pcl
         ExposureSection_Sizer.Add(ExposureDuration_Sizer);
         ExposureSection_Sizer.Add(SubFrame_Sizer);
         ExposureSection_Sizer.Add(Delay_Sizer);
+
+        FrameAndFocus_PushButton.SetText("Frame and Focus");
+        ExposureSection_Sizer.Add(FrameAndFocus_PushButton);
+        FrameAndFocus_PushButton.OnClick((Button::click_event_handler)&ExposeImageInterface::__FrameAndFocusButton_Click, w);
 
         ExposureSection_Control.SetSizer(ExposureSection_Sizer);
         ExposureSection_Control.AdjustToContents();

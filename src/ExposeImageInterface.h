@@ -7,8 +7,6 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
-
-
 #ifndef __ExposeImageInterface_h
 #define __ExposeImageInterface_h
 
@@ -34,6 +32,8 @@ namespace pcl
 {
 
     class FileOutputPatternDialog;
+    class FrameAndFocusDialog;
+
     class ExposeImageInterface : public ProcessInterface
 
     {
@@ -112,7 +112,7 @@ namespace pcl
             Label          NumberOfExposures_Label;
             SpinBox          NumberOfExposures_SpinBox;
             HorizontalSizer ExposureDuration_Sizer;
-            //Label           ExposureDuration_Label;
+
             NumericControl ExposureDuration_NumericControl;
             HorizontalSizer SubFrame_Sizer;
             Label          SubFrame_Label;
@@ -128,6 +128,9 @@ namespace pcl
             HorizontalSizer Delay_Sizer;
             Label          DelayBetweenExposures_Label;
             NumericEdit      DelayBetweenExposures_NumericEdit;
+
+            Label          FrameAndFocus_Label;
+            PushButton      FrameAndFocus_PushButton;
 
             SectionBar        FileOutput_SectionBar;
             Control FileOutputSection_Control;
@@ -146,7 +149,7 @@ namespace pcl
         GUIData* GUI;
         bool cameraConnected;
         FileOutputPatternDialog *fileOutputPatternDialog;
-
+        FrameAndFocusDialog *frameAndFocusDialog;
         void __UpdateCameraData_Timer( Timer& sender );
 
         void UpdateControls();
@@ -166,6 +169,7 @@ namespace pcl
         void __BinMode_ComboBoxItem_Highlighted( ComboBox& sender, int value );
         void __FileEdit_EditCompleted( Edit& sender );
         void __FileOutputButton_Click( Button &sender, bool checked );
+        void __FrameAndFocusButton_Click( Button &sender, bool checked );
 
         friend struct GUIData;
         friend class CameraControlThread;
