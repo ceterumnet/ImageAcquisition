@@ -54,6 +54,7 @@ namespace pcl
         bool exposing;
         IPixInsightCamera *cam;
         double exposureDuration;
+        //friend class ExposeImageProcess;
 
 
     };

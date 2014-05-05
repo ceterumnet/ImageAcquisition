@@ -76,6 +76,7 @@ namespace pcl
 
         friend class ExposeImageThread;
         friend class ExposeImageInterface;
+        friend class FrameAndFocusDialog;
     };
 
     // ----------------------------------------------------------------------------

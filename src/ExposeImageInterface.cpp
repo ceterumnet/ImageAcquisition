@@ -121,19 +121,21 @@ namespace pcl
 
             isRunning = false;
 
+            refreshTimer.SetInterval(.01);
+            refreshTimer.OnTimer((Timer::timer_event_handler)&FrameAndFocusDialog::__RefreshBitmap, *this);
             IPixInsightCamera *cam = cameraData->cam;
 
-            ImageWindow window( cam->NumX(), // width
+            m_window = ImageWindow( cam->NumX(), // width
                                 cam->NumY(), // height
                                 1, // numberOfChannels
                                 16, // bitsPerSample
                                 false, // floatSample
                                 false, // color
                                 true, // initialProcessing
-                                String( "last_exposure" ) // id
+                                String( "preview_exposure" ) // id
                                 );
 
-            Preview_BitmapBox.SetBitmap(Bitmap::Render(window.MainView().Image()));
+            Preview_BitmapBox.SetBitmap(Bitmap::Render(m_window.MainView().Image()));
 
             Global_Sizer.Add(Preview_BitmapBox);
 
@@ -168,23 +170,132 @@ namespace pcl
 
             if ( sender == StartStop_PushButton )
             {
-                if(isRunning)
+
+                previewMutex.Lock();
+
+                if(isRunning) {
+                    previewMutex.Unlock();
                     StopFrameAndFocus();
-                else
+                }
+                else {
+                    previewMutex.Unlock();
                     StartFrameAndFocus();
+                }
+            }
+        }
+
+        void __RefreshBitmap() {
+            IPixInsightCamera *cam = cameraData->cam;
+
+            View view = m_window.MainView();
+            ImageVariant v = view.Image();
+            UInt16Image* image = static_cast<UInt16Image*> ( v.AnyImage() );
+
+            ExposeImageInstance::exposeImageData->mutex.Lock();
+            cam->ImageArray( image );
+            ExposeImageInstance::exposeImageData->mutex.Unlock();
+
+            if ( !view.AreHistogramsAvailable() )
+                view.CalculateHistograms();
+            if ( !view.AreStatisticsAvailable() )
+                view.CalculateStatistics();
+
+            View::statistics_list S;
+            View::stf_list F;
+
+            view.GetStatistics( S );
+            double c0 = 0, m = 0;
+
+            c0 += S[0]->Median() + -1.25 * S[0]->AvgDev();
+            m  += S[0]->Median();
+
+            c0 = Range( c0, 0.0, 1.0 );
+
+            m = HistogramTransformation::MTF(.25, m - c0);
+
+            F.Add( new HistogramTransformation( m, c0 ) );
+
+            view.SetScreenTransferFunctions(F);
+            view.EnableScreenTransferFunctions();
+
+            bitmap = Bitmap::Render(view.Image());
+            Preview_BitmapBox.SetBitmap(bitmap);
+            ProcessInterface::ProcessEvents();
+
+            F.Destroy();
+            S.Destroy();
+        }
+
+        class PreviewThread : public Thread {
+        public:
+            PreviewThread(FrameAndFocusDialog *_parent) {
+                m_parent = _parent;
             }
 
-        }
+            void Run()
+            {
+                while(true) {
+                    m_parent->previewMutex.Lock();
+
+                    if(!m_parent->isRunning) {
+                        m_parent->previewMutex.Unlock();
+                        break;
+                    }
+
+                    m_parent->previewMutex.Unlock();
+
+                    IPixInsightCamera *cam = cameraData->cam;
+                    ExposeImageInstance m_instance(TheExposeImageProcess);
+
+                    if( ExposeImageInstance::exposeImageData == 0 )
+                        ExposeImageInstance::exposeImageData = new ExposeImageData;
+                    else {
+                        delete ExposeImageInstance::exposeImageData;
+                        ExposeImageInstance::exposeImageData = new ExposeImageData;
+                    }
+                    ExposeImageThread *imageThread = new ExposeImageThread(cameraData->cam,
+                                                                           m_instance.exposureDuration,
+                                                                           m_instance.binModeX,
+                                                                           m_instance.binModeY,
+                                                                           m_instance.subFrameX1,
+                                                                           m_instance.subFrameY1,
+                                                                           m_instance.subFrameX2,
+                                                                           m_instance.subFrameY2);
+                    imageThread->Start();
+                    imageThread->Wait();
+
+                    //m_parent->UpdateBitmap();
+
+                    delete imageThread;
+                    //delete ExposeImageInstance::exposeImageData;
+                }
+            }
+        private:
+            FrameAndFocusDialog *m_parent;
+        };
+
 
         void StartFrameAndFocus()
         {
+            // ExposeImageInstance::exposeImageData->mutex.Lock();
+            previewMutex.Lock();
             isRunning = true;
+            refreshTimer.Start();
+            previewMutex.Unlock();
+
+            // ExposeImageInstance::exposeImageData->mutex.Unlock();
             StartStop_PushButton.SetText("Stop");
+            previewThread = new PreviewThread(this);
+            previewThread->Start();
         }
 
         void StopFrameAndFocus()
         {
+            previewMutex.Lock();
             isRunning = false;
+            refreshTimer.Stop();
+            previewMutex.Unlock();
+
             StartStop_PushButton.SetText("Start");
         }
 
@@ -206,10 +317,14 @@ namespace pcl
         HorizontalSizer StartStop_Sizer;
         PushButton StartStop_PushButton;
 
+        Mutex previewMutex;
         HorizontalSizer BottomSection_Sizer;
         PushButton OK_PushButton;
         BitmapBox Preview_BitmapBox;
-        //ExposeImageThread *imageThread;
+        PreviewThread *previewThread;
+        ImageWindow m_window;
+        Bitmap bitmap;
+        Timer refreshTimer;
     };
 
 
