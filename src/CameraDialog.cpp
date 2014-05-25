@@ -1,10 +1,10 @@
 // ImageAcquisition Copyright (C) 2011  David Raphael
 // This program comes with ABSOLUTELY NO WARRANTY.
 // This is free software, and you are welcome to redistribute it
-// under certain conditions; 
+// under certain conditions;
 //
-// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 
@@ -74,11 +74,11 @@ namespace pcl
     void CameraDialog::Button_Click( Button& sender, bool /*checked*/)
     {
         if ( sender == OK_PushButton )
-		{
-			CameraName = CameraName_Edit.Text();
-			DriverFile = CameraDriver_Edit.Text();
+        {
+            CameraName = CameraName_Edit.Text();
+            DriverFile = CameraDriver_Edit.Text();
             Ok();
-		}
+        }
         else if ( sender == Cancel_PushButton )
             Cancel();
         else if ( sender == CameraDriver_ToolButton )
@@ -97,19 +97,19 @@ namespace pcl
         Console().WriteLn( String( "Selected Driver: " + CameraDriver_Edit.Text() ) );
     }
 
-	String CameraDialog::GetCameraName()
-	{
-		return CameraName;
-	}
+    String CameraDialog::GetCameraName()
+    {
+        return CameraName;
+    }
 
-	String CameraDialog::GetDriverFile()
-	{
-		return DriverFile;
-	}
+    String CameraDialog::GetDriverFile()
+    {
+        return DriverFile;
+    }
 
 
-	DeviceDriverDialog::DeviceDriverDialog() :
-    Dialog()
+    DeviceDriverDialog::DeviceDriverDialog() :
+        Dialog()
     {
         pcl::Font fnt = Font();
         String DeviceDriverDriverStr( "Driver:" );
@@ -169,11 +169,11 @@ namespace pcl
     void DeviceDriverDialog::Button_Click( Button& sender, bool /*checked*/)
     {
         if ( sender == OK_PushButton )
-		{
-			DeviceName = DeviceDriverName_Edit.Text();
-			DriverFile = DeviceDriverDriver_Edit.Text();
+        {
+            DeviceName = DeviceDriverName_Edit.Text();
+            DriverFile = DeviceDriverDriver_Edit.Text();
             Ok();
-		}
+        }
         else if ( sender == Cancel_PushButton )
             Cancel();
         else if ( sender == DeviceDriverDriver_ToolButton )
@@ -192,14 +192,14 @@ namespace pcl
         Console().WriteLn( String( "Selected Driver: " + DeviceDriverDriver_Edit.Text() ) );
     }
 
-	String DeviceDriverDialog::GetDeviceName()
-	{
-		return DeviceName;
-	}
+    String DeviceDriverDialog::GetDeviceName()
+    {
+        return DeviceName;
+    }
 
-	String DeviceDriverDialog::GetDriverFile()
-	{
-		return DriverFile;
-	}
+    String DeviceDriverDialog::GetDriverFile()
+    {
+        return DriverFile;
+    }
 
 }

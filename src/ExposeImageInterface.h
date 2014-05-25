@@ -175,7 +175,6 @@ namespace pcl
         friend class CameraControlThread;
         friend class CameraSelectorDialog;
         friend class ImageAcquisitionSettingsInterface;
-
     };
 
     // ----------------------------------------------------------------------------

@@ -23,11 +23,26 @@ namespace pcl
     ExposeImageData* ExposeImageInstance::exposeImageData = 0;
 
     ExposeImageInstance::ExposeImageInstance( const MetaProcess* m ) :
-        ProcessImplementation( m ), exposureDuration( 1 ), exposureCount( 1 ), cameraName( "cam_name" ), setTemperature( -15 ), filter( "NONE" ),
-        binModeX( 1 ), binModeY( 1 ), subFrameX1( 0 ), subFrameY1( 0 ), subFrameX2( 0 ), subFrameY2( 0 ), delayBetweenExposures( 1 ),
-        fileOutputPath(""), fileOutputPattern("")
+        ProcessImplementation( m ),
+        exposureDuration( 1 ),
+        exposureCount( 1 ),
+        cameraName( "cam_name" ),
+        setTemperature( -15 ),
+        filter( "NONE" ),
+        binModeX( 1 ),
+        binModeY( 1 ),
+        subFrameX1( 0 ),
+        subFrameY1( 0 ),
+        subFrameX2( 0 ),
+        subFrameY2( 0 ),
+        delayBetweenExposures( 1 ),
+        fileOutputPath(""),
+        fileOutputPattern("")
     {
-
+        // if (m != 0)
+        // {
+        //     exposureDuration = m->exposureDuration;
+        // }
     }
     ExposeImageInstance::ExposeImageInstance( const ExposeImageInstance& x ) :
         ProcessImplementation( x )

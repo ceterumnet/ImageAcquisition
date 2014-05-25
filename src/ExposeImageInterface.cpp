@@ -116,12 +116,13 @@ namespace pcl
     class FrameAndFocusDialog : public Dialog
     {
     public:
-        FrameAndFocusDialog() : Dialog()
+        FrameAndFocusDialog(const ExposeImageInstance &_instance) : Dialog(), m_instance(TheExposeImageProcess)
         {
 
+            m_instance.Assign(_instance);
             isRunning = false;
 
-            refreshTimer.SetInterval(.01);
+            refreshTimer.SetInterval(.001);
             refreshTimer.OnTimer((Timer::timer_event_handler)&FrameAndFocusDialog::__RefreshBitmap, *this);
             IPixInsightCamera *cam = cameraData->cam;
 
@@ -160,11 +161,19 @@ namespace pcl
             AdjustToContents();
             OnReturn( (pcl::Dialog::return_event_handler) &FrameAndFocusDialog::Dialog_Return, *this );
         }
-
+        void Reset(const ExposeImageInstance& _instance) {
+            m_instance.Assign(_instance);
+        }
         void Button_Click( Button& sender, bool checked )
         {
             if ( sender == OK_PushButton )
             {
+                previewMutex.Lock();
+                if(isRunning) {
+                    previewMutex.Unlock();
+                    StopFrameAndFocus();
+                } else
+                    previewMutex.Unlock();
                 Ok();
             }
 
@@ -246,7 +255,7 @@ namespace pcl
 
                     IPixInsightCamera *cam = cameraData->cam;
                     ExposeImageInstance m_instance(TheExposeImageProcess);
-
+                    m_instance.Assign(m_parent->m_instance);
                     if( ExposeImageInstance::exposeImageData == 0 )
                         ExposeImageInstance::exposeImageData = new ExposeImageData;
                     else {
@@ -272,6 +281,7 @@ namespace pcl
             }
         private:
             FrameAndFocusDialog *m_parent;
+            //ExposeImageInstance m_instance;
         };
 
 
@@ -311,6 +321,8 @@ namespace pcl
     private:
         bool isRunning;
         VerticalSizer Global_Sizer;
+
+        ExposeImageInstance m_instance;
 
         Edit FF_Edit;
 
@@ -671,8 +683,8 @@ namespace pcl
         {
             //lazy init
             if( frameAndFocusDialog == 0 )
-                frameAndFocusDialog = new FrameAndFocusDialog;
-
+                frameAndFocusDialog = new FrameAndFocusDialog(instance);
+            frameAndFocusDialog->Reset(instance);
             if( frameAndFocusDialog->Execute() )
             {
 
