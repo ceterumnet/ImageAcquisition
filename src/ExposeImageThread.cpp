@@ -55,7 +55,7 @@ namespace pcl
             pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
         }
         else
-            pcl::Sleep(exposureDuration);
+            pcl::Sleep(exposureDuration * 1.01);
 
         while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
         {

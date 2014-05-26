@@ -1,10 +1,10 @@
 // ImageAcquisition Copyright (C) 2011  David Raphael
 // This program comes with ABSOLUTELY NO WARRANTY.
 // This is free software, and you are welcome to redistribute it
-// under certain conditions; 
+// under certain conditions;
 //
-// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+// This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to
 // Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 
@@ -99,12 +99,12 @@ namespace pcl
 				throw Error( "Cannot reset settings while Filter Wheel is connected." );
 			if ( cameraData->cam && cameraData->cam->Connected() )
 				throw Error( "Cannot reset settings while camera is connected." );
-			
+
 			if( filterWheelData )
 			{
 				if(GetPrimaryFilterWheel())
 					GetPrimaryFilterWheel()->DisposeDevice();
-				
+
 				delete filterWheelData;
 				filterWheelData = new FilterWheelData();
 			}
@@ -116,7 +116,7 @@ namespace pcl
 				delete cameraData;
 				cameraData = new CameraData();
 			}
-		
+
 			ImageAcquisitionSettingsInstance defaultInstance( TheImageAcquisitionSettingsProcess );
 			ImportProcess( defaultInstance );
 		}
@@ -299,14 +299,14 @@ namespace pcl
                 int currentIdx = GUI->CameraList_TreeBox.ChildIndex( GUI->CameraList_TreeBox.CurrentNode() );
                 if( instance.installedCameras[currentIdx].GetDevice() && instance.installedCameras[currentIdx].GetDevice()->Connected() )
                     throw Error( "Can't delete an imager while it is connected.");
-				cameraData->mutex.Lock();                
+				cameraData->mutex.Lock();
                 IPixInsightCamera *c = instance.installedCameras[currentIdx].GetDevice();
 				if(c == cameraData->cam) {
-					cameraData->cam = NULL;										
+					cameraData->cam = NULL;
 				}
-				
+
 				if(c)
-					c->Dispose();		
+					c->Dispose();
 
                 cameraData->mutex.Unlock();
 				//delete instance.installedCameras[currentIdx].GetDevice();
@@ -457,7 +457,7 @@ namespace pcl
         node->SetToolTip( 2, item.driverPath );
         node->SetAlignment( 2, TextAlign::Left );
 	}
-	
+
     void ImageAcquisitionSettingsInterface::__FilterWheelButtons_Click( Button& sender, bool checked )
     {
         Console console;
