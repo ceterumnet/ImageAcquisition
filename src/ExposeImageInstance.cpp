@@ -19,7 +19,6 @@
 
 namespace pcl
 {
-
     ExposeImageData* ExposeImageInstance::exposeImageData = 0;
 
     ExposeImageInstance::ExposeImageInstance( const MetaProcess* m ) :
@@ -39,11 +38,8 @@ namespace pcl
         fileOutputPath(""),
         fileOutputPattern("")
     {
-        // if (m != 0)
-        // {
-        //     exposureDuration = m->exposureDuration;
-        // }
     }
+
     ExposeImageInstance::ExposeImageInstance( const ExposeImageInstance& x ) :
         ProcessImplementation( x )
     {
@@ -142,15 +138,16 @@ namespace pcl
 
         Console console;
 
-        console << "Starting ExposeImage Process: \n";
-
-        console << "Camera state: " << cameraData->cam->CameraState() << "\n";
-        console << "startX: " << subFrameX1 << "\n";
-
         for(int exp_i = 0;exp_i < exposureCount;++exp_i) {
-            exposeThread = new ExposeImageThread( cameraData->cam, exposureDuration, binModeX, binModeY, subFrameX1, subFrameY1, subFrameX2, subFrameY2);
+            exposeThread = new ExposeImageThread( cameraData->cam,
+                                                  exposureDuration,
+                                                  binModeX,
+                                                  binModeY,
+                                                  subFrameX1,
+                                                  subFrameY1,
+                                                  subFrameX2,
+                                                  subFrameY2);
 
-            console << "exposeThread->Start()\n";
             exposeThread->Start();
 
             OutputData __data;
@@ -169,14 +166,11 @@ namespace pcl
 
             bool myImageReady = false;
             // Wait for thread to finish exposure
-            while ( !myImageReady )
+            while ( exposeThread->IsActive() )
             {
                 // These 2 lines allow PixInsight to stay responsive while it is exposing
-                pcl::Sleep( .10 );
+                pcl::Sleep( .001 );
                 ProcessInterface::ProcessEvents();
-                ExposeImageInstance::exposeImageData->mutex.Lock();
-                myImageReady = ExposeImageInstance::exposeImageData->imageReady;
-                ExposeImageInstance::exposeImageData->mutex.Unlock();
             }
 
             //TODO: We are reusing this window...maybe this should be an option?
@@ -219,7 +213,6 @@ namespace pcl
             cam->ImageArray( image );
             ExposeImageInstance::exposeImageData->mutex.Unlock();
 
-
             //Not sure if we are going to have a thread timing issue here if we have extremely fast exposures...
             if ( !outputFile.WriteImage( *image ) )
                 throw CatchedException();
@@ -228,9 +221,7 @@ namespace pcl
             if ( !view.AreStatisticsAvailable() )
                 view.CalculateStatistics();
             View::statistics_list S;
-            //View::statistics_container S;
             View::stf_list F;
-            //View::stf_container F;
 
             view.GetStatistics( S );
             double c0 = 0, m = 0;
@@ -241,8 +232,7 @@ namespace pcl
             c0 = Range( c0, 0.0, 1.0 );
 
             m = HistogramTransformation::MTF(.25, m - c0);
-
-
+s
             F.Add( new HistogramTransformation( m, c0 ) );
 
             view.SetScreenTransferFunctions(F);

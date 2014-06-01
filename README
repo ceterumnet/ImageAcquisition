@@ -25,7 +25,7 @@ ImageAcquisitionModule
 		 [x] Implement cross platform driver for devices
 		 	[x] Camera
 		 	[x] Filter Wheel
-		 [ ] Implement Device Simulators
+		 [/] Implement Device Simulators
 		 	[x] Camera (haven't used since 2012 though...it may not work too well.)
 		 	[/] Filter Wheel (50%)
 		 [x] Unify Current Camera logic across processes (currently there is a direct
@@ -33,42 +33,44 @@ ImageAcquisitionModule
 		 [x] Setup CppUnit
 		 [ ] Wire up filterWheelData as a globally shared object (similar to cameraData)
 		 [/] ExposeImage process / instance / interface
-		 	[x] Duration
-		 	[x] Qty
-		 	[x] Camera Connection Logic
-		 	[x] Threading for global execution
-		 	[/] File save
+		       [x] Duration
+                       [x] Qty
+                       [x] Camera Connection Logic
+                       [x] Threading for global execution
+                       [x] File save
 		 	   [x] FITS file output
 		       [x] File Path Validation
 		       [x] Don't overwrite existing files
-		    [ ] Delay for first exposure
-		 	[ ] Implement Set Temperature
-		 	[ ] Implement Frame and Focus ( maybe we can just reuse the existing code with a different window title? )
-		 	   [ ] Can I change the look of the window a bit?
-		 	[ ] Implement Abort 
-		 	[x] Binning
-		 	[ ] Filter selection
-		 	[/] Implement FileOutputPattern stuff (75%)
-		 	[ ] Fix range sliders.  Perhaps use a different UI paradigm.
-		 	[x] Implement Temperature Monitoring / UI updates
-		 	[x] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
-		 	[x] Add delay in between exposures
+		       [ ] Delay for first exposure
+                       [ ] Implement Set Temperature
+                       [x] Implement Frame and Focus
+                       [x] Can I change the look of the window a bit?
+                       [x] Implement Abort 
+                       [x] Binning
+                       [ ] Filter selection
+                       [/] Implement FileOutputPattern stuff (75% - not really sure what is left here?)
+                       [ ] Fix range sliders.  Perhaps we should just use a list of predefined times like 1s, 30s, 1m, 5m, 10m, 15m, 20m
+                       [x] Implement Temperature Monitoring / UI updates
+                       [x] Implement Sub Frame Exposure (should this be width height x,y or x1, x2 etc...?
+                       [ ] Implement rectangle based selection for sub frame
+                       [x] Add delay in between exposures
 		 [ ] ImageAcquisitionSettings process / instance / interface
-		 	[x] Camera Settings
-		 	[x] Implement Serialized Settings Persistance for Cameras
-		 	[ ] Filter Wheel Settings
-		 	[ ] Implement Serialized Settings Persistance for Filter Wheels
-		 	[ ] Implement Default Camera Driver
-		 	[ ] Implement Default Filter Wheel Driver
+                       [x] Camera Settings
+                       [x] Implement Serialized Settings Persistance for Cameras
+                       [ ] Filter Wheel Settings
+                       [ ] Implement Serialized Settings Persistance for Filter Wheels
+                       [ ] Implement Default Camera Driver
+                       [ ] Implement Default Filter Wheel Driver
 		 [x] Add thread safety for Camera Data access 
 		 [ ] Implement error handling across the different user interactions
 		 [ ] Expose scripting interface (make sure that the std paradigms that PI offers are 
 		 		adhered to)
 		 [ ] Documentation!
-		 [ ] PixInsight 1.8 support
+		 [x] PixInsight 1.8 support
 		 [ ] Rework camera settings to only support 1 primary camera and 1 secondary camera for
 		     now - this will make the UI a lot easier to work with.
-		 [ ] 
+		 [x] Linux Support
+                 
  		
  - ImagingSession
     I'm thinking this can drive multiple sets of ImageExposures.

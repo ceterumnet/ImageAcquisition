@@ -31,10 +31,6 @@ namespace pcl
 
     void ExposeImageThread::Run()
     {
-        ExposeImageInstance::exposeImageData->mutex.Lock();
-        ExposeImageInstance::exposeImageData->imageReady = false;
-        bool d_abort = ExposeImageInstance::exposeImageData->abort;
-        ExposeImageInstance::exposeImageData->mutex.Unlock();
         cam->SetBinX(binX);
         cam->SetBinY(binY);
         // This might create bugs...
@@ -55,7 +51,7 @@ namespace pcl
             pcl::Sleep( 5/* FIXME: sec - should be replaced by IsDownload completed event*/ );
         }
         else
-            pcl::Sleep(exposureDuration * 1.01);
+            pcl::Sleep(exposureDuration);
 
         while ( !cam->ImageReady() && cam->Connected() && (cam->CameraState()!=cam->CameraError))
         {
@@ -63,11 +59,5 @@ namespace pcl
             pcl::Sleep( .1 );
             // Also, we need to handle aborting images here.
         };
-
-        //now the image is ready ...
-        ExposeImageInstance::exposeImageData->mutex.Lock();
-        exposing = false;
-        ExposeImageInstance::exposeImageData->imageReady = true;
-        ExposeImageInstance::exposeImageData->mutex.Unlock();
     }
 }
